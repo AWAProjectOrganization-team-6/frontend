@@ -1,0 +1,27 @@
+{
+    "root": true,
+    "env": {
+        "browser": true,
+        "es2021": true
+    },
+    "plugins": ["react"],
+    "extends": ["eslint:recommended", "plugin:react/recommended", "plugin:react/jsx-runtime"],
+    "parser": "@babel/eslint-parser",
+    "settings": { "react": { "version": "dedect" } },
+    "parserOptions": {
+        "ecmaFeatures": {
+            "jsx": true
+        },
+        "ecmaVersion": 12,
+        "sourceType": "module"
+    },
+    "rules": {
+        "indent": ["warn", 4, { "SwitchCase": 1 }],
+        "quotes": ["warn", "single"],
+        "semi": ["error", "always"],
+        "object-shorthand": "warn",
+        "no-unused-vars": "warn",
+        "react/prop-types": ["warn", {"skipUndeclared": true}]
+    }
+
+}
