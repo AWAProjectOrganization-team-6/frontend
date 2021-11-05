@@ -1,14 +1,18 @@
 import Topbar from './components/Topbar';
 import './App.scss';
+import { Component } from 'react';
 
 
-function App() {
-    return (
-        <div className = "Topbar">
-            <Topbar />
-        </div>
-        
-    );
+class App extends Component {
+    render() {
+
+        return (
+            <>
+                <Topbar userType='GUEST'/>
+            </>
+        );
+    }
+
 }
 
 export default App;
