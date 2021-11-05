@@ -44,6 +44,10 @@
 
         font-size: 1rem;
         text-align: center;
+
+        &::placeholder {
+            color: black;
+        }
     }
 
     .buttons {
