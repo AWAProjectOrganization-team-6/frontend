@@ -1,0 +1,56 @@
+@use "../App.scss";
+
+.menuIcon {
+    width: 34px;
+    height: -webkit-fill-available;
+    color: white;
+
+    transition: color 0.2s;
+    &:hover {
+        color: #505050;
+    }
+}
+
+.menu {
+    position: absolute;
+    right: 0px;
+    top: 54px;
+    display: flex;
+    flex-direction: column;
+    height: fit-content;
+    width: fit-content;
+
+    align-items: center;
+
+    padding: 20px;
+
+    color: white;
+    transform: translate(0%, 0%);
+    background: rgba(42, 0, 52, 0.8);
+    backdrop-filter: blur(8px);
+    transform: scale(1, 0);
+
+    .title {
+        font-size: 2rem;
+        margin: 0px;
+        margin-top: -20px;
+        font-weight: normal;
+        text-decoration: underline;
+    }
+
+    .menuSettings {
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+        margin-top: 30px;
+    }
+    
+    &.font {
+        font-size: 2rem;
+        text-align: center;
+    }
+
+    &.on {
+        transform: scale(1, 1);
+    }
+}

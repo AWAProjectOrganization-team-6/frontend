@@ -1,7 +1,7 @@
 import styles from '../styles/Topbar.module.scss';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
-import { HiOutlineMenu } from 'react-icons/hi';
+import PopUpMenu from './PopUpMenu';
 
 export default function Topbar(props) {
     var buttons = (
@@ -13,15 +13,13 @@ export default function Topbar(props) {
 
     if (props.userType === 'ADMIN') buttons = (
         <div className={styles.buttons}>
-            <HiOutlineMenu className={styles.menu}/>
+            <PopUpMenu open={true}></PopUpMenu>
         </div>
     );
 
-
-
     return (
         <div className={styles.topbar}>
-            <div className={cx(styles.logo, styles.font)}>
+            <div className={cx(styles.logo, styles.logoFont)}>
                 DR D. E. Livery
             </div>
             <input className={styles.searchbar} placeholder='Search' />
@@ -31,5 +29,6 @@ export default function Topbar(props) {
 }
 
 Topbar.propTypes = {
-    userType: PropTypes.string.isRequired
+    userType: PropTypes.string.isRequired,
+    onClick: PropTypes.func.isRequired
 };

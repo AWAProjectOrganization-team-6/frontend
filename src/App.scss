@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Courgette&family=Sofia&family=Varela+Round&display=swap');
+
 body {
     background-color: #313131;
 }
@@ -19,6 +21,13 @@ body {
 }
 
 .font {
+    font-family: 'Courgette', cursive;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 1rem;
+}
+
+.logoFont {
     font-family: Sofia;
     font-style: normal;
     font-weight: normal;
