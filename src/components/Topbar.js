@@ -2,6 +2,7 @@ import styles from '../styles/Topbar.module.scss';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
 import PopUpMenu from './PopUpMenu';
+import MenuItem from './MenuItem';
 
 export default function Topbar(props) {
     var buttons = (
@@ -13,7 +14,10 @@ export default function Topbar(props) {
 
     if (props.userType === 'ADMIN') buttons = (
         <div className={styles.buttons}>
-            <PopUpMenu open={true}></PopUpMenu>
+            <PopUpMenu title="James Bond">
+                <MenuItem text="Order history"></MenuItem>
+                <MenuItem text="Order status"></MenuItem>
+            </PopUpMenu>
         </div>
     );
 
@@ -29,6 +33,5 @@ export default function Topbar(props) {
 }
 
 Topbar.propTypes = {
-    userType: PropTypes.string.isRequired,
-    onClick: PropTypes.func.isRequired
+    userType: PropTypes.string.isRequired
 };

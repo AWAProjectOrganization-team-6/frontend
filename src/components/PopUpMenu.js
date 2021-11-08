@@ -1,7 +1,9 @@
 import { Component } from 'react';
 import styles from '../styles/PopUpMenu.module.scss';
 import { HiOutlineMenu } from 'react-icons/hi';
+import PropTypes from 'prop-types';
 import cx from 'classnames';
+import MenuItem from './MenuItem';
 
 export default class PopUpMenu extends Component {
     constructor(props) {
@@ -33,15 +35,19 @@ export default class PopUpMenu extends Component {
             <>
                 <HiOutlineMenu className={styles.menuIcon} onClick={this.onMenuClicked} data-menu></HiOutlineMenu>
                 <div className={cx(styles.menu, styles.font, this.state.shown ? styles.on : undefined)} data-menu>
-                    <div className={cx(styles.title, styles.menuItem)}>James Bond</div>
-                    <div className={styles.menuItem}>Order history</div>
-                    <div className={styles.menuItem}>Order status</div>
+                    <div className={cx(styles.title, styles.menuItem)}>{this.props.title}</div>
+                    {this.props.children}
                     <div className={styles.menuSettings}>
-                        <div className={styles.menuItem}>Account info</div>
-                        <div className={styles.menuItem}>Logout</div>
+                        <MenuItem text="Account info"></MenuItem>
+                        <MenuItem text="Logout"></MenuItem>
                     </div>
                 </div>
             </>
         );
     }
 }
+
+PopUpMenu.propTypes = {
+    title: PropTypes.string.isRequired,
+    children: PropTypes.node
+};
