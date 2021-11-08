@@ -1,4 +1,4 @@
-@use '../App.scss';
+@use "../App.scss";
 .topbar {
     display: flex;
     column-gap: 10px;
@@ -24,12 +24,12 @@
     .searchbar {
         width: 500px;
         height: auto;
-        
+
         background: #c4c4c4;
         border-width: 0px;
         border-radius: 128px;
         padding: 0.5rem;
-        
+
         flex: none;
         order: 1;
         flex-grow: 0;
@@ -40,6 +40,10 @@
 
         &::placeholder {
             color: black;
+        }
+        
+        &::-moz-placeholder {
+            opacity: 1;
         }
     }
 

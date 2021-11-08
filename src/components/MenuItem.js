@@ -17,3 +17,8 @@ MenuItem.propTypes = {
     text: PropTypes.string,
     onClick: PropTypes.func
 };
+
+MenuItem.defaultProps = {
+    text: '',
+    onClick: () => console.log('Button clicked')
+};

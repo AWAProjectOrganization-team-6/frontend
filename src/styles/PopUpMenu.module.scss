@@ -3,6 +3,7 @@
 .menuIcon {
     width: 34px;
     height: -webkit-fill-available;
+    height: -moz-available;
     color: white;
 
     transition: color 0.2s;
