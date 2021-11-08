@@ -28,7 +28,10 @@
     transform: translate(0%, 0%);
     background: rgba(42, 0, 52, 0.8);
     backdrop-filter: blur(8px);
+    //transform-origin: 100% 0%;
     transform: scale(1, 0);
+
+    transition: transform 0.2s ease-in-out .15s;
 
     .title {
         font-size: 2rem;
@@ -44,13 +47,25 @@
         justify-content: flex-end;
         margin-top: 30px;
     }
-    
-    &.font {
-        font-size: 2rem;
-        text-align: center;
+
+    .menuItem {
+        user-select: none;
+        opacity: 0;
+        transition: opacity 0.2s ease-in;
     }
 
     &.on {
         transform: scale(1, 1);
+        transition-delay: 0s;
+
+        .menuItem {
+            opacity: 1;
+            transition-delay: 0.2s;
+        }
+    }
+
+    &.font {
+        font-size: 2rem;
+        text-align: center;
     }
 }

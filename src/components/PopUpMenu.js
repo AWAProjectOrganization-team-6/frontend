@@ -33,12 +33,12 @@ export default class PopUpMenu extends Component {
             <>
                 <HiOutlineMenu className={styles.menuIcon} onClick={this.onMenuClicked} data-menu></HiOutlineMenu>
                 <div className={cx(styles.menu, styles.font, this.state.shown ? styles.on : undefined)} data-menu>
-                    <div className={cx(styles.title)}>James Bond</div>
-                    <div>Order history</div>
-                    <div>Order status</div>
+                    <div className={cx(styles.title, styles.menuItem)}>James Bond</div>
+                    <div className={styles.menuItem}>Order history</div>
+                    <div className={styles.menuItem}>Order status</div>
                     <div className={styles.menuSettings}>
-                        <div className={styles.setting}>Account info</div>
-                        <div className={styles.setting}>Logout</div>
+                        <div className={styles.menuItem}>Account info</div>
+                        <div className={styles.menuItem}>Logout</div>
                     </div>
                 </div>
             </>
