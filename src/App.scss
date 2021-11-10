@@ -17,6 +17,7 @@ body {
     transition: background-color .2s ease-in;
     &:hover {
         background-color: #505050;
+        cursor: pointer;
     }
 }
 

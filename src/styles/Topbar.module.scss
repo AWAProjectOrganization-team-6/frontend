@@ -19,6 +19,10 @@
             line-height: 0px;
             text-decoration-line: underline;
         }
+
+        &:hover {
+            cursor: pointer;
+        }
     }
 
     .searchbar {
