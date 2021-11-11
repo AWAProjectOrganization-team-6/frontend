@@ -21,6 +21,13 @@ export default function Topbar(props) {
         </div>
     );
 
+    if (props.userType === 'USER') buttons = (
+        <div className={styles.buttons}>
+            <button className={cx(styles.button, styles.font)}> Shopping Cart </button>
+            <HiOutlineMenu className={styles.menu}/>
+        </div>
+    );
+
     return (
         <div className={styles.topbar}>
             <div className={cx(styles.logo, styles.logoFont)}>
