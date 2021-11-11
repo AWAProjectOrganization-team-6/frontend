@@ -11,7 +11,9 @@ class MainPage extends Component {
             <>
                 <Topbar userType='GUEST'/>
                 <SpecialOffers/>
-                <RestaurantList/>
+                <RestaurantList city="Turku"/>
+                <RestaurantList city="Oulu"/>
+                <RestaurantList city="Tampere"/>
             </>
             
         );

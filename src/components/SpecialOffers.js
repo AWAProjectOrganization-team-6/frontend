@@ -7,8 +7,21 @@ export default function SpecialOffers() {
         <div className={styles.specialoffers}>
             <div className={styles.font}>
                  Special Offers
-            </div>               
-            <SpecialOffersItem/>
+            </div> 
+            <div className={styles.offerPlacement}>
+                <SpecialOffersItem/>
+                <SpecialOffersItem/>
+                <SpecialOffersItem/>
+                <SpecialOffersItem/>
+                <SpecialOffersItem/>
+                <SpecialOffersItem/>
+                <SpecialOffersItem/>
+                <SpecialOffersItem/>
+                <SpecialOffersItem/>
+                
+               
+               
+            </div>    
         </div>
     );
 }

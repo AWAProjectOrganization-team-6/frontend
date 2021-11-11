@@ -1,13 +1,20 @@
 import styles from '../styles/RestaurantList.module.scss';
-import PropTypes from 'prop-types';
+import RestaurantItem from './RestaurantItem';
 
 export default function RestaurantList(props) {
     return (
         <div className={styles.restaurantlist}>
-            <div className={styles.font}>
-                 Turku
-            </div>     
+            <div className={styles.font}>{props.city}</div>
+            <div className={styles.itemPlacement}>
+                <RestaurantItem />
+                <RestaurantItem />
+                <RestaurantItem />
+                <RestaurantItem />
+                <RestaurantItem />
+                <RestaurantItem />
+                <RestaurantItem />
+                <RestaurantItem />
+            </div>
         </div>
     );
 }
-
