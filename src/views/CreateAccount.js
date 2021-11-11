@@ -1,6 +1,7 @@
 import styles from '../styles/CreateAccount.module.scss';
 import cx from 'classnames';
 import Topbar from '../components/Topbar';
+import Footer from '../components/Footer';
 
 export default function CreateAccount() {
 
@@ -36,6 +37,7 @@ export default function CreateAccount() {
 
                 <button className = {cx(styles.button, styles.font)}> Create Account </button>
             </div>
+            <Footer/>
         </>
     );
 }
