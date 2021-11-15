@@ -3,11 +3,11 @@ import ReactDOM from 'react-dom';
 import './index.scss';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import CreateAccount from './views/CreateAccount';
+import OrderStatusHistoryView from './views/OrderStatusHistoryView';
 
 ReactDOM.render(
     <React.StrictMode>
-        <CreateAccount />
+        <OrderStatusHistoryView />
     </React.StrictMode>,
     document.getElementById('root')
 );

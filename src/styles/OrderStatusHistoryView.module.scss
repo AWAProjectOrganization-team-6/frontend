@@ -1,0 +1,51 @@
+@use '../App.scss';
+
+.mainDiv {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    margin: 40px;
+
+    .fonts {
+        font-size: 2rem;
+        padding: 0.5rem;
+    }
+   
+   
+   
+    .orderStatusStyle {
+        background-color: #C4C4C4;
+        width: 36.125rem;
+        height: 31.875rem;
+        margin: 40px;
+        border-radius: 30px;
+    } 
+
+    .pictureStyle {
+        background-color: green;
+        width: 150px;
+        height: 150px;
+        margin: 20px;
+        border-radius: 20px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .historyViewStyle {
+        background-color: #C4C4C4;
+        width: 36.125rem;
+        height: 31.875rem;
+        margin: 40px;
+        border-radius: 30px;
+    }
+}
+
+@media only screen and (max-width: 1290px) {
+    .mainDiv {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      
+    }
+}
