@@ -3,11 +3,11 @@ import ReactDOM from 'react-dom';
 import './index.scss';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import CreateAccount from './views/CreateAccount';
+import RestaurantView from './views/RestaurantView';
 
 ReactDOM.render(
     <React.StrictMode>
-        <CreateAccount />
+        <RestaurantView />
     </React.StrictMode>,
     document.getElementById('root')
 );
