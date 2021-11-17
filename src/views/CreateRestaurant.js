@@ -2,6 +2,7 @@ import styles from '../styles/CreateRestaurant.module.scss';
 import Topbar from '../components/Topbar';
 import cx from 'classnames';
 import {Component} from 'react';
+import OperatingHours from '../components/OperatingHours';
 
 class CreateRestaurant extends Component{
 
@@ -12,9 +13,16 @@ class CreateRestaurant extends Component{
                 name: '',
                 address:'',
                 type: '',
-                priceLevel:''
-            }
+                priceLevel:'',
+                operatingHours:''
+            },
+
+            days: ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'],
+            times: ['00.00', '01.00', '02.00', '03.00', '04.00', '05.00', '06.00', '07.00', '08.00', '09.00', '10.00', '11.00', '12.00', '13.00', '14.00', '15.00', '16.00',
+                '17.00', '18.00', '19.00', '20.00', '21.00', '22.00', '23.00', '24.00',]
         };
+        
+        this.handleOperatingHours = this.handleOperatingHours.bind(this);
         this.onChange = this.onChange.bind(this);
     }
 
@@ -40,6 +48,11 @@ class CreateRestaurant extends Component{
         console.log(this.state);
     }
 
+    handleOperatingHours () {
+
+
+    }
+
 
     render() {
         return (
@@ -53,22 +66,9 @@ class CreateRestaurant extends Component{
                         <button className={cx(styles.addpicture, styles.font)}>
                                 + Add Picture 
                         </button>
-                        <input onChange={this.onChange} name='name' type='text' placeholder='Name'/>
-                        <input onChange={this.onChange} name='address' type='text' placeholder='Address'/>
-                        <div className={styles.operatingHours}>
-                            <div className={styles.text}>
-                                Operating Hours
-                            </div>
-                            <select name='days'>
-                                <option> Days</option>
-                            </select>
-                            <select name='openingTime'>
-                                <option> Hours</option>
-                            </select>
-                            <select name='closingTime'>
-                                <option> Hours</option>
-                            </select>
-                        </div>
+                        <input className={styles.input} onChange={this.onChange} name='name' type='text' placeholder='Name'/>
+                        <input className={styles.input} onChange={this.onChange} name='address' type='text' placeholder='Address'/>
+                        <OperatingHours days={this.state.days} times={this.state.times} onOperatingHours={this.handleOperatingHours}/>
                         <div className={styles.setupMenu}>
                             <div className={styles.text}>
                                 Set up Menu
@@ -77,7 +77,7 @@ class CreateRestaurant extends Component{
                                 + Add Category
                             </button>
                         </div>
-                        <select name='pricelevel' onChange={this.onChange} defaultValue='default'>
+                        <select className={styles.select} name='pricelevel' onChange={this.onChange} defaultValue='default'>
                             <option value='default' disabled hidden>
                                 Select pricelevel
                             </option>
@@ -86,7 +86,7 @@ class CreateRestaurant extends Component{
                             <option value='3'>$$$</option>
                             <option value='4'>$$$$</option>
                         </select>
-                        <select name='type' onChange={this.onChange} defaultValue='default'>
+                        <select className={styles.select} name='type' onChange={this.onChange} defaultValue='default'>
                             <option value='default' disabled hidden>
                                 Select restaurant type
                             </option>
