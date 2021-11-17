@@ -1,0 +1,136 @@
+@import url("https://fonts.googleapis.com/css2?family=Sofia&display=swap");
+@import '../App.scss';
+
+.contentArea {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding: 30px;
+    
+    background: #313131;
+
+    .logo {
+        color: #ffffff;
+
+        &.font {
+            font-size: 1.8rem;
+        }
+    }
+
+    .text {
+        margin-left: 0.4rem;
+        font-family: sans-serif;
+        margin-top: 5px;
+    }
+        
+    .inputFields {
+        display: flex;
+        flex-direction: column;
+        row-gap: 15px;
+        margin: 0px 0px;
+        width: 400px;
+
+        input {
+            background: #c4c4c4;
+            border-width: 0px;
+            padding: 0.4rem;
+            border-radius: 10px;
+            
+            font-size: 0.9rem;
+            text-align: left;
+
+            &::placeholder {
+                color: black;
+            }
+        }
+
+        select {
+            background: #c4c4c4;
+            border-width: 0px;
+            padding: 0.4rem;
+            border-radius: 10px;
+            
+            font-size: 0.9rem;
+            text-align: left;
+
+        }
+
+        .create {
+            width: 200px;
+            height: 44px;
+            background: #00C44E;
+            border-width: 0px;
+            border-radius: 10px;
+            font-size: 1.3rem;
+            transition: background-color 0.2s;
+            
+            &:hover {
+                background-color: #505050;
+            }
+
+        }
+
+        .setupMenu {
+            height: 300px;
+            background: #c4c4c4;
+            border-width: 0px;
+            border-radius: 10px;
+            font-size: 0.9rem;
+            display: flex;
+            flex-direction: column;
+            row-gap: 5px;
+
+            button {
+                border-width: 0px;
+                border-radius: 10px;
+                background-color:#979595;
+                font-size: 1rem;
+                transition: background-color 0.2s;
+                width: max-content;
+                margin-left: 0.4rem;
+                
+                &:hover {
+                    background-color: white;
+                }
+            }
+        }
+
+        .operatingHours {
+            width: 400px;
+            height: 150px;
+            background: #c4c4c4;
+            border-width: 0px;
+            border-radius: 10px;
+            font-size: 0.9rem;
+            display: flex;
+            flex-direction: column;
+            margin-top: 5px;
+            
+        }
+
+        .addpicture {
+            width: 400px;
+            height: 70px;
+            background: #c4c4c4;
+            border-width: 0px;
+            border-radius: 10px;
+            font-size: 2rem;
+            transition: background-color 0.2s;
+            
+            &:hover {
+                background-color: #505050;
+            }
+        }
+    }
+
+    .image {
+        margin: 0px 0px;
+        background-color: white;
+        position: static;
+        width: 700px;
+        height: 500px;
+        border-radius: 10px;
+    }
+
+}

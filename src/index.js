@@ -4,10 +4,13 @@ import './index.scss';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import CreateAccount from './views/CreateAccount';
+import CreateRestaurant from './views/CreateRestaurant';
+import Footer from './components/Footer';
 
 ReactDOM.render(
     <React.StrictMode>
-        <CreateAccount />
+        <CreateRestaurant />
+        <Footer/>
     </React.StrictMode>,
     document.getElementById('root')
 );
