@@ -2,26 +2,26 @@
 @import '../App.scss';
 
 .infoField {
-    background-color: #313131;
+    width: 70%;
+    margin: 20px;
 
     .title {
+        width: 130%;
         font-size: 3rem;
         color: white;
         padding: 1rem;
-        margin-left: 5%;
     }
 
     .infoBoxes {
-        width: auto;
+        width: 100%;
         display: flex;
         flex-direction: column;
         align-items: flex-start;
-        margin-left: 5%;
     }
 
     .inputs {
         width: 27.65rem;
-        height: 3.4rem;
+        height: 2.4rem;
         background: #c4c4c4;
         border-width: 0px;
         border-radius: 128px;
@@ -38,8 +38,6 @@
         display: flex;
         justify-content: space-around;
         align-items: center;
-        margin-bottom: 10px;
-        margin-left: 5%;
 
         .cancelButton {
             display: flex;
@@ -48,7 +46,7 @@
             height: 2.5rem;
             padding: 0.375rem;
             background-color: #FF0000;
-            font-size: 2.25rem;
+            font-size: 1.25rem;
             border-radius: 10px;
         }
 
@@ -59,8 +57,30 @@
             height: 2.5rem;
             padding: 0.375rem;
             background-color: #00C34E;
-            font-size: 2.25rem;
+            font-size: 1.25rem;
             border-radius: 10px;
+        }
+    }
+}
+
+@media only screen and (max-width: 530px) {
+    .infoField {
+        width: 100%;
+
+        .title {
+            width: 80%;
+        }
+    
+        .infoBoxes {
+            width: 22.35rem;
+        }
+    
+        .inputs {
+            width: 20.65rem;
+        }
+    
+        .buttons {
+            width: 22.35rem;
         }
     }
 }

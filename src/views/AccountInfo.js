@@ -7,12 +7,12 @@ export default function AccountInfo() {
     return (
         <>
             <Topbar/>
-            <div className = { styles.infoField }>
+            <div className = {cx(styles.infoField, styles.font)}>
                 <div className = { styles.title }>Account Information</div>
                 <div className = { styles.infoBoxes }>
                     <input className = { styles.inputs } placeholder='First name' />
 
-                    <input className = { styles.inputs }placeholder='Last name' />
+                    <input className = { styles.inputs } placeholder='Last name' />
 
                     <input className = { styles.inputs } placeholder='Address' />
 
