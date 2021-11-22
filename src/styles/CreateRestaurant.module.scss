@@ -1,5 +1,5 @@
+@use '../App.scss';
 @import url("https://fonts.googleapis.com/css2?family=Sofia&display=swap");
-@import '../App.scss';
 
 .contentArea {
     display: flex;
@@ -78,17 +78,17 @@
             flex-direction: column;
             row-gap: 5px;
 
-            button {
+            .button {
                 border-width: 0px;
                 border-radius: 10px;
                 background-color:#979595;
                 font-size: 1rem;
                 transition: background-color 0.2s;
-                width: max-content;
+                width: 100px;
                 margin-left: 0.4rem;
-                
+                    
                 &:hover {
-                    background-color: white;
+                     background-color: white;
                 }
             }
         }

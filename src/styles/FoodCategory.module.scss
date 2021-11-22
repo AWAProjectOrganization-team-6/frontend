@@ -1,0 +1,30 @@
+
+.category {
+    display: flex;
+    flex-direction: column;
+    margin-left: 0.4rem;
+    margin-top: 5px;
+
+    .input {
+        width: 100px;
+        background: #ffffff;
+        border-width: 0px;
+        padding: 0.4rem;
+        border-radius: 10px;
+        font-size: 0.9rem;
+    }
+
+    .button {
+        border-width: 0px;
+        border-radius: 10px;
+        background-color:#979595;
+        font-size: 1rem;
+        transition: background-color 0.2s;
+        width: 80px;
+        margin-left: 0.4rem;
+                
+        &:hover {
+                background-color: white;
+        }
+    }
+}

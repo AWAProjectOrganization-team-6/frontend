@@ -3,6 +3,8 @@ import Topbar from '../components/Topbar';
 import cx from 'classnames';
 import {Component} from 'react';
 import OperatingHours from '../components/OperatingHours';
+import Category from '../components/FoodCategory';
+
 
 class CreateRestaurant extends Component{
 
@@ -14,14 +16,18 @@ class CreateRestaurant extends Component{
                 address:'',
                 type: '',
                 priceLevel:'',
-                operatingHours:''
             },
+
+            Categories: [
+                
+            ],
 
             days: ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'],
             times: ['00.00', '01.00', '02.00', '03.00', '04.00', '05.00', '06.00', '07.00', '08.00', '09.00', '10.00', '11.00', '12.00', '13.00', '14.00', '15.00', '16.00',
                 '17.00', '18.00', '19.00', '20.00', '21.00', '22.00', '23.00', '24.00',]
         };
         
+        this.addCategory = this.addCategory.bind(this);
         this.handleOperatingHours = this.handleOperatingHours.bind(this);
         this.onChange = this.onChange.bind(this);
     }
@@ -42,24 +48,33 @@ class CreateRestaurant extends Component{
             case 'type':
                 restaurantData.type = event.target.value;
                 break;
+            case 'addCategory':
+                break;
         }
 
         this.setState({ restaurantData });
         console.log(this.state);
     }
 
-    handleOperatingHours () {
-
-
+    handleOperatingHours (childData) {
+        let operatingHours = childData;
+        this.setState({operatingHours});
     }
 
+    
+    addCategory () {
+        if (this.state.Categories.length < 8) {
+            this.setState({Categories: [...this.state.Categories,{id: this.state.Categories.length + 1}]});
+        }
+        
+    }
 
     render() {
         return (
             <>
                 <Topbar userType='ADMIN'/>
                 <div className={styles.contentArea}>
-                    <form className={styles.inputFields}>
+                    <div className={styles.inputFields}>
                         <div className={cx(styles.logo, styles.font)}>
                             Account Creation
                         </div>
@@ -68,12 +83,11 @@ class CreateRestaurant extends Component{
                         </button>
                         <input className={styles.input} onChange={this.onChange} name='name' type='text' placeholder='Name'/>
                         <input className={styles.input} onChange={this.onChange} name='address' type='text' placeholder='Address'/>
-                        <OperatingHours days={this.state.days} times={this.state.times} onOperatingHours={this.handleOperatingHours}/>
+                        <OperatingHours days={this.state.days} times={this.state.times} parentCallBack={this.handleOperatingHours}/>
                         <div className={styles.setupMenu}>
-                            <div className={styles.text}>
-                                Set up Menu
-                            </div>
-                            <button className={styles.font} >
+                            <Category name={this.state.Categories} parentCallBack={this.handleCategories}/> 
+                            <input name='addCategory' onChange={this.onChange}/>                       
+                            <button className={styles.button} onClick={this.addCategory}>
                                 + Add Category
                             </button>
                         </div>
@@ -100,7 +114,7 @@ class CreateRestaurant extends Component{
                                 Create
                         </button>
 
-                    </form>
+                    </div>
                     <div className={styles.image}>
                         <img/>
                     </div>
