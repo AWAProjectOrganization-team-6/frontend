@@ -6,14 +6,9 @@ export default function RestaurantList(props) {
         <div className={styles.restaurantlist}>
             <div className={styles.font}>{props.city}</div>
             <div className={styles.itemPlacement}>
-                <RestaurantItem />
-                <RestaurantItem />
-                <RestaurantItem />
-                <RestaurantItem />
-                <RestaurantItem />
-                <RestaurantItem />
-                <RestaurantItem />
-                <RestaurantItem />
+                {props.restaurants.map(restaurant,index=>)
+                
+                }
             </div>
         </div>
     );

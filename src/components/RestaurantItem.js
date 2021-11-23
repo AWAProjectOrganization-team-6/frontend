@@ -1,9 +1,15 @@
-import styles from '../styles/RestaurantItem.module.scss';
+import styles from "../styles/RestaurantItem.module.scss";
+import { CloudinaryContext, Image } from "cloudinary-react";
 
 export default function RestaurantItem() {
     return (
         <div className={styles.restaurantitem}>
-            <img src="images/cat.jpg" alt="" />
+            <CloudinaryContext cloudName="ramppasamppa">
+                <div>
+                    <Image publicId="CremeBrulee_poayhr"/>
+                </div>
+               
+            </CloudinaryContext>
 
             <div className={styles.itemInfo}>
                 <div className={styles.font}>Restaurant</div>
