@@ -5,9 +5,29 @@ import cx from 'classnames';
 
 export default class MenuItem extends Component {
     render() {
+        /** @type {string} */
+        let text = this.props.text;
+
+        let result = text;
+        if (text.includes('\\n'))
+            result = (
+                <>
+                    {text.split('\\n').map((text, index) => {
+                        if (index != 0)
+                            return (
+                                <>
+                                    <br />
+                                    {text}
+                                </>
+                            );
+                        return text;
+                    })}
+                </>
+            );
+
         return (
             <div className={cx(styles.menuItem, styles.button)} onClick={this.props.onClick}>
-                {this.props.text}
+                {result}
             </div>
         );
     }
@@ -15,10 +35,10 @@ export default class MenuItem extends Component {
 
 MenuItem.propTypes = {
     text: PropTypes.string,
-    onClick: PropTypes.func
+    onClick: PropTypes.func,
 };
 
 MenuItem.defaultProps = {
     text: '',
-    onClick: () => console.log('Button clicked')
+    onClick: () => console.log('Button clicked'),
 };

@@ -58,7 +58,7 @@
         &.button {
             background-color: transparent;
             
-            transition: color .1s opacity .2s ease-in;
+            transition: color .2s, opacity .2s ease-in;
             &:hover {
                 color: #505050;
             }

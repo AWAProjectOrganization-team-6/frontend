@@ -12,33 +12,35 @@ export default function Topbar(props) {
         </div>
     );
 
-    if (props.userType === 'ADMIN') buttons = (
-        <div className={styles.buttons}>
-            <PopUpMenu title="James Bond">
-                <MenuItem text="Order history"></MenuItem>
-                <MenuItem text="Order status"></MenuItem>
-            </PopUpMenu>
-        </div>
-    );
+    if (props.userType === 'ADMIN')
+        buttons = (
+            <div className={styles.buttons}>
+                <PopUpMenu title="James Bond">
+                    <MenuItem text="Order history"></MenuItem>
+                    <MenuItem text="Order status"></MenuItem>
+                </PopUpMenu>
+            </div>
+        );
 
-    if (props.userType === 'USER') buttons = (
-        <div className={styles.buttons}>
-            <button className={cx(styles.button, styles.font)}> Shopping Cart </button>
-            <HiOutlineMenu className={styles.menu}/>
-        </div>
-    );
+    if (props.userType === 'USER')
+        buttons = (
+            <div className={styles.buttons}>
+                <button className={cx(styles.button, styles.font)}> Shopping Cart </button>
+                <PopUpMenu>
+                    <MenuItem text="Order status/\nhistory"></MenuItem>
+                </PopUpMenu>
+            </div>
+        );
 
     return (
         <div className={styles.topbar}>
-            <div className={cx(styles.logo, styles.logoFont)}>
-                DR D. E. Livery
-            </div>
-            <input className={styles.searchbar} placeholder='Search' />
+            <div className={cx(styles.logo, styles.logoFont)}>DR D. E. Livery</div>
+            <input className={styles.searchbar} placeholder="Search" />
             {buttons}
         </div>
     );
 }
 
 Topbar.propTypes = {
-    userType: PropTypes.string.isRequired
+    userType: PropTypes.string.isRequired,
 };
