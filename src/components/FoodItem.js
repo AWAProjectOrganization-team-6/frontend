@@ -1,21 +1,15 @@
+import styles from '../styles/FoodItem.module.scss';
 
 export default function FoodItem (props) {
+    console.log(props);
 
-    const handleChange = (event) => {
-        props.parentCallBack(event.target.value);
-    };
-
-    const Food = props.name.map((id) =>
-        <div key={id}>
-            <input onChange={handleChange}>
-            </input>
-        </div>
-    );
-
-    
     return(
-        <>
-            {Food}
-        </>
+        <div className={styles.content}>
+            <label className={styles.label}>{props.food.name}</label>
+            <label className={styles.label}>{props.food.price} €</label>
+            <button className={styles.button} onClick={() => props.parentCallBack(props.categoryId, props.food.id)}>
+                Delete
+            </button>
+        </div>
     );
 }
