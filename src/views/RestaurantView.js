@@ -2,6 +2,8 @@ import styles from '../styles/RestaurantView.module.scss';
 import cx from 'classnames';
 import Topbar from '../components/Topbar';
 import Footer from '../components/Footer';
+import PopUpMenu from '../components/PopUpMenu';
+import MenuItem from '../components/MenuItem';
 
 export default function RestaurantView() {
 
@@ -41,7 +43,12 @@ export default function RestaurantView() {
             <div className= {styles.categoryData}>
                 <div className= {styles.categoryName}>Category Name</div>
                 <div className= {styles.categoryProducts}>
-                    <div className= {styles.product}>Something</div>
+                    <div className= {styles.product}>
+                    <PopUpMenu title="James Bond">
+                        <MenuItem text="Order history"></MenuItem>
+                        <MenuItem text="Order status"></MenuItem>
+                    </PopUpMenu>
+                    </div>
                     <div className= {styles.product}>Something</div>
                     <div className= {styles.product}>Something</div>
                     <div className= {styles.product}>Something</div>
