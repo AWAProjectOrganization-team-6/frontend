@@ -44,10 +44,7 @@ export default function RestaurantView() {
                 <div className= {styles.categoryName}>Category Name</div>
                 <div className= {styles.categoryProducts}>
                     <div className= {styles.product}>
-                    <PopUpMenu title="James Bond">
-                        <MenuItem text="Order history"></MenuItem>
-                        <MenuItem text="Order status"></MenuItem>
-                    </PopUpMenu>
+                    <PopUpMenu title="Name"></PopUpMenu>
                     </div>
                     <div className= {styles.product}>Something</div>
                     <div className= {styles.product}>Something</div>

@@ -34,12 +34,15 @@ export default class PopUpMenu extends Component {
             <>
                 <div className={styles.menuIcon} onClick={this.onMenuClicked} data-menu>Something</div>
                 <div className={cx(styles.menu, styles.font, this.state.shown ? styles.on : undefined)} data-menu>
-                    <div className={cx(styles.title, styles.menuItem)}>{this.props.title}</div>
-                    {this.props.children}
-                    <div className={styles.menuSettings}>
-                        <MenuItem text="Account info"></MenuItem>
-                        <MenuItem text="Logout"></MenuItem>
+                    <div className={styles.nameAndPrice}>
+                        <div>Picture</div>
+                        <div>
+                            <MenuItem text="Order history"></MenuItem>
+                            <MenuItem text="Order status"></MenuItem>
+                        </div>
                     </div>
+                    <div></div>
+                    <div></div>
                 </div>
             </>
         );
