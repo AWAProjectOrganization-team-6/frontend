@@ -1,6 +1,5 @@
 import { Component } from 'react';
 import styles from '../styles/PopUpMenu.module.scss';
-import { HiOutlineMenu } from 'react-icons/hi';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
 import MenuItem from './MenuItem';
@@ -33,7 +32,7 @@ export default class PopUpMenu extends Component {
     render() {
         return (
             <>
-                <HiOutlineMenu className={styles.menuIcon} onClick={this.onMenuClicked} data-menu></HiOutlineMenu>
+                <div className={styles.menuIcon} onClick={this.onMenuClicked} data-menu>Something</div>
                 <div className={cx(styles.menu, styles.font, this.state.shown ? styles.on : undefined)} data-menu>
                     <div className={cx(styles.title, styles.menuItem)}>{this.props.title}</div>
                     {this.props.children}
