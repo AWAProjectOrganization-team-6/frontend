@@ -1,53 +1,57 @@
 import styles from '../styles/CreateRestaurant.module.scss';
 import Topbar from '../components/Topbar';
 import cx from 'classnames';
-import {Component} from 'react';
+import { Component } from 'react';
 import OperatingHours from '../components/OperatingHours';
 import Category from '../components/FoodCategory';
+import axios from 'axios';
 
-
-class CreateRestaurant extends Component{
+class CreateRestaurant extends Component {
 
     categoryIndex = 0;
     foodIndex = 0;
+    operatingHourIndex = 0;
 
-    constructor(props){
+    constructor(props) {
         super(props);
-        this.state={
+        this.state = {
             restaurantData: {
                 name: '',
-                address:'',
+                address: '',
                 type: '',
-                priceLevel:'',
-                openingHours: [
+                priceLevel: '',
+                picture: {
 
-                ],
+                },
 
-                closingHours: [
+                operatingHours: [
+
 
                 ],
 
                 categories: [
-                
+
                 ]
             },
-            
+
             categoryName: '',
+            shortDays: ['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun'],
             days: ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'],
-            times: ['00.00', '01.00', '02.00', '03.00', '04.00', '05.00', '06.00', '07.00', '08.00', '09.00', '10.00', '11.00', '12.00', '13.00', '14.00', '15.00', '16.00',
-                '17.00', '18.00', '19.00', '20.00', '21.00', '22.00', '23.00',]
         };
-        
+
         this.addCategory = this.addCategory.bind(this);
-        this.handleOperatingHours = this.handleOperatingHours.bind(this);
         this.onChange = this.onChange.bind(this);
         this.addFoodToCategory = this.addFoodToCategory.bind(this);
         this.deleteCategory = this.deleteCategory.bind(this);
         this.deleteFoodFromCategory = this.deleteFoodFromCategory.bind(this);
+        this.addOperatingHour = this.addOperatingHour.bind(this);
+        this.deleteOperatingHour = this.deleteOperatingHour.bind(this);
+        this.setOperatingHours = this.setOperatingHours.bind(this);
+        this.submit = this.submit.bind(this);
     }
 
     onChange(event) {
-        let restaurantData = {...this.state.restaurantData};
+        let restaurantData = { ...this.state.restaurantData };
 
         switch (event.target.name) {
             case 'name':
@@ -63,7 +67,10 @@ class CreateRestaurant extends Component{
                 restaurantData.type = event.target.value;
                 break;
             case 'addCategory':
-                this.setState({ categoryName: event.target.value});
+                this.setState({ categoryName: event.target.value });
+                break;
+            case 'picture':
+                restaurantData.picture = event.target.value;
                 break;
         }
 
@@ -71,65 +78,116 @@ class CreateRestaurant extends Component{
         console.log(this.state);
     }
 
-    handleOperatingHours (hour, day, kase) {
-        let restaurantData = {...this.state.restaurantData};
-        if (kase == 'opening') {
-            restaurantData.openingHours.push({day, opening: hour});
-        } else {
-            restaurantData.closingHours.push({day, closing: hour});
+    addOperatingHour() {
+        let restaurantData = { ...this.state.restaurantData };
+        restaurantData.operatingHours.push({ id: ++this.operatingHourIndex });
+        this.setState({ restaurantData });
+    }
+
+    setOperatingHours(id, _case, value, target) {
+        let restaurantData = { ...this.state.restaurantData };
+        let index = restaurantData.operatingHours.findIndex((value) => value.id === id);
+
+        switch (_case) {
+            case 'fromDay':
+                restaurantData.operatingHours[index].fromDay = value;
+                break;
+
+            case 'toDay':
+                restaurantData.operatingHours[index].toDay = value;
+                break;
+
+            case 'fromHour': {
+                let values = value.split(':');
+                let time = new Date();
+                time.setHours(Number(values[0]), Number(values[1]), 0, 0);
+                restaurantData.operatingHours[index].fromHour = time;
+                break;
+            }
+
+            case 'toHour': {
+                let values = value.split(':');
+                let time = new Date();
+                time.setHours(Number(values[0]), Number(values[1]), 0, 0);
+                restaurantData.operatingHours[index].toHour = time;
+                break;
+            }
         }
 
+
         this.setState({ restaurantData });
     }
 
-    
-    addCategory () {
-        let restaurantData = {...this.state.restaurantData};
-        restaurantData.categories.push({id: ++this.categoryIndex, name: this.state.categoryName, foods: []});
+    deleteOperatingHour(id) {
+        let restaurantData = { ...this.state.restaurantData };
+        let index = restaurantData.operatingHours.findIndex((value) => value.id === id);
+        restaurantData.operatingHours.splice(index, 1);
+        this.setState({ restaurantData });
+    }
+
+
+    addCategory() {
+        let restaurantData = { ...this.state.restaurantData };
+        restaurantData.categories.push({ id: ++this.categoryIndex, name: this.state.categoryName, foods: [] });
         this.setState({ restaurantData });
 
     }
 
-    addFoodToCategory (category, foodName, price) {
+    addFoodToCategory(category, foodName, price) {
         console.log(category);
-        let restaurantData = {...this.state.restaurantData};
-        restaurantData.categories.find((value) => value.id === category.id).foods.push({name: foodName, price, id: ++this.foodIndex});
+        let restaurantData = { ...this.state.restaurantData };
+        restaurantData.categories.find((value) => value.id === category.id).foods.push({ name: foodName, price, id: ++this.foodIndex });
         this.setState({ restaurantData });
     }
 
-    deleteCategory (id) {
-        let restaurantData = {...this.state.restaurantData};
+    deleteCategory(id) {
+        let restaurantData = { ...this.state.restaurantData };
         let index = restaurantData.categories.findIndex((value) => value.id === id);
         restaurantData.categories.splice(index, 1);
         this.setState({ restaurantData });
     }
 
-    deleteFoodFromCategory (cId, fId) {
-        let restaurantData = {...this.state.restaurantData};
+    deleteFoodFromCategory(cId, fId) {
+        let restaurantData = { ...this.state.restaurantData };
         let index = restaurantData.categories.find((value) => value.id === cId).foods.findIndex((value) => value.id === fId);
         restaurantData.categories.find((value) => value.id === cId).foods.splice(index, 1);
         this.setState({ restaurantData });
     }
 
-
+    submit (e) {
+        e.preventDefault();
+        let _state = {...this.state};
+        let startIndex = this.state.days.findIndex((val) => val === _state.restaurantData.operatingHours.fromDay);
+        let endIndex = this.state.days.findIndex((val) => val === _state.restaurantData.operatingHours.toDay);
+        if (startIndex > endIndex) [startIndex, endIndex] = [endIndex, startIndex];
+        let result = _state.days.slice(startIndex, endIndex);
+        result.join(',');
+        console.log(_state.restaurantData);
+    }
 
     render() {
         return (
             <>
-                <Topbar userType='ADMIN'/>
+                <Topbar userType='ADMIN' />
                 <div className={styles.contentArea}>
                     <div className={styles.inputFields}>
                         <div className={cx(styles.logo, styles.font)}>
                             Account Creation
                         </div>
-                        <input type = 'file' className={cx(styles.addpicture, styles.font)} placeholder='+ Add picture'> 
+                        <input name='picture' type='file' className={cx(styles.addpicture, styles.font)} onChange={this.onChange}placeholder='+ Add picture'>
                         </input>
-                        <input className={styles.input} onChange={this.onChange} name='name' type='text' placeholder='Name'/>
-                        <input className={styles.input} onChange={this.onChange} name='address' type='text' placeholder='Address'/>
-                        <OperatingHours days={this.state.days} times={this.state.times} parentCallBack={this.handleOperatingHours}/>
+                        <input className={styles.input} onChange={this.onChange} name='name' type='text' placeholder='Name' />
+                        <input className={styles.input} onChange={this.onChange} name='address' type='text' placeholder='Address' />
+                        <div className={styles.operatingHours}>
+                            <div className={styles.text}>
+                                Operating Hours
+                            </div>
+                            {this.state.restaurantData.operatingHours.map((operatingHour) => <OperatingHours key={operatingHour.id} operatingHour={operatingHour} delete={this.deleteOperatingHour} days={this.state.days} set={this.setOperatingHours} />)}
+                            <button onClick={this.addOperatingHour} className={styles.button}> + Add operatingHour</button>
+                        </div>
                         <div className={styles.setupMenu}>
-                            {this.state.restaurantData.categories.map((category) => <Category key={category.id} category={category} addFood={this.addFoodToCategory} deleteCategory={this.deleteCategory} deleteFood={this.deleteFoodFromCategory}/>)}
-                            <input className={styles.input} name='addCategory' onChange={this.onChange} placeholder={'Category name'}/>                    
+                            {this.state.restaurantData.categories.map((category) => <Category key={category.id} category={category} addFood={this.addFoodToCategory} deleteCategory={this.deleteCategory} deleteFood={this.deleteFoodFromCategory} />)}
+                            <input className={styles.input} name='addCategory' onChange={this.onChange} placeholder={'Category name'} />
                             <button className={styles.button} onClick={this.addCategory}>
                                 + Add Category
                             </button>
@@ -153,13 +211,13 @@ class CreateRestaurant extends Component{
                             <option value='Casual dining'>Casual dining</option>
                             <option value='Fine dining'>Fine dining</option>
                         </select>
-                        <button className={cx(styles.create, styles.font)}>
-                                Create
+                        <button onClick={this.submit} className={cx(styles.create, styles.font)}>
+                            Create
                         </button>
 
                     </div>
                     <div className={styles.image}>
-                        <img/>
+                        <img src={this.state.restaurantData.picture}/>
                     </div>
                 </div>
             </>

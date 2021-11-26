@@ -34,7 +34,7 @@ export default function Category (props) {
                     <input className={styles.input} type='number' min='0' onChange={setPrice} placeholder={'Food price'}> 
                     </input>
                     <button className={styles.button} onClick={() => props.addFood(props.category, name, price)}>
-                        + Food
+                        + Add 
                     </button>
                 </div>
                 <div className={styles.foods}>
