@@ -43,22 +43,22 @@ export default function RestaurantView() {
                 <div className= {styles.categoryName}>Category Name</div>
                 <div className= {styles.categoryProducts}>
                     <div className= {styles.product}>
-                        <PopUpMenu />
+                        <PopUpMenu index={1}/>
                     </div>
                     <div className= {styles.product}>
-                        <PopUpMenu />
+                        <PopUpMenu index={2}/>
                     </div>
                     <div className= {styles.product}>
-                        <PopUpMenu />
+                        <PopUpMenu index={3}/>
                     </div>
                     <div className= {styles.product}>
-                        <PopUpMenu />
+                        <PopUpMenu index={4}/>
                     </div>
                     <div className= {styles.product}>
-                        <PopUpMenu />
+                        <PopUpMenu index={5}/>
                     </div>
                     <div className= {styles.product}>
-                        <PopUpMenu />
+                        <PopUpMenu index={6}/>
                     </div>
                 </div>      
             </div>
