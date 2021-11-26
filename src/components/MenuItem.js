@@ -26,7 +26,7 @@ export default class MenuItem extends Component {
             );
 
         return (
-            <div className={cx(styles.menuItem, styles.button)} onClick={this.props.onClick}>
+            <div className={cx(styles.menuItem, styles.button, styles.elem)} onClick={this.props.onClick}>
                 {result}
             </div>
         );

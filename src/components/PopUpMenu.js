@@ -34,15 +34,20 @@ export default class PopUpMenu extends Component {
             <>
                 <div className={styles.menuIcon} onClick={this.onMenuClicked} data-menu>Something</div>
                 <div className={cx(styles.menu, styles.font, this.state.shown ? styles.on : undefined)} data-menu>
-                    <div className={styles.nameAndPrice}>
-                        <div>Picture</div>
-                        <div>
-                            <MenuItem text="Order history"></MenuItem>
-                            <MenuItem text="Order status"></MenuItem>
+                    <div className={styles.pictureNamePrice}>
+                        <div className={styles.productPicture}>Picture</div>
+                        <div className={styles.nameAndPrice}>
+                            <MenuItem text="Name"></MenuItem>
+                            <MenuItem text="Price + possible offer"></MenuItem>
                         </div>
                     </div>
-                    <div></div>
-                    <div></div>
+                    <div className={styles.description}>
+                        <MenuItem text="Description"></MenuItem>
+                    </div>
+                    <div className={styles.buttons}>
+                        <button onClick={this.onMenuClicked} className={cx(styles.closeButton, styles.font)}>Close</button>
+                        <button className={cx(styles.addToCartButton, styles.font)}>Add to cart</button>
+                    </div>
                 </div>
             </>
         );
