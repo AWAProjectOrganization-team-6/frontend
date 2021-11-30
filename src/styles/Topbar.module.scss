@@ -1,4 +1,4 @@
-@use "../App.scss";
+@use '../App.scss';
 .topbar {
     display: flex;
     column-gap: 10px;
@@ -45,7 +45,7 @@
         &::placeholder {
             color: black;
         }
-        
+
         &::-moz-placeholder {
             opacity: 1;
         }

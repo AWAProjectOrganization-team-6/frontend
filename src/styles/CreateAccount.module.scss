@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Sofia&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Sofia&display=swap');
 @import '../App.scss';
 
 .createAccount {
@@ -14,7 +14,6 @@
         }
     }
 
-
     .textFields {
         display: flex;
         flex-direction: column;
@@ -24,12 +23,12 @@
         input {
             width: 500px;
             height: auto;
-            
+
             background: #c4c4c4;
             border-width: 0px;
             border-radius: 128px;
             padding: 0.4rem;
-            
+
             font-size: 0.9rem;
             text-align: left;
 
@@ -37,16 +36,14 @@
                 color: black;
             }
         }
-        
     }
 
     .userType {
         margin: 20px 0px;
         label {
-
             &.font {
-            font-size: 1.2rem;
-            color: white;
+                font-size: 1.2rem;
+                color: white;
             }
         }
     }

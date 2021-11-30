@@ -1,3 +1,4 @@
 .vscode
 dist-server
+build
 node_modules

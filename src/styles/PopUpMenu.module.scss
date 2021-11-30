@@ -1,4 +1,4 @@
-@use "../App.scss";
+@use '../App.scss';
 
 .menuIcon {
     width: 34px;
@@ -33,7 +33,7 @@
     //transform-origin: 100% 0%;
     transform: scale(1, 0);
 
-    transition: transform .2s ease-in-out .15s;
+    transition: transform 0.2s ease-in-out 0.15s;
 
     .title {
         font-size: 2rem;
@@ -57,8 +57,8 @@
 
         &.button {
             background-color: transparent;
-            
-            transition: color .2s, opacity .2s ease-in;
+
+            transition: color 0.1s, opacity 0.2s ease-in;
             &:hover {
                 color: #505050;
             }
@@ -71,7 +71,7 @@
 
         .menuItem {
             opacity: 1;
-            transition-delay: .2s;
+            transition-delay: 0.2s;
         }
     }
 

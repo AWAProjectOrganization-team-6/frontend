@@ -18,7 +18,7 @@ export default class PopUpMenu extends Component {
         if (!event.target.closest('[data-menu]')) {
             this.onMenuClicked();
         }
-    }
+    };
 
     onMenuClicked() {
         if (!this.state.shown) {
@@ -49,5 +49,5 @@ export default class PopUpMenu extends Component {
 
 PopUpMenu.propTypes = {
     title: PropTypes.string.isRequired,
-    children: PropTypes.node
+    children: PropTypes.node,
 };
