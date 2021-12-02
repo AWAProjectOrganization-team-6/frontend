@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import styles from '../styles/PopUpMenu.module.scss';
 import cx from 'classnames';
 
-export default class MenuItem extends Component {
+export default class MenuProduct extends Component {
     render() {
         /** @type {string} */
         let text = this.props.text;
@@ -33,12 +33,12 @@ export default class MenuItem extends Component {
     }
 }
 
-MenuItem.propTypes = {
+MenuProduct.propTypes = {
     text: PropTypes.string,
     onClick: PropTypes.func,
 };
 
-MenuItem.defaultProps = {
+MenuProduct.defaultProps = {
     text: '',
     onClick: () => console.log('Button clicked'),
 };

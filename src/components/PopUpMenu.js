@@ -2,7 +2,7 @@ import { Component } from 'react';
 import styles from '../styles/PopUpMenu.module.scss';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
-import MenuItem from './MenuItem';
+import MenuProduct from './MenuProduct';
 
 export default class PopUpMenu extends Component {
     constructor(props) {
@@ -38,12 +38,12 @@ export default class PopUpMenu extends Component {
                     <div className={styles.pictureNamePrice}>
                         <div className={styles.productPicture}>Picture</div>
                         <div className={styles.nameAndPrice}>
-                            <MenuItem text="Name"></MenuItem>
-                            <MenuItem text="Price + possible offer"></MenuItem>
+                            <MenuProduct text="Name"></MenuProduct>
+                            <MenuProduct text="Price + possible offer"></MenuProduct>
                         </div>
                     </div>
                     <div className={styles.description}>
-                        <MenuItem text="Description"></MenuItem>
+                        <MenuProduct text="Description"></MenuProduct>
                     </div>
                     <div className={styles.buttons}>
                         <button onClick={this.onMenuClicked} className={cx(styles.closeButton, styles.font)}>Close</button>
