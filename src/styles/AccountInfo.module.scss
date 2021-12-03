@@ -4,6 +4,7 @@
 .infoField {
     width: 70%;
     margin: 20px;
+    display: flex;
 
     .title {
         width: 130%;
@@ -48,6 +49,11 @@
             background-color: #FF0000;
             font-size: 1.25rem;
             border-radius: 10px;
+            border: none;
+
+            &:hover {
+                background-color: #b10000;
+            }
         }
 
         .confirmButton {
@@ -59,6 +65,54 @@
             background-color: #00C34E;
             font-size: 1.25rem;
             border-radius: 10px;
+            border: none;
+
+            &:hover {
+                background-color: #009231;
+            }
+        }
+    }
+
+    .paymentSystem {
+        background-color: red;
+        padding-top: 6.7rem;
+
+        .paymentSelector {
+            width: 27.65rem;
+            height: 2.4rem;
+            background: #c4c4c4;
+            border-width: 0px;
+            border-radius: 128px;
+            padding: 0.5rem 0.5rem 0.5rem 2rem;
+            overflow: hidden;
+            margin: 0.6875rem;
+            font-size: 2rem;
+            color: black;
+            display: flex;
+            align-items: center;
+        }
+
+        .paymentOptionField {
+            background-color: #3fce14;
+            width: 100%;
+            margin-top: 22px;
+            display: none;
+
+            .paymentOption {
+                width: 27.65rem;
+                height: 2.4rem;
+                background: #c4c4c4;
+                border-width: 0px;
+                border-radius: 128px;
+                padding: 0.5rem 0.5rem 0.5rem 2rem;
+                overflow: hidden;
+                margin: 0.6875rem;
+                margin-bottom: 22px;
+                font-size: 2rem;
+                color: black;
+                display: flex;
+                align-items: center;
+            }   
         }
     }
 }
@@ -68,6 +122,7 @@
         width: 100%;
 
         .title {
+            text-align: center;
             width: 80%;
         }
     
