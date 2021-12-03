@@ -7,7 +7,7 @@ import CreateAccount from './views/CreateAccount';
 
 ReactDOM.render(
     <React.StrictMode>
-        <CreateAccount />
+        <App />
     </React.StrictMode>,
     document.getElementById('root')
 );

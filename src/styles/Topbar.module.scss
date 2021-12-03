@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Sofia&display=swap");
+@use '../App.scss';
 .topbar {
     display: flex;
     column-gap: 10px;
@@ -8,35 +8,32 @@
 
     background: #181818;
 
-    .font {
-        font-family: Sofia;
-        font-style: normal;
-        font-weight: normal;
-        font-size: 1rem;
-    }
-
     .logo {
         display: flex;
         align-items: center;
         color: #ffffff;
         min-width: 190px;
 
-        &.font {
+        &.logoFont {
             font-size: 1.8rem;
             line-height: 0px;
             text-decoration-line: underline;
+        }
+
+        &:hover {
+            cursor: pointer;
         }
     }
 
     .searchbar {
         width: 500px;
         height: auto;
-        
+
         background: #c4c4c4;
         border-width: 0px;
         border-radius: 128px;
         padding: 0.5rem;
-        
+
         flex: none;
         order: 1;
         flex-grow: 0;
@@ -47,6 +44,10 @@
 
         &::placeholder {
             color: black;
+        }
+
+        &::-moz-placeholder {
+            opacity: 1;
         }
     }
 
@@ -62,32 +63,5 @@
         align-self: stretch;
         flex-grow: 1;
         padding: 0px;
-
-        .button {
-            background: #c4c4c4;
-            border-width: 0px;
-            border-radius: 10px;
-
-            &.font {
-                font-size: 1.3rem;
-                line-height: 1.5;
-            }
-
-            transition: background-color 0.2s;
-            &:hover {
-                background-color: #505050;
-            }
-        }
-
-        .menu {
-            width: auto;
-            height: -webkit-fill-available;
-            color: white;
-
-            transition: color 0.2s;
-            &:hover {
-                color: #505050;
-            }
-        }
     }
 }
