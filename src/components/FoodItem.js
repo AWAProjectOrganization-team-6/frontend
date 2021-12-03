@@ -1,8 +1,6 @@
 import styles from '../styles/FoodItem.module.scss';
 
 export default function FoodItem (props) {
-    console.log(props);
-
     return(
         <div className={styles.content}>
             <label className={styles.label}>{props.food.name}</label>

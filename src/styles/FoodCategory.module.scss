@@ -11,39 +11,60 @@
         border-radius: 10px;
     }
 
+    .input {
+        border-width: 0px;
+        border-radius: 10px;
+        font-size: 1rem;
+        margin-left: 0.4rem;
+        width: 100px;
+        background-color: rgb(255, 255, 255);
+        text-indent: 2px;
+
+        &::placeholder {
+            color: black;
+            text-align: center;
+        }
+    }
 
     .food {
         display: flex;
-        flex-direction: row;
+        flex-direction: column;
         margin: 0.4rem;
-        
-        .input {
-            width: 100px;
-            border-width: 0px;
-            border-radius: 10px;
-            font-size: 0.9rem;
-            margin-left: 0.4rem;
-            width: 90px;
-            background-color: rgb(179, 179, 179);
-            text-indent: 2px;
 
-            &::placeholder {
-                color: black;
-                text-align: center;
-            }
+        .row1 {
+
         }
+        
+        .row2 {
 
-        .button {
-            border-width: 0px;
-            border-radius: 10px;
-            background-color:#979595;   
-            font-size: 1rem;
-            transition: background-color 0.2s;
-            width: 80px;
-            margin-left: 0.4rem;
-                    
-            &:hover {
-                    background-color: rgb(0, 255, 0);
+            margin-top: 0.2rem;
+
+            .button {
+                border-width: 0px;
+                border-radius: 10px;
+                background-color:#979595;   
+                font-size: 1rem;
+                transition: background-color 0.2s;
+                width: 80px;
+                height: 30px;
+                margin-left: 5rem;
+                        
+                &:hover {
+                        background-color: rgb(0, 255, 0);
+                }
+            }
+            
+            .fileInput {
+                background: #c4c4c4;
+                border-width: 0px;
+                border-radius: 10px;
+                transition: background-color 0.2s;
+                margin-left: 0.4rem;
+                height: 21px;
+                
+                &:hover {
+                    background-color: #505050;
+                }
             }
         }
     }
@@ -53,9 +74,10 @@
         display: flex;
         flex-direction: row;
         margin: 5px;
+        margin-bottom: 15px;
 
         .label {
-            background-color: rgb(179, 179, 179);
+            background-color: rgb(255, 255, 255);
             border-width: 0px;
             border-radius: 10px;
             padding: 0.2rem;
@@ -63,6 +85,8 @@
             min-width: 100px;
             font-size: large;
             text-align: center;
+            height: fit-content;
+            padding: 0px;
         }
 
         .button {

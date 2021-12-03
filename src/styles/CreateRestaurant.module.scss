@@ -31,6 +31,7 @@
         width: 700px;
         height: 500px;
         border-radius: 10px;
+        padding: 10px;
     }
         
     .inputFields {
@@ -40,7 +41,7 @@
         margin: 0px 0px;
         min-width: 400px;
 
-        .addpicture {
+        .fileInput {
             width: 400px;
             height: 70px;
             background: #c4c4c4;
@@ -113,7 +114,8 @@
                 background-color:#979595;
                 font-size: 1rem;
                 transition: background-color 0.2s;
-                width: 100px;
+                width: fit-content;
+                height: 50px;
                 margin-left: 0.4rem;
                 margin-bottom: 0.4rem;
                     
@@ -126,7 +128,6 @@
                 background-color: #ffffff;
                 margin-left: 0.4rem;
                 width: max-content;
-                margin-top: 10px;
             }
         }
 
