@@ -2,12 +2,13 @@
 @import '../App.scss';
 
 .infoField {
-    width: 70%;
+    // width: 70%;
     margin: 20px;
     display: flex;
+    justify-content: space-between;
 
     .title {
-        width: 130%;
+        // width: 130%;
         font-size: 3rem;
         color: white;
         padding: 1rem;
@@ -18,23 +19,25 @@
         display: flex;
         flex-direction: column;
         align-items: flex-start;
+        // background-color: lime;
     }
 
     .inputs {
-        width: 27.65rem;
-        height: 2.4rem;
+        width: 20.65rem;
+        height: 1.4rem;
         background: #c4c4c4;
         border-width: 0px;
         border-radius: 128px;
         padding: 0.5rem;
         padding-left: 2rem;
         margin: 0.6875rem;
-        font-size: 2rem;
+        font-size: 1.25rem;
         color: black;
     }
 
     .buttons {
-        width: 29.25rem;
+        width: 23.25rem;
+        margin: 0.5rem;
         height: auto;        
         display: flex;
         justify-content: space-around;
@@ -74,68 +77,91 @@
     }
 
     .paymentSystem {
-        background-color: red;
-        padding-top: 6.7rem;
+        width: 530px;
 
         .paymentSelector {
-            width: 27.65rem;
+            width: 9.5rem;
             height: 2.4rem;
             background: #c4c4c4;
             border-width: 0px;
             border-radius: 128px;
-            padding: 0.5rem 0.5rem 0.5rem 2rem;
+            padding: 0.5rem 0.5rem 0.5rem 1rem;
             overflow: hidden;
-            margin: 0.6875rem;
-            font-size: 2rem;
+            margin: 0.6rem;
+            font-size: 1.25rem;
             color: black;
             display: flex;
             align-items: center;
-        }
+        } 
 
-        .paymentOptionField {
-            background-color: #3fce14;
-            width: 100%;
-            margin-top: 22px;
-            display: none;
+        .paymentField {
+            // border: 1px solid black;
+            padding: 0.5rem;
 
-            .paymentOption {
-                width: 27.65rem;
-                height: 2.4rem;
+            .mediumPaymentInput {
+                width: 8rem;
+                height: 1.4rem;
+                border-radius: 256px;
+                border: none;
                 background: #c4c4c4;
-                border-width: 0px;
-                border-radius: 128px;
-                padding: 0.5rem 0.5rem 0.5rem 2rem;
-                overflow: hidden;
-                margin: 0.6875rem;
-                margin-bottom: 22px;
-                font-size: 2rem;
-                color: black;
+                padding: 0.5rem 0.5rem 0.5rem 1rem;
+                font-size: 1.25rem;
+            }
+
+            .longPaymentInput {
+                width: 19.2rem;
+                height: 1.4rem;
+                border-radius: 256px;
+                border: none;
+                background: #c4c4c4;
+                padding: 0.5rem 0.5rem 0.5rem 1rem;
+                font-size: 1.25rem;
+            }
+
+            .exDateCvv {
+                width: 2.6rem;
+                height: 1.4rem;
+                border-radius: 256px;
+                border: none;
+                background: #c4c4c4;
+                padding: 0.5rem 0.6rem 0.5rem 0.6rem;
+                text-align: center;
+                font-size: 1rem;
+            }
+
+            .rows {
                 display: flex;
-                align-items: center;
-            }   
+                justify-content: space-between;
+                margin-bottom: 1rem;
+            }
+
+            .checkbox {
+                font-size: 1.25rem;
+                color: white;
+            }
         }
     }
 }
 
-@media only screen and (max-width: 530px) {
-    .infoField {
-        width: 100%;
+// @media only screen and (max-width: 530px) {
+//     .infoField {
+//         width: 100%;
 
-        .title {
-            text-align: center;
-            width: 80%;
-        }
+//         .title {
+//             text-align: center;
+//             width: 80%;
+//         }
     
-        .infoBoxes {
-            width: 22.35rem;
-        }
+//         .infoBoxes {
+//             width: 22.35rem;
+//         }
     
-        .inputs {
-            width: 20.65rem;
-        }
+//         .inputs {
+//             width: 20.65rem;
+//         }
     
-        .buttons {
-            width: 22.35rem;
-        }
-    }
-}
+//         .buttons {
+//             width: 22.35rem;
+//         }
+//     }
+// }

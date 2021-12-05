@@ -4,6 +4,69 @@ import { Component } from 'react';
 import Topbar from '../components/Topbar';
 import Footer from '../components/Footer';
 
+let a = 0;
+var paymentOption = (
+    <></>
+);
+
+if (a === 0) 
+    paymentOption = (
+        <>
+            <div className={styles.rows}>
+                <input 
+                    type='text' 
+                    className={styles.mediumPaymentInput}
+                    placeholder='First Name'
+                />
+                <input 
+                    type='text' 
+                    className={styles.mediumPaymentInput}
+                    placeholder='Last Name'
+                />
+                <input 
+                    type='text' 
+                    className={styles.mediumPaymentInput}
+                    placeholder='City'
+                />
+            </div>
+            <div className={styles.rows}>
+                <input 
+                    type='text' 
+                    className={styles.longPaymentInput}
+                    placeholder='Billing Address'
+                />
+                <input 
+                    type='text' 
+                    className={styles.mediumPaymentInput}
+                    placeholder='Postcode'
+                />
+            </div>
+            <div className={styles.rows}>
+                <input 
+                    type='text' 
+                    className={styles.longPaymentInput}
+                    placeholder='Card Number'
+                    maxLength='16'
+                />
+                <input 
+                    type='text' 
+                    className={styles.exDateCvv}
+                    placeholder='xx/xx'
+                    maxLength='5'
+                />
+                <input 
+                    type='password' 
+                    className={styles.exDateCvv}
+                    placeholder='CVV'
+                    maxLength='3'
+                />
+            </div>
+            <div className={styles.checkbox}>
+                <input type='checkbox'/> Save billing information
+            </div>
+        </>
+    );
+
 class AccountInfo extends Component {
     constructor(props) {
         super(props);
@@ -24,33 +87,33 @@ class AccountInfo extends Component {
         // this.onChange = this.onChange.bind(this);
     }
 
-    onChange(event) {
-        let accountData = { ...this.state.accountData };
+    // onChange(event) {
+    //     let accountData = { ...this.state.accountData };
 
-        switch (event.target.name) {
-            case 'firstName':
-                accountData.firstName = event.target.value;
-                break;
-            case 'lastName':
-                accountData.lastName = event.target.value;
-                break;
-            case 'address':
-                accountData.address = event.target.value;
-                break;
-            case 'phoneNumber':
-                accountData.phoneNumber = event.target.value;
-                break;
-            case 'email':
-                accountData.email = event.target.value;
-                break;
-            case 'paymentOption':
-                this.setState({ paymentOption: event.target.value });
-                break;
-        }
+    //     switch (event.target.name) {
+    //         case 'firstName':
+    //             accountData.firstName = event.target.value;
+    //             break;
+    //         case 'lastName':
+    //             accountData.lastName = event.target.value;
+    //             break;
+    //         case 'address':
+    //             accountData.address = event.target.value;
+    //             break;
+    //         case 'phoneNumber':
+    //             accountData.phoneNumber = event.target.value;
+    //             break;
+    //         case 'email':
+    //             accountData.email = event.target.value;
+    //             break;
+    //         case 'paymentOption':
+    //             this.setState({ paymentOption: event.target.value });
+    //             break;
+    //     }
 
-        this.setState({ accountData });
-        console.log(this.state);
-    }
+    //     this.setState({ accountData });
+    //     console.log(this.state);
+    // }
 
     render() {
         return (
@@ -91,7 +154,7 @@ class AccountInfo extends Component {
                                 className = { styles.inputs } 
                                 name='email' 
                                 placeholder='Email' 
-                                type='text' 
+                                type='email' 
                                 onChange={this.onChange}
                             />
                         </div>
@@ -101,10 +164,13 @@ class AccountInfo extends Component {
                         </div>
                     </div>
                     <div className = { styles.paymentSystem}>
-                        <div className = { styles.paymentSelector }>Select payment option</div>
-                        <div className = { styles.paymentOptionField}>
-                            <div className = { styles.paymentOption }>Debit card</div>
-                            <div className = { styles.paymentOption }>PayPal</div>
+                        <div className = { styles.title}>Select payment option</div>
+                        <select className = { styles.paymentSelector }>
+                            <option className = { styles.paymentOption }>Debit card</option>
+                            <option className = { styles.paymentOption }>PayPal</option>
+                        </select>
+                        <div className = { styles.paymentField}>
+                            {paymentOption}
                         </div>
                     </div>  
                 </div>
