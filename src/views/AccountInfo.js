@@ -1,71 +1,11 @@
+import react from 'react';
 import styles from '../styles/AccountInfo.module.scss';
 import cx from 'classnames';
 import { Component } from 'react';
 import Topbar from '../components/Topbar';
 import Footer from '../components/Footer';
-
-let a = 0;
-var paymentOption = (
-    <></>
-);
-
-if (a === 0) 
-    paymentOption = (
-        <>
-            <div className={styles.rows}>
-                <input 
-                    type='text' 
-                    className={styles.mediumPaymentInput}
-                    placeholder='First Name'
-                />
-                <input 
-                    type='text' 
-                    className={styles.mediumPaymentInput}
-                    placeholder='Last Name'
-                />
-                <input 
-                    type='text' 
-                    className={styles.mediumPaymentInput}
-                    placeholder='City'
-                />
-            </div>
-            <div className={styles.rows}>
-                <input 
-                    type='text' 
-                    className={styles.longPaymentInput}
-                    placeholder='Billing Address'
-                />
-                <input 
-                    type='text' 
-                    className={styles.mediumPaymentInput}
-                    placeholder='Postcode'
-                />
-            </div>
-            <div className={styles.rows}>
-                <input 
-                    type='text' 
-                    className={styles.longPaymentInput}
-                    placeholder='Card Number'
-                    maxLength='16'
-                />
-                <input 
-                    type='text' 
-                    className={styles.exDateCvv}
-                    placeholder='xx/xx'
-                    maxLength='5'
-                />
-                <input 
-                    type='password' 
-                    className={styles.exDateCvv}
-                    placeholder='CVV'
-                    maxLength='3'
-                />
-            </div>
-            <div className={styles.checkbox}>
-                <input type='checkbox'/> Save billing information
-            </div>
-        </>
-    );
+import DebitCard from '../components/DebitCard';
+import PayPal from '../components/PayPal';
 
 class AccountInfo extends Component {
     constructor(props) {
@@ -77,45 +17,77 @@ class AccountInfo extends Component {
                 address: '',
                 phoneNumber: '',
                 email: '',
-                paymentOption: {
+                paymentOption: '',
+                paymentDetails: {
                     
                 }
             }
         };
 
-        // this.paymentSelector = this.paymentSelector.bind(this);
-        // this.onChange = this.onChange.bind(this);
+        this.onChange = this.onChange.bind(this);
+        this.paymentDetails = react.createRef();
+        this.handleConfirm = this.handleConfirm.bind(this);
+
+        // Access child state 
+        // this.paymentDetails.current.state;
     }
 
-    // onChange(event) {
-    //     let accountData = { ...this.state.accountData };
+    
 
-    //     switch (event.target.name) {
-    //         case 'firstName':
-    //             accountData.firstName = event.target.value;
-    //             break;
-    //         case 'lastName':
-    //             accountData.lastName = event.target.value;
-    //             break;
-    //         case 'address':
-    //             accountData.address = event.target.value;
-    //             break;
-    //         case 'phoneNumber':
-    //             accountData.phoneNumber = event.target.value;
-    //             break;
-    //         case 'email':
-    //             accountData.email = event.target.value;
-    //             break;
-    //         case 'paymentOption':
-    //             this.setState({ paymentOption: event.target.value });
-    //             break;
-    //     }
+    onChange(event) {
+        let accountData = { ...this.state.accountData };
 
-    //     this.setState({ accountData });
-    //     console.log(this.state);
-    // }
+        switch (event.target.name) {
+            case 'firstName':
+                accountData.firstName = event.target.value;
+                break;
+            case 'lastName':
+                accountData.lastName = event.target.value;
+                break;
+            case 'address':
+                accountData.address = event.target.value;
+                break;
+            case 'phoneNumber':
+                accountData.phoneNumber = event.target.value;
+                break;
+            case 'email':
+                accountData.email = event.target.value;
+                break;
+            case 'paymentOption':
+                if (event.target.value === 'Debit card') {
+                    accountData.paymentOption = 1;
+                } else if (event.target.value === 'PayPal') {
+                    accountData.paymentOption = 2;
+                }
+                
+                console.log(event.target.value);
+                break;
+        }
+
+        this.setState({ accountData });
+        // console.log(this.state);
+    }
+
+    handleConfirm() {
+        console.log(this.paymentDetails.current.state);
+    }
 
     render() {
+        let paymentOptionField = (
+            <></>
+        );
+
+        switch (this.state.accountData.paymentOption) {
+            case 1:
+                paymentOptionField = (<DebitCard ref={this.paymentDetails} hideSaveInfo={true}/>);
+                break;
+            case 2:
+                paymentOptionField = (<PayPal ref={this.paymentDetails} hideSaveInfo={true}/>);
+                break;
+            default:
+                break;
+            }
+
         return (
             <>
                 <Topbar/>
@@ -160,17 +132,21 @@ class AccountInfo extends Component {
                         </div>
                         <div className = { styles.buttons }>
                             <button className = { styles.cancelButton }>Cancel</button>
-                            <button className = { styles.confirmButton }>Confirm</button>
+                            <button className = { styles.confirmButton } onClick={this.handleConfirm}>Confirm</button>
                         </div>
                     </div>
                     <div className = { styles.paymentSystem}>
-                        <div className = { styles.title}>Select payment option</div>
-                        <select className = { styles.paymentSelector }>
-                            <option className = { styles.paymentOption }>Debit card</option>
-                            <option className = { styles.paymentOption }>PayPal</option>
+                        <select 
+                            className = { styles.paymentSelector } 
+                            onChange={this.onChange}
+                            name= 'paymentOption'
+                        >   
+                            <option default hidden>Select payment option</option>
+                            <option>Debit card</option>
+                            <option>PayPal</option>
                         </select>
-                        <div className = { styles.paymentField}>
-                            {paymentOption}
+                        <div>
+                            {paymentOptionField}
                         </div>
                     </div>  
                 </div>

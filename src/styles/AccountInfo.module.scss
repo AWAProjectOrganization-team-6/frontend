@@ -2,24 +2,19 @@
 @import '../App.scss';
 
 .infoField {
-    // width: 70%;
     margin: 20px;
     display: flex;
-    justify-content: space-between;
 
     .title {
-        // width: 130%;
+        width: 110%;
         font-size: 3rem;
         color: white;
         padding: 1rem;
     }
 
     .infoBoxes {
-        width: 100%;
         display: flex;
         flex-direction: column;
-        align-items: flex-start;
-        // background-color: lime;
     }
 
     .inputs {
@@ -36,8 +31,7 @@
     }
 
     .buttons {
-        width: 23.25rem;
-        margin: 0.5rem;
+        width: 23.75rem;
         height: auto;        
         display: flex;
         justify-content: space-around;
@@ -77,91 +71,48 @@
     }
 
     .paymentSystem {
-        width: 530px;
+        height: 240px;
+        @media only screen and (min-width: 955px) {margin-top: 6.7rem}
 
         .paymentSelector {
-            width: 9.5rem;
+            width: auto;
             height: 2.4rem;
             background: #c4c4c4;
             border-width: 0px;
             border-radius: 128px;
             padding: 0.5rem 0.5rem 0.5rem 1rem;
             overflow: hidden;
-            margin: 0.6rem;
+            margin: 0.6875rem;
             font-size: 1.25rem;
             color: black;
             display: flex;
             align-items: center;
         } 
-
-        .paymentField {
-            // border: 1px solid black;
-            padding: 0.5rem;
-
-            .mediumPaymentInput {
-                width: 8rem;
-                height: 1.4rem;
-                border-radius: 256px;
-                border: none;
-                background: #c4c4c4;
-                padding: 0.5rem 0.5rem 0.5rem 1rem;
-                font-size: 1.25rem;
-            }
-
-            .longPaymentInput {
-                width: 19.2rem;
-                height: 1.4rem;
-                border-radius: 256px;
-                border: none;
-                background: #c4c4c4;
-                padding: 0.5rem 0.5rem 0.5rem 1rem;
-                font-size: 1.25rem;
-            }
-
-            .exDateCvv {
-                width: 2.6rem;
-                height: 1.4rem;
-                border-radius: 256px;
-                border: none;
-                background: #c4c4c4;
-                padding: 0.5rem 0.6rem 0.5rem 0.6rem;
-                text-align: center;
-                font-size: 1rem;
-            }
-
-            .rows {
-                display: flex;
-                justify-content: space-between;
-                margin-bottom: 1rem;
-            }
-
-            .checkbox {
-                font-size: 1.25rem;
-                color: white;
-            }
-        }
     }
 }
 
-// @media only screen and (max-width: 530px) {
-//     .infoField {
-//         width: 100%;
+@media only screen and (max-width: 955px) {
+    .infoField {
+        flex-direction: column;
+        align-items: center;
+        height: 690px;
+    }
 
-//         .title {
-//             text-align: center;
-//             width: 80%;
-//         }
-    
-//         .infoBoxes {
-//             width: 22.35rem;
-//         }
-    
-//         .inputs {
-//             width: 20.65rem;
-//         }
-    
-//         .buttons {
-//             width: 22.35rem;
-//         }
-//     }
-// }
+    .paymentSystem {
+        width: 530px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-top: 0px;
+    }
+
+    .infoBoxes {
+        align-items: center;
+    }
+
+    .buttons {
+        position: absolute;
+        top: 730px;
+        margin-left: 45px;
+    }
+}
