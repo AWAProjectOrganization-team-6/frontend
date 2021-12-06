@@ -1,0 +1,21 @@
+@use '../App.scss';
+
+.footer {
+    color: white;
+    background: #181818;
+    width: 100%;
+    height: auto;
+    bottom: 0;
+    
+    
+    
+    .font {
+        font-size: 1.125rem;
+        padding: 10px 20px;
+    } 
+
+    .title {
+        font-size: 2.25rem;
+    }
+
+}
