@@ -3,78 +3,118 @@ import cx from 'classnames';
 import Topbar from '../components/Topbar';
 import Footer from '../components/Footer';
 import React from 'react';
+import axios from 'axios';
+import apiAddress from '../config.json';
 
+export default function CreateAccount(props) {
 
-export default function CreateAccount() {
+    const [Password, setPassword] = React.useState();
 
-    const accountInfo = [
-        {
-            firstName: '',
-            lastName: '',
-            streetAddress: '',
-            phoneNumber: '',
-            emailAddress: '',
-            password: '',
-            type: ''
-        }   
-    ];
+    const [account, setAccount] = React.useState({
+        username: '',
+        first_name: '',
+        last_name: '',
+        phone: '',
+        email: '',
+        password: '',
+        type: ''
+    });
 
-    const [list, setList] = React.useState(accountInfo);
+    const [address, setAddress] = React.useState({
+        street_address: '',
+        city: '',
+        postcode: ''
+    });
 
     const handleInputs = (event) => {
 
-        const newList = list;
+        const newAccount = account;
+        const newAddress = address;
+        var newPassword = Password;
 
         switch (event.target.name) {
             case 'fName':
-                newList.firstName = event.target.value;
+                newAccount.first_name = event.target.value;
                 break;
-        
+
             case 'lName':
-                newList.lastName = event.target.value;
-                break;
-            
-            case 'sAdrs':
-                newList.streetAddress = event.target.value;
+                newAccount.last_name = event.target.value;
                 break;
 
             case 'pNumb':
-                newList.phoneNumber = event.target.value;
+                newAccount.phone = event.target.value;
                 break;
 
             case 'eAdrs':
-                newList.emailAddress = event.target.value;
+                newAccount.email = event.target.value;
                 break;
-            
+
+            case 'sAdrs':
+                newAddress.street_address = event.target.value;
+                break;
+
+            case 'city':
+                newAddress.city = event.target.value;
+                break;
+
+            case 'postcode':
+                newAddress.postcode = event.target.value;
+                break;
+
+            case 'user':
+                newAccount.username = event.target.value;
+                break;
+
             case 'password':
-                newList.password = event.target.value;
+                newAccount.password = event.target.value;
                 break;
 
             case 'repeatPassword':
+                newPassword = event.target.value;
                 break;
-            
+
             case 'accountType':
-                newList.type = event.target.value;
+                newAccount.type = event.target.value;
                 break;
         }
-        setList(newList);
+        setAddress(newAddress);
+        setAccount(newAccount);
+        setPassword(newPassword);
     };
 
 
+    const authorization = { 'Authorization': 'bearer ' + props.token };
 
-    const handleCreation = () => {
-        console.log(accountInfo);
+    const onSubmit = (event) => {
+        event.preventDefault();
+
+        if (Password === account.password) {
+
+            console.log(account);
+            console.log(address);
+            // axios.post(apiAddress + 'users', account, { headers: authorization })
+            //     .then((res) => {
+
+            //         axios.post(apiAddress + '/users/@me/address', address, { headers: authorization })
+            //             .then((res) => {
+
+            //             });
+            //     });
+        } else {
+            console.log('Passwords dont match!');
+        }
+
     };
 
 
 
 
     const accountType = (
-        <div className = { styles.userType }>
-            <label className = { styles.font }> Manager </label>
+        <div className={styles.userType}>
+            <label className={styles.font}> Manager </label>
             <input type='radio' name='accountType' onChange={handleInputs} value='ADMIN'>
             </input>
-            <label className = { styles.font }> Customer </label>
+            <label className={styles.font}> Customer </label>
             <input type='radio' name='accountType' onChange={handleInputs} value='USER'>
             </input>
         </div>
@@ -83,26 +123,31 @@ export default function CreateAccount() {
 
     return (
         <>
-            <Topbar/>
-            <div className = { styles.createAccount }>
+            <Topbar />
+            <div className={styles.createAccount}>
                 <div className={cx(styles.logo, styles.font)}>
                     Account Creation
                 </div>
-                <div className = { styles.textFields}>
-                    <input type="text" name='fName' placeholder="First name" onChange={handleInputs}/>
-                    <input type="text" name='lName' placeholder="Last name" onChange={handleInputs}/>
-                    <input type="text" name='sAdrs' placeholder="Street address" onChange={handleInputs}/>
-                    <input type="text" name='pNumb' placeholder="Phone number" onChange={handleInputs}/>
-                    <input type="text" name='eAdrs' placeholder="Email address" onChange={handleInputs}/>
-                    <input type="text" name='password' placeholder="Password" onChange={handleInputs}/>
-                    <input type="text" name='repeatPassword' placeholder="Repeat password" onChange={handleInputs}/>
-                </div>
+                <form onSubmit={onSubmit}>
+                    <div className={styles.textFields}>
+                        <input type="text" required name='fName' placeholder="First name" onChange={handleInputs} />
+                        <input type="text" required name='lName' placeholder="Last name" onChange={handleInputs} />
+                        <input type="text" required name='sAdrs' placeholder="Address" onChange={handleInputs} />
+                        <input type="text" required name='city' placeholder="City" onChange={handleInputs} />
+                        <input type="text" required name='postcode' placeholder="Postcode" onChange={handleInputs} />
+                        <input type="text" required name='pNumb' placeholder="Phone number" onChange={handleInputs} />
+                        <input type="text" required name='eAdrs' placeholder="Email address" onChange={handleInputs} />
+                        <input type="text" required name='user' placeholder="Username" onChange={handleInputs} />
+                        <input type="text" required name='password' placeholder="Password" onChange={handleInputs} />
+                        <input type="text" required name='repeatPassword' placeholder="Repeat password" onChange={handleInputs} />
+                    </div>
 
-                {accountType}
+                    {accountType}
 
-                <button className = {cx(styles.button, styles.font)} onClick={handleCreation}> Create Account </button>
+                    <button className={cx(styles.button, styles.font)} type='submit'> Create Account </button>
+                </form>
             </div>
-            <Footer/>
+            <Footer />
         </>
     );
 }
