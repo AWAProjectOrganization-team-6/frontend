@@ -56,7 +56,6 @@ class App extends Component {
                         this.setState(
                             {
                                 user: res.data,
-                                success: true,
                             },
                             () => {
                                 localStorage.setItem('userType', this.state.user.type);
@@ -120,7 +119,7 @@ class App extends Component {
     render() {
         return (
             <BrowserRouter>
-                <Redirect user={this.state.user} />
+                <Redirect onChange={this.state.user} replace={true} />
                 <Topbar onLogin={this.onLogin} onLogout={this.onLogout} user={this.state.user} />
                 <Routes>
                     <Route
