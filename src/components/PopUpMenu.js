@@ -30,6 +30,10 @@ export default class PopUpMenu extends Component {
         }
     }
 
+    componentWillUnmount() {
+        document.removeEventListener('click', this.closeMenuListenner);
+    }
+
     render() {
         return (
             <>
@@ -39,7 +43,7 @@ export default class PopUpMenu extends Component {
                     {this.props.children}
                     <div className={styles.menuSettings}>
                         <MenuItem text="Account info"></MenuItem>
-                        <MenuItem text="Logout"></MenuItem>
+                        <MenuItem text="Logout" onClick={this.props.onLogout}></MenuItem>
                     </div>
                 </div>
             </>
@@ -50,4 +54,5 @@ export default class PopUpMenu extends Component {
 PopUpMenu.propTypes = {
     title: PropTypes.string.isRequired,
     children: PropTypes.node,
+    onLogout: PropTypes.func.isRequired,
 };

@@ -4,7 +4,7 @@
         "browser": true,
         "es2021": true
     },
-    "plugins": ["react"],
+    "plugins": ["react", "react-hooks"],
     "extends": ["eslint:recommended", "plugin:react/recommended", "plugin:react/jsx-runtime", "prettier"],
     "parser": "@babel/eslint-parser",
     "settings": { "react": { "version": "dedect" } },
@@ -19,6 +19,7 @@
     "rules": {
         "object-shorthand": "warn",
         "no-unused-vars": "warn",
-        "react/prop-types": ["warn", { "skipUndeclared": true }]
+        "react/prop-types": ["warn", { "skipUndeclared": true }],
+        "react-hooks/rules-of-hooks": "error"
     }
 }

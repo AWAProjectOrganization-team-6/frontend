@@ -2,9 +2,9 @@ import styles from '../styles/Footer.module.scss';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
 
-export default function Footer() {
+export default function Footer(props) {
     return (
-        <div className={styles.footer}>
+        <div className={styles.footer} style={props.styles}>
             <div className={cx(styles.title, styles.font)}>DR D. E. Livery</div>
             <div className={cx(styles.font)}>
                 <div>Created by:</div>
@@ -22,5 +22,5 @@ export default function Footer() {
 }
 
 Footer.propTypes = {
-    userType: PropTypes.string.isRequired,
+    styles: PropTypes.object,
 };

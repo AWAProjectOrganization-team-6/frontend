@@ -1,10 +1,14 @@
-@use '../App.scss';
+@use '../App';
+
 .topbar {
     display: flex;
-    column-gap: 10px;
     flex-direction: row;
     align-items: center;
+    column-gap: 10px;
     padding: 10px 20px;
+
+    position: sticky;
+    top: 0;
 
     background: #181818;
 
@@ -63,5 +67,10 @@
         align-self: stretch;
         flex-grow: 1;
         padding: 0px;
+
+        .button {
+            text-decoration: none;
+            color: black;
+        }
     }
 }
