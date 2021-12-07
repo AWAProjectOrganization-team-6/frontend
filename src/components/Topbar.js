@@ -1,35 +1,70 @@
 import styles from '../styles/Topbar.module.scss';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
-import { HiOutlineMenu } from 'react-icons/hi';
+import PopUpMenu from './PopUpMenu';
+import MenuItem from './MenuItem';
+import { Link } from 'react-router-dom';
+import Login from './Login';
 
 export default function Topbar(props) {
     var buttons = (
         <div className={styles.buttons}>
-            <button className={cx(styles.button, styles.font)}> Login </button>
-            <button className={cx(styles.button, styles.font)}> Register </button>
+            <Link to="/create/account" className={cx(styles.button, styles.font)}>
+                Register
+            </Link>
+            <Login onLogin={props.onLogin} />
         </div>
     );
 
-    if (props.userType === 'ADMIN') buttons = (
-        <div className={styles.buttons}>
-            <HiOutlineMenu className={styles.menu}/>
-        </div>
-    );
+    if (props.user?.type === 'SUPER') {
+        buttons = (
+            <div className={styles.buttons}>
+                <PopUpMenu title={props.user.username} onLogout={props.onLogout} />
+            </div>
+        );
+    }
 
+    if (props.user?.type === 'ADMIN')
+        buttons = (
+            <div className={styles.buttons}>
+                <PopUpMenu title={`${props.user.first_name} ${props.user.last_name}`} onLogout={props.onLogout}>
+                    <MenuItem text="Order history"></MenuItem>
+                    <MenuItem text="Order status"></MenuItem>
+                </PopUpMenu>
+            </div>
+        );
 
+    if (props.user?.type === 'USER')
+        buttons = (
+            <div className={styles.buttons}>
+                <button className={cx(styles.button, styles.font)}> Shopping Cart </button>
+                <PopUpMenu title={`${props.user.first_name} ${props.user.last_name}`} onLogout={props.onLogout}>
+                    <MenuItem text="Order status/\nhistory"></MenuItem>
+                </PopUpMenu>
+            </div>
+        );
 
     return (
         <div className={styles.topbar}>
-            <div className={cx(styles.logo, styles.font)}>
+            <Link to="/" className={cx(styles.logo, styles.logoFont)}>
                 DR D. E. Livery
-            </div>
-            <input className={styles.searchbar} placeholder='Search' />
+            </Link>
+            <input className={styles.searchbar} placeholder="Search" />
             {buttons}
         </div>
     );
 }
 
 Topbar.propTypes = {
-    userType: PropTypes.string.isRequired
+    user: PropTypes.shape({
+        user_id: PropTypes.number,
+        type: PropTypes.oneOf(['ADMIN', 'USER', 'SUPER']),
+        username: PropTypes.string,
+        first_name: PropTypes.string,
+        last_name: PropTypes.string,
+        phone: PropTypes.string,
+        email: PropTypes.string,
+    }).isRequired,
+    onLogin: PropTypes.func.isRequired,
+    onLogout: PropTypes.func.isRequired,
 };
