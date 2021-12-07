@@ -8,6 +8,7 @@ body {
     background: #c4c4c4;
     border-width: 0px;
     border-radius: 10px;
+    padding: 0px 5px;
 
     &.font {
         font-size: 1.3rem;
@@ -25,12 +26,11 @@ body {
     font-family: 'Courgette', cursive;
     font-style: normal;
     font-weight: normal;
+    user-select: none;
     font-size: 1rem;
 }
 
 .logoFont {
     font-family: Sofia;
-    font-style: normal;
-    font-weight: normal;
-    font-size: 1rem;
+    @extend .font;
 }
