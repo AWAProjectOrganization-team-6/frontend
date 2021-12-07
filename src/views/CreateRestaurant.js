@@ -1,12 +1,11 @@
 import styles from '../styles/CreateRestaurant.module.scss';
-import Topbar from '../components/Topbar';
 import cx from 'classnames';
 import { Component } from 'react';
 import OperatingHours from '../components/OperatingHours';
 import Category from '../components/FoodCategory';
 import axios from 'axios';
 import FileUploader from '../components/FileUploader';
-import { apiAddress } from '../config.json';
+import { APIAddress } from '../config.json';
 
 class CreateRestaurant extends Component {
 
@@ -19,7 +18,7 @@ class CreateRestaurant extends Component {
         this.state = {
             restaurantData: {
                 name: '',
-                address: '',
+                address: {},
                 type: '',
                 priceLevel: 0,
                 picture: {
@@ -59,18 +58,31 @@ class CreateRestaurant extends Component {
             case 'name':
                 restaurantData.name = event.target.value;
                 break;
-            case 'address':
-                restaurantData.address = event.target.value;
+
+            case 'streetAddress':
+                restaurantData.address.streetAddress = event.target.value;
                 break;
+
+            case 'city':
+                restaurantData.address.city = event.target.value;
+                break;
+
+            case 'postcode':
+                restaurantData.address.postcode = event.target.value;
+                break;
+
             case 'pricelevel':
                 restaurantData.priceLevel = parseInt(event.target.value, 10);
                 break;
+
             case 'type':
                 restaurantData.type = event.target.value;
                 break;
+
             case 'addCategory':
                 this.setState({ categoryName: event.target.value });
                 break;
+
             case 'picture':
                 restaurantData.picture = URL.createObjectURL(event.target.files[0]);
                 restaurantData.pictureFile = event.target.files[0];
@@ -97,6 +109,10 @@ class CreateRestaurant extends Component {
 
             case 'toDay':
                 restaurantData.operatingHours[index].toDay = value;
+                break;
+
+            case 'kitchenClosingTime':
+                restaurantData.operatingHours[index].kitchen_closing_time = parseInt(value);
                 break;
 
             case 'fromHour': {
@@ -135,9 +151,9 @@ class CreateRestaurant extends Component {
 
     }
 
-    addFoodToCategory(category, foodName, price, desc, picFile) {
+    addFoodToCategory(category, foodName, price, desc, picFile, pic) {
         let restaurantData = { ...this.state.restaurantData };
-        restaurantData.categories.find((value) => value.id === category.id).foods.push({ name: foodName, price, id: ++this.foodIndex, description: desc, pictureFile: picFile});
+        restaurantData.categories.find((value) => value.id === category.id).foods.push({ name: foodName, price, id: ++this.foodIndex, description: desc, pictureFile: picFile, picture: pic });
         this.setState({ restaurantData });
     }
 
@@ -162,14 +178,17 @@ class CreateRestaurant extends Component {
         let products = [];
         let productImageFiles = [];
         let restaurantData = { ...this.state.restaurantData };
-        restaurantData.picture = '';
+        restaurantData.price_level = restaurantData.priceLevel;
+        restaurantData.address = restaurantData.address.streetAddress + ', ' + restaurantData.address.postcode + ', ' + restaurantData.address.city;
+        delete restaurantData.priceLevel;
         delete restaurantData.categories;
         delete restaurantData.operatingHours;
         delete restaurantData.pictureFile;
+        delete restaurantData.picture;
         console.log(restaurantData);
 
         productImageFiles = _state.restaurantData.categories.map((category) => category.foods.map((food) => {
-            return food.pictureFile;         
+            return food.pictureFile;
         }));
 
         productImageFiles = productImageFiles.flat();
@@ -179,7 +198,6 @@ class CreateRestaurant extends Component {
             let item = food;
             delete item.id;
             item.type = category.name;
-            item.picture = food.pictureFile.name;
             delete item.pictureFile;
             return item;
         }));
@@ -191,49 +209,51 @@ class CreateRestaurant extends Component {
             let endIndex = this.state.days.findIndex((val) => val === _state.restaurantData.operatingHours[index].toDay);
             if (startIndex > endIndex) [startIndex, endIndex] = [endIndex, startIndex];
             let result = _state.shortDays.slice(startIndex, endIndex + 1);
-            result.join(',');
             let temp = { opening_time: '', closing_time: '', kitchen_closing_time: '', days: '' };
-            temp.opening_time = _state.restaurantData.operatingHours[index].fromHour;
-            temp.closing_time = _state.restaurantData.operatingHours[index].toHour;
-            temp.days = result;
+            temp.kitchen_closing_time = _state.restaurantData.operatingHours[index].kitchen_closing_time;
+            temp.opening_time = _state.restaurantData.operatingHours[index].fromHour.getHours().toString().padStart(2, '0') + ':' + _state.restaurantData.operatingHours[index].fromHour.getMinutes().toString().padStart(2, '0') + ' ' + '+2';
+            temp.closing_time = _state.restaurantData.operatingHours[index].toHour.getHours().toString().padStart(2, '0') + ':' + _state.restaurantData.operatingHours[index].toHour.getMinutes().toString().padStart(2, '0') + ' ' + '+2';
+            temp.days = result.join(', ');
             operatingHours.push(temp);
         }
 
-        let authorization = {'Authorization': 'bearer ' + this.props.token};
-        
-        console.log(products);
+        let authorization = { 'Authorization': 'bearer ' + 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIsImlhdCI6MTYzODg3NDIxNCwiZXhwIjoxNjM4ODc0ODE0fQ.--47nP_FJC8P_429Rl31vmJzz2BXceiys_sx6jJ1Ffw' };
 
-        axios.post(apiAddress + 'restaurant', restaurantData, {headers: authorization})
+        console.log(restaurantData);
+
+        axios.post(APIAddress + 'restaurant', restaurantData, { headers: authorization })
             .then((res) => {
 
                 let picture = new FormData();
                 picture.append('restaurant', res.data.restaurant_id);
                 picture.append('image', _state.restaurantData.pictureFile);
+
                 operatingHours.forEach(val => val.restaurant_id = res.data.restaurant_id);
+
                 products.forEach(val => val.restaurant_id = res.data.restaurant_id);
 
                 let productImages = new FormData();
                 productImages.append('restaurant', res.data.restaurant_id);
                 for (let i = 0; i < productImageFiles.length; i++) {
-                    productImages.append('productImages', productImageFiles[i]);                    
+                    productImages.append('productImages', productImageFiles[i]);
                 }
 
-                axios.post(apiAddress + 'restaurant/operating-hours', operatingHours, {headers: authorization})
+                axios.post(APIAddress + 'restaurant/operating-hours', operatingHours, { headers: authorization })
                     .then((res) => {
 
                     });
 
-                axios.post(apiAddress + 'products', products, {headers: authorization})
+                axios.post(APIAddress + 'products', products, { headers: authorization })
                     .then((res) => {
 
                     });
 
-                axios.post(apiAddress + 'products/upload', productImages, {headers: {'content-type': 'multipart/form-data', ...authorization}})
+                axios.post(APIAddress + 'products/upload', productImages, { headers: { 'content-type': 'multipart/form-data', ...authorization } })
                     .then((res) => {
 
                     });
 
-                axios.post(apiAddress + 'restaurant/upload', picture, {headers: {'content-type': 'multipart/form-data', ...authorization}})
+                axios.post(APIAddress + 'restaurant/upload', picture, { headers: { 'content-type': 'multipart/form-data', ...authorization } })
                     .then((res) => {
 
                     });
@@ -245,15 +265,17 @@ class CreateRestaurant extends Component {
     render() {
         return (
             <>
-                <Topbar userType='ADMIN' />
                 <div className={styles.contentArea}>
                     <div className={styles.inputFields}>
                         <div className={cx(styles.logo, styles.font)}>
                             Account Creation
                         </div>
-                        <FileUploader selected={this.onChange} style={styles.fileInput}/>
+                        <FileUploader selected={this.onChange} style={styles.fileInput} />
+
                         <input className={styles.input} onChange={this.onChange} name='name' type='text' placeholder='Name' />
-                        <input className={styles.input} onChange={this.onChange} name='address' type='text' placeholder='Address' />
+                        <input className={styles.input} onChange={this.onChange} name='streetAddress' type='text' placeholder='StreetAddress' />
+                        <input className={styles.input} onChange={this.onChange} name='city' type='text' placeholder='City' />
+                        <input className={styles.input} onChange={this.onChange} name='postcode' type='number' placeholder='Postcode' />
                         <div className={styles.operatingHours}>
                             <div className={styles.text}>
                                 Operating Hours

@@ -21,24 +21,8 @@
             text-align: left;
         }
     
-    
-        .button {
-            margin: 0.4rem;
-            border-width: 0px;
-            border-radius: 10px;
-            background-color:#979595;
-            font-size: 1rem;
-            transition: background-color 0.2s;
-            width: 100px;
-            height: 50px;
-                
-            &:hover {
-                 background-color: rgb(255, 0, 0);
-            }
-        }
-    
-        .input {
-            width: 100px;
+        .timeInput {
+            width: 80px;
             background: #ffffff;
             border-width: 0px;
             padding: 0.4rem;
@@ -65,6 +49,43 @@
             &::placeholder {
                 color: black;
             }
+        }
+
+        .lastRow {
+            
+            display: flex;
+            width: -webkit-fill-available;
+            justify-content: space-between;
+            align-items: flex-start;
+
+            .button {
+                margin: 0.2rem;
+                border-width: 0px;
+                border-radius: 10px;
+                background-color:#979595;
+                font-size: 1rem;
+                transition: background-color 0.2s;
+                width: 100px;
+                height: 50px;
+                    
+                &:hover {
+                     background-color: rgb(255, 0, 0);
+                }
+            }
+
+            .numberInput {
+                width: 80px;
+                background: #ffffff;
+                border-width: 0px;
+                padding: 0.4rem;
+                border-radius: 10px;
+                margin: 0.4rem;
+                font-size: 0.9rem;
+        
+                &:invalid {
+                    background-color:red;
+                }
+            }           
         }
     }
 

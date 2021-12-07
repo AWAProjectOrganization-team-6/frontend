@@ -61,10 +61,19 @@
             padding: 0.4rem;
             border-radius: 10px;
             width: calc(400px - 0.4rem * 2);
-            
             font-size: 0.9rem;
             text-align: left;
 
+            &::-webkit-outer-spin-button,
+            &::-webkit-inner-spin-button {
+                -webkit-appearance: none;
+                margin: 0; 
+            }
+    
+            &[type=number] {
+                -moz-appearance:textfield; 
+            }
+    
             &::placeholder {
                 color: black;
             }

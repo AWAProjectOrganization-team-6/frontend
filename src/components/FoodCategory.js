@@ -7,6 +7,7 @@ export default function Category (props) {
     var price = 0.0;
     var desc = '';
     var picFile = '';
+    var pic = '';
 
     const setFoodName = (event) => {
         name = (event.target.value);
@@ -21,6 +22,7 @@ export default function Category (props) {
     };
 
     const setPic = (event) => {
+        pic = event.target.files[0].name;
         picFile = event.target.files[0];
 
     };
@@ -47,7 +49,7 @@ export default function Category (props) {
                         <input className={styles.input} placeholder={'Description'} onChange={setDesc}>
                         </input>
                         <FileUploader selected={setPic} style={styles.fileInput}/>
-                        <button className={styles.button} onClick={() => props.addFood(props.category, name, price, desc, picFile)}>
+                        <button className={styles.button} onClick={() => props.addFood(props.category, name, price, desc, picFile, pic)}>
                             + Add 
                         </button>
                     </div>
