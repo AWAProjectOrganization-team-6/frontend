@@ -5,6 +5,7 @@ import PopUpMenu from './PopUpMenu';
 import MenuItem from './MenuItem';
 import { Link } from 'react-router-dom';
 import Login from './Login';
+import ShoppingCart from './ShoppingCart,';
 
 export default function Topbar(props) {
     var buttons = (
@@ -24,7 +25,7 @@ export default function Topbar(props) {
         );
     }
 
-    if (props.user?.type === 'ADMIN')
+    if (props.user?.type === 'ADMIN') {
         buttons = (
             <div className={styles.buttons}>
                 <PopUpMenu title={`${props.user.first_name} ${props.user.last_name}`} onLogout={props.onLogout}>
@@ -33,16 +34,18 @@ export default function Topbar(props) {
                 </PopUpMenu>
             </div>
         );
+    }
 
-    if (props.user?.type === 'USER')
+    if (props.user?.type === 'USER') {
         buttons = (
             <div className={styles.buttons}>
-                <button className={cx(styles.button, styles.font)}> Shopping Cart </button>
+                <ShoppingCart cart={props.cart}></ShoppingCart>
                 <PopUpMenu title={`${props.user.first_name} ${props.user.last_name}`} onLogout={props.onLogout}>
                     <MenuItem text="Order status/\nhistory"></MenuItem>
                 </PopUpMenu>
             </div>
         );
+    }
 
     return (
         <div className={styles.topbar}>
@@ -65,6 +68,14 @@ Topbar.propTypes = {
         phone: PropTypes.string,
         email: PropTypes.string,
     }).isRequired,
+    cart: PropTypes.arrayOf(
+        PropTypes.shape({
+            id: PropTypes.number,
+            name: PropTypes.string,
+            count: PropTypes.number,
+            price: PropTypes.number,
+        })
+    ).isRequired,
     onLogin: PropTypes.func.isRequired,
     onLogout: PropTypes.func.isRequired,
 };
