@@ -1,4 +1,3 @@
-import Topbar from '../components/Topbar';
 import { Component } from 'react';
 import SpecialOffers from '../components/SpecialOffers';
 import RestaurantList from '../components/RestaurantList';
@@ -18,36 +17,19 @@ class MainPage extends Component {
         };
 
         this.MainPageContent = () =>
-            Object.entries(this.state.cities).map(
-                ([city, restaurants], index) => {
-                    return (
-                        <RestaurantList
-                            key={index}
-                            city={capitalize(city)}
-                            restaurants={restaurants}
-                        />
-                    );
-                }
-            );
+            Object.entries(this.state.cities).map(([city, restaurants], index) => {
+                return <RestaurantList key={index} city={capitalize(city)} restaurants={restaurants} />;
+            });
 
-        this.MainPageContentUser = (
-            <UsercityList
-                userCity={this.state.cities[this.state.userCity]}
-                city={capitalize(this.state.userCity)}
-            />
-        );
+        if (this.props.user?.type === 'USER') {
+            this.MainPageContent = () => <UsercityList userCity={this.state.cities[this.state.userCity]} city={capitalize(this.state.userCity)} />;
+        }
     }
     componentDidMount() {
         axios.get(APIAddress + 'restaurant').then((res) => {
-            var oulu = res.data.filter(
-                (val) => val.address.split(', ')[2]?.toLowerCase() === 'oulu'
-            );
-            var turku = res.data.filter(
-                (val) => val.address.split(', ')[2]?.toLowerCase() === 'turku'
-            );
-            var tampere = res.data.filter(
-                (val) => val.address.split(', ')[2]?.toLowerCase() === 'tampere'
-            );
+            var oulu = res.data.filter((val) => val.address.split(', ')[2]?.toLowerCase() === 'oulu');
+            var turku = res.data.filter((val) => val.address.split(', ')[2]?.toLowerCase() === 'turku');
+            var tampere = res.data.filter((val) => val.address.split(', ')[2]?.toLowerCase() === 'tampere');
             let cities = {
                 oulu,
                 turku,
@@ -63,9 +45,12 @@ class MainPage extends Component {
                     headers: { authorization: 'bearer ' + this.props.token },
                 })
                 .then((res) => {
-                    let userCity;
+                    let userCity = '';
                     for (let key in cities) {
-                        userCity = key === res.data.address[0].city ? key : '';
+                        if (key === res.data[0].city.toLowerCase()) {
+                            userCity = key;
+                            break;
+                        }
                     }
                     this.setState({
                         userCity,
@@ -76,8 +61,7 @@ class MainPage extends Component {
         axios.get(APIAddress + 'products/special-offers').then((res) => {
             var requests = [];
             requests.push(axios.get(APIAddress + 'products'));
-            if (!this.state.restaurants)
-                requests.push(axios.get(APIAddress + 'restaurant'));
+            if (!this.state.restaurants) requests.push(axios.get(APIAddress + 'restaurant'));
             Promise.all(requests).then((resArray) => {
                 if (resArray.length === 2) {
                     this.setState({
@@ -99,15 +83,9 @@ class MainPage extends Component {
         console.log(APIAddress);
         return (
             <>
-                <Topbar userType="GUEST" />
+                <SpecialOffers products={this.state.products} restaurants={this.state.restaurants} specialOffers={this.state.specialOffers} />
 
-                <SpecialOffers
-                    products={this.state.products}
-                    restaurants={this.state.restaurants}
-                    specialOffers={this.state.specialOffers}
-                />
-
-                <this.MainPageContent/>
+                <this.MainPageContent />
 
                 <Footer />
             </>

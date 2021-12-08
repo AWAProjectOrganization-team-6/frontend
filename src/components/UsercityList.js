@@ -6,8 +6,8 @@ export default function UsercityList(props) {
         <div className={styles.userCityStyle}>
             <div className={styles.font}>{props.city}</div>
             <div className={styles.itemPlacement}>
-                {props.userCity.map((restaurant) => {
-                    console.log(props.userCity);
+                {props.userCity?.map((restaurant) => {
+                    console.log(restaurant);
                     return (
                         <RestaurantItem
                             key={restaurant.restaurant_id}
