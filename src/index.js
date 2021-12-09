@@ -3,14 +3,10 @@ import ReactDOM from 'react-dom';
 import './index.scss';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import CreateAccount from './views/CreateAccount';
-import CreateRestaurant from './views/CreateRestaurant';
-import Footer from './components/Footer';
 
 ReactDOM.render(
     <React.StrictMode>
-        <CreateRestaurant />
-        <Footer/>
+        <App />
     </React.StrictMode>,
     document.getElementById('root')
 );
