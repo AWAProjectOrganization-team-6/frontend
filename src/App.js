@@ -5,8 +5,8 @@ import { APIAddress } from './config.json';
 import axios from 'axios';
 import Topbar from './components/Topbar';
 import CreateAccount from './views/CreateAccount';
-import Footer from './components/Footer';
 import Redirect from './components/Redirect';
+import MainPage from './views/MainPage';
 
 class InitialState {
     constructor() {
@@ -122,15 +122,7 @@ class App extends Component {
                 <Redirect onChange={this.state.user} replace={true} />
                 <Topbar onLogin={this.onLogin} onLogout={this.onLogout} user={this.state.user} />
                 <Routes>
-                    <Route
-                        path="/"
-                        element={
-                            <div>
-                                MAIN PAGE
-                                <Footer styles={{ position: 'fixed', bottom: 0 }} />
-                            </div>
-                        }
-                    />
+                    <Route path="/" element={<MainPage user={this.state.user} token={this.state.loginToken} />} />
                     <Route path="/create/account" element={<CreateAccount />} />
                     <Route path="/create/restaurant" element={<div> RESTAURANT CREATION </div>} />
                     <Route path="/account" element={<div> ACCOUNT INFO </div>} />
