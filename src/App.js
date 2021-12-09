@@ -5,7 +5,6 @@ import { APIAddress } from './config.json';
 import axios from 'axios';
 import Topbar from './components/Topbar';
 import CreateAccount from './views/CreateAccount';
-import Footer from './components/Footer';
 import Redirect from './components/Redirect';
 import MainPage from './views/MainPage';
 

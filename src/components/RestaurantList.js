@@ -7,7 +7,7 @@ export default function RestaurantList(props) {
             <div className={styles.font}>{props.city}</div>
             <div className={styles.itemPlacement}>
                 {props.restaurants.map((restaurant) => {
-                    console.log(props.restaurants);
+                    
                     return (
                         <RestaurantItem
                             key={restaurant.restaurant_id}

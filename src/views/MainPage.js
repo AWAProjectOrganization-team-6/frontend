@@ -7,6 +7,14 @@ import { capitalize } from '../utility/string';
 import Footer from '../components/Footer';
 import UsercityList from '../components/UsercityList';
 
+const MainPageContent = (props) => {
+    let content = Object.entries(props.cities).map(([city, restaurants], index) => {
+        return <RestaurantList key={index} city={capitalize(city)} restaurants={restaurants} />;
+    });
+    if (props.token !== '') content = <UsercityList userCity={props.cities[props.userCity]} city={capitalize(props.userCity)} />;
+    return content;
+};
+
 class MainPage extends Component {
     constructor(props) {
         super(props);
@@ -15,16 +23,8 @@ class MainPage extends Component {
             specialOffers: [],
             userCity: '',
         };
-
-        this.MainPageContent = () =>
-            Object.entries(this.state.cities).map(([city, restaurants], index) => {
-                return <RestaurantList key={index} city={capitalize(city)} restaurants={restaurants} />;
-            });
-
-        if (this.props.user?.type === 'USER') {
-            this.MainPageContent = () => <UsercityList userCity={this.state.cities[this.state.userCity]} city={capitalize(this.state.userCity)} />;
-        }
     }
+
     componentDidMount() {
         axios.get(APIAddress + 'restaurant').then((res) => {
             var oulu = res.data.filter((val) => val.address.split(', ')[2]?.toLowerCase() === 'oulu');
@@ -79,13 +79,36 @@ class MainPage extends Component {
         });
     }
 
+    componentDidUpdate(prevProps) {
+        if (prevProps.token !== this.props.token) {
+            if (this.props.token !== '') {
+                axios
+                    .get(APIAddress + 'users/@me/address', {
+                        headers: { authorization: 'bearer ' + this.props.token },
+                    })
+                    .then((res) => {
+                        let userCity = '';
+                        for (let key in this.state.cities) {
+                            if (key === res.data[0].city.toLowerCase()) {
+                                userCity = key;
+                                break;
+                            }
+                        }
+                        this.setState({
+                            userCity,
+                        });
+                    });
+            }
+        }
+    }
+
     render() {
         console.log(APIAddress);
         return (
             <>
                 <SpecialOffers products={this.state.products} restaurants={this.state.restaurants} specialOffers={this.state.specialOffers} />
 
-                <this.MainPageContent />
+                <MainPageContent cities={this.state.cities} userCity={this.state.userCity} token={this.props.token} />
 
                 <Footer />
             </>
