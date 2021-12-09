@@ -1,4 +1,4 @@
-@import "../App.scss";
+@import '../App.scss';
 
 .specialoffers {
     /* Special offers */
@@ -9,12 +9,10 @@
     flex-direction: column;
     align-items: flex-start;
     padding: 5px 20px 0px;
-    
 
     background: rgba(255, 103, 103, 0.64);
-    box-shadow:  10px 10px 6px 3px rgba(0, 0, 0, 0.25);
+    box-shadow: 10px 10px 6px 3px rgba(0, 0, 0, 0.25);
     border-radius: 36px;
-    
 
     /* Inside Auto Layout */
 
@@ -38,14 +36,10 @@
         padding: 20px;
         padding-top: 0px;
         align-content: center;
-        column-gap: 50px; 
+        column-gap: 50px;
 
         &::-webkit-scrollbar {
             visibility: hidden;
         }
-
-               
     }
-
-    
 }

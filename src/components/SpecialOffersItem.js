@@ -15,9 +15,7 @@ export default function SpecialOffersItem(props) {
                 <div className={styles.font}>{props.restaurant.name}</div>
             </div>
             <div className={cx(styles.offerInfo, styles.percent)}>
-                <span classnName={styles.font}>
-                    {props.specialOffer.percent_off * 100}%
-                </span>
+                <span classnName={styles.font}>{props.specialOffer.percent_off * 100}%</span>
             </div>
         </div>
     );

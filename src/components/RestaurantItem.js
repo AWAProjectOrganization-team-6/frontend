@@ -14,8 +14,7 @@ export default function RestaurantItem(props) {
                 <div className={styles.font}>{props.restaurant.name}</div>
                 <div className={styles.font}>{props.restaurant.type}</div>
                 <div className={styles.font}>
-                    <span>{props.restaurant.star_rating}</span>{' '}
-                    <span>{props.restaurant.price_level}</span>
+                    <span>{props.restaurant.star_rating}</span> <span>{props.restaurant.price_level}</span>
                 </div>
             </div>
         </div>

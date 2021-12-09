@@ -1,4 +1,4 @@
-@import "../App.scss";
+@import '../App.scss';
 
 .restaurantlist {
     /* Area restaraunts */
@@ -12,7 +12,7 @@
 
     background: #650037;
     border-radius: 36px;
-    box-shadow:  10px 10px 6px 3px rgba(0, 0, 0, 0.25);
+    box-shadow: 10px 10px 6px 3px rgba(0, 0, 0, 0.25);
 
     /* Inside Auto Layout */
 
@@ -38,7 +38,7 @@
         padding: 20px;
         padding-top: 0px;
         align-content: center;
-        column-gap: 50px; 
+        column-gap: 50px;
 
         &::-webkit-scrollbar {
             visibility: hidden;

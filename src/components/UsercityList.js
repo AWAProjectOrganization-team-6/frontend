@@ -9,12 +9,7 @@ export default function UsercityList(props) {
                 {console.log(props.userCity)}
                 {props.userCity?.map((restaurant) => {
                     console.log(restaurant);
-                    return (
-                        <RestaurantItem
-                            key={restaurant.restaurant_id}
-                            restaurant={restaurant}
-                        />
-                    );
+                    return <RestaurantItem key={restaurant.restaurant_id} restaurant={restaurant} />;
                 })}
             </div>
         </div>
