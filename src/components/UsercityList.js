@@ -1,13 +1,14 @@
-import styles from '../styles/RestaurantList.module.scss';
+import styles from '../styles/UsercityList.module.scss';
 import RestaurantItem from './RestaurantItem';
 
-export default function RestaurantList(props) {
+export default function UsercityList(props) {
     return (
-        <div className={styles.restaurantlist}>
+        <div className={styles.userCityStyle}>
             <div className={styles.font}>{props.city}</div>
             <div className={styles.itemPlacement}>
-                {props.restaurants.map((restaurant) => {
-                    
+                {console.log(props.userCity)}
+                {props.userCity?.map((restaurant) => {
+                    console.log(restaurant);
                     return (
                         <RestaurantItem
                             key={restaurant.restaurant_id}

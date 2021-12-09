@@ -1,13 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.scss';
-import MainPage from './views/MainPage';
+import App from './App';
 import reportWebVitals from './reportWebVitals';
-import CreateAccount from './views/CreateAccount';
 
 ReactDOM.render(
     <React.StrictMode>
-        <MainPage />
+        <App />
     </React.StrictMode>,
     document.getElementById('root')
 );
