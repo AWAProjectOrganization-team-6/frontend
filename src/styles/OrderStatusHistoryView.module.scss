@@ -16,13 +16,22 @@
     .orderStatusStyle {
         background-color: #C4C4C4;
         width: 36.125rem;
-        height: 31.875rem;
+        min-height: 31.875rem;
         margin: 40px;
         border-radius: 30px;
+
+        .orderStatusContent {
+            padding: 1rem;
+
+            .orderStatusTitle {
+                margin-bottom: 1.5rem;
+                padding-left: 1rem;
+            }
+        }
     } 
 
     .pictureStyle {
-        background-color: green;
+        background-color: #C4C4C4;
         width: 150px;
         height: 150px;
         margin: 20px;
@@ -35,9 +44,13 @@
     .historyViewStyle {
         background-color: #C4C4C4;
         width: 36.125rem;
-        height: 31.875rem;
+        min-height: 31.875rem;
         margin: 40px;
         border-radius: 30px;
+
+        .historyViewContent {
+            padding: 1rem;
+        }
     }
 }
 
