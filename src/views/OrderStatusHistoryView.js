@@ -9,7 +9,6 @@ var orderStatus = (
     <div className={cx( styles.orderStatusContent, styles.fonts, styles.font)} >
         <div className={styles.orderStatusTitle}>Order Status</div>
         <Order/>
-        {/* <Order/> */}
         <div name='managerPhoneNumber'>Manager phone number: </div>
     </div>
 );

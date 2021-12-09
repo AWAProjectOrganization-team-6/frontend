@@ -1,44 +1,91 @@
 import react from "react";
 import styles from "../styles/Order.module.scss";
+import {useState} from 'react';
 
 export default function Order(props) {
-    let counter = 0;
-    var orderStatus;
+    // var counter = 0;
+    // console.log(counter);
+    // orderStatus = '';
+    let a = 0;
+    var counter = 0;
+    const [status, setStatus] = useState('');
     // let orderStatus = ['Recieved', 'Preparing', 'Ready for delivery', 'Delivering', 'Delivered'];
 
 
-    function changeOrderStatus(orderStatus) {
+    const changeStatus = ()=> {
         counter++;
-        console.log(counter);
 
         switch(counter) {
             case 1:
-                orderStatus = 'Recieved';
+                var status1 = 'Recieved';
+                console.log(counter);
+                setStatus(status1);
                 break;
             case 2:
-                orderStatus = 'Preparing';
+                var status2 = 'Preparing';
+                // console.log(orderStatus);
+                console.log(counter);
+                setStatus(status2);
                 break;
             case 3:
-                orderStatus = 'Ready for delivery';
+                var status3 = 'Ready for delivery';
+                // console.log(orderStatus);
+                console.log(counter);
+                setStatus(status3);
                 break;
             case 4:
-                orderStatus = 'Delivering';
+                var status4 = 'Delivering';
+                // console.log(orderStatus);
+                console.log(counter);
+                setStatus(status4);
                 break;
             case 5:
-                orderStatus = 'Delivered';
+                var status5 = 'Delivered';
+                // console.log(orderStatus);
+                console.log(counter);
+                setStatus(status5);
                 break;
             case 6:
-                orderStatus = '';
+                var status6 = '';
+                // console.log(orderStatus);
+                console.log(counter);
+                setStatus(status6);
                 break;
         }
 
         if (counter === 6) {
             counter = 0;
         }
+        // return orderStatus;
 
-        return console.log(orderStatus);
+        // if (counter === 1) {
+        //     var status1 = 'Recieved';
+        //     // console.log(orderStatus);
+        //     setStatus(status1);
+        // } else if (counter === 2) {
+        //     var status2 = 'Preparing';
+        //     // console.log(orderStatus);
+        //     setStatus(status2);
+        // } else if (counter === 3) {
+        //     var status3 = 'Ready for delivery';
+        //     // console.log(orderStatus);
+        //     setStatus(status3);
+        // } else if (counter === 4) {
+        //     var status4 = 'Delivering';
+        //     // console.log(orderStatus);
+        //     setStatus(status4);
+        // } else if (counter === 5) {
+        //     var status5 = 'Delivered';
+        //     // console.log(orderStatus);
+        //     setStatus(status5);
+        // } else if (counter === 6) {
+        //     var status6 = '';
+        //     // console.log(orderStatus);
+        //     setStatus(status6);
+        //     counter = 0;
+        // }
         
-    }
+    };
 
 
 
@@ -47,18 +94,18 @@ export default function Order(props) {
         <></>
     );
     
-    if (props.user?.type === 'ADMIN' || counter === 0)
+    if (props.user?.type === 'ADMIN' || a === 0)
         statusButton = (
             <div name='status' className={styles.orderStatus}>
-                <div>Status: {orderStatus} </div>
-                <button className={styles.statusButton} onClick={changeOrderStatus}>Change status</button>
+                <div>Status: {status} </div>
+                <button className={styles.statusButton} onClick={changeStatus}>Change status</button>
             </div>
         );
 
     if (props.user?.type === 'USER')
         statusButton = (
             <div name='status' className={styles.orderStatus}>
-                <div>Status: {orderStatus}</div>
+                <div>Status: {status} </div>
             </div>
         );    
 
