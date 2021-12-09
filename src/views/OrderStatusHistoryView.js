@@ -3,7 +3,7 @@ import cx from 'classnames';
 // import Topbar from '../components/Topbar';
 import Footer from '../components/Footer';
 import Order from '../components/Order';
-import {  Component } from 'react';
+import { Component } from 'react';
 
 var orderStatus = (
     <div className={cx( styles.orderStatusContent, styles.fonts, styles.font)} >

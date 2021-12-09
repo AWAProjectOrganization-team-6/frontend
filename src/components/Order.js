@@ -1,100 +1,60 @@
 import react from "react";
 import styles from "../styles/Order.module.scss";
-import {useState} from 'react';
+import React, { useState} from 'react';
 
 export default function Order(props) {
-    // var counter = 0;
-    // console.log(counter);
-    // orderStatus = '';
-    let a = 0;
-    var counter = 0;
+
+    let kaka = 0;
     const [status, setStatus] = useState('');
-    // let orderStatus = ['Recieved', 'Preparing', 'Ready for delivery', 'Delivering', 'Delivered'];
-
-
-    const changeStatus = ()=> {
-        counter++;
-
-        switch(counter) {
+    let [count, setCount] = useState(1);
+    
+    function changeStatus() {
+        setCount(count + 1);
+        if (count === 7) {
+            count = 0;
+        }
+        // count++;
+        // console.log(count);
+        
+        switch(count) {
             case 1:
-                var status1 = 'Recieved';
-                console.log(counter);
-                setStatus(status1);
+                var recieved = 'Recieved';
+                console.log(count);
+                setStatus(recieved);
                 break;
             case 2:
-                var status2 = 'Preparing';
-                // console.log(orderStatus);
-                console.log(counter);
-                setStatus(status2);
+                var preparing = 'Preparing';
+                console.log(count);
+                setStatus(preparing);
                 break;
             case 3:
-                var status3 = 'Ready for delivery';
-                // console.log(orderStatus);
-                console.log(counter);
-                setStatus(status3);
+                var readyForDelivery = 'Ready for delivery';
+                console.log(count);
+                setStatus(readyForDelivery);
                 break;
             case 4:
-                var status4 = 'Delivering';
-                // console.log(orderStatus);
-                console.log(counter);
-                setStatus(status4);
+                var delivering = 'Delivering';
+                console.log(count);
+                setStatus(delivering);
                 break;
             case 5:
-                var status5 = 'Delivered';
-                // console.log(orderStatus);
-                console.log(counter);
-                setStatus(status5);
+                var delivered = 'Delivered';
+                console.log(count);
+                setStatus(delivered);
                 break;
             case 6:
                 var status6 = '';
-                // console.log(orderStatus);
-                console.log(counter);
+                console.log(count);
                 setStatus(status6);
                 break;
         }
-
-        if (counter === 6) {
-            counter = 0;
-        }
-        // return orderStatus;
-
-        // if (counter === 1) {
-        //     var status1 = 'Recieved';
-        //     // console.log(orderStatus);
-        //     setStatus(status1);
-        // } else if (counter === 2) {
-        //     var status2 = 'Preparing';
-        //     // console.log(orderStatus);
-        //     setStatus(status2);
-        // } else if (counter === 3) {
-        //     var status3 = 'Ready for delivery';
-        //     // console.log(orderStatus);
-        //     setStatus(status3);
-        // } else if (counter === 4) {
-        //     var status4 = 'Delivering';
-        //     // console.log(orderStatus);
-        //     setStatus(status4);
-        // } else if (counter === 5) {
-        //     var status5 = 'Delivered';
-        //     // console.log(orderStatus);
-        //     setStatus(status5);
-        // } else if (counter === 6) {
-        //     var status6 = '';
-        //     // console.log(orderStatus);
-        //     setStatus(status6);
-        //     counter = 0;
-        // }
-        
-    };
-
-
-
+    }
 
     var statusButton = (
         <></>
     );
     
-    if (props.user?.type === 'ADMIN' || a === 0)
+    if (props.user?.type === 'ADMIN' || kaka === 0)
         statusButton = (
             <div name='status' className={styles.orderStatus}>
                 <div>Status: {status} </div>
