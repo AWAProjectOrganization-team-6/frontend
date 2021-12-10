@@ -131,7 +131,7 @@ class App extends Component {
                             </div>
                         }
                     />
-                    <Route path="/create/account" element={<CreateAccount />} />
+                    <Route path="/create/account" element={<CreateAccount token={this.state.loginToken}/>} />
                     <Route path="/create/restaurant" element={<div> RESTAURANT CREATION </div>} />
                     <Route path="/account" element={<div> ACCOUNT INFO </div>} />
                     <Route path="/status" element={<div> ORDER STATUS </div>} />

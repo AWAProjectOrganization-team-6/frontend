@@ -1,14 +1,20 @@
 import styles from '../styles/CreateAccount.module.scss';
 import cx from 'classnames';
-import Topbar from '../components/Topbar';
 import Footer from '../components/Footer';
 import React from 'react';
 import axios from 'axios';
-import apiAddress from '../config.json';
+import { APIAddress } from '../config.json';
+import { Link } from 'react-router-dom';
 
 export default function CreateAccount(props) {
 
     const [Password, setPassword] = React.useState();
+
+    const [error, setError] = React.useState();
+
+    const [showInputs, setShowInputs] = React.useState(true);
+
+    const [accountCreated, setAccountCreated] = React.useState(false);
 
     const [account, setAccount] = React.useState({
         username: '',
@@ -30,7 +36,6 @@ export default function CreateAccount(props) {
 
         const newAccount = account;
         const newAddress = address;
-        var newPassword = Password;
 
         switch (event.target.name) {
             case 'fName':
@@ -70,7 +75,7 @@ export default function CreateAccount(props) {
                 break;
 
             case 'repeatPassword':
-                newPassword = event.target.value;
+                setPassword(event.target.value);
                 break;
 
             case 'accountType':
@@ -79,35 +84,44 @@ export default function CreateAccount(props) {
         }
         setAddress(newAddress);
         setAccount(newAccount);
-        setPassword(newPassword);
     };
 
 
-    const authorization = { 'Authorization': 'bearer ' + props.token };
-
     const onSubmit = (event) => {
         event.preventDefault();
-
+        setError('');
         if (Password === account.password) {
 
             console.log(account);
             console.log(address);
-            // axios.post(apiAddress + 'users', account, { headers: authorization })
-            //     .then((res) => {
+            axios.post(APIAddress + 'users', account)
+                .then((res) => {
+                    const config = { headers: { Authorization: 'bearer ' + res.data.token } };
 
-            //         axios.post(apiAddress + '/users/@me/address', address, { headers: authorization })
-            //             .then((res) => {
+                    axios.post(APIAddress + 'users/@me/address', address, config)
+                        .then((res) => {
+                            if (res.data) {
+                                setShowInputs(false);
+                                setAccountCreated(true);
+                            }
+                        });
+                }, (error) => {
+                    if (error.response) {
+                        if (error.response.data.includes('user_username_key')) {
+                            setError('Username is taken')
+                        }
+                        if (error.response.data.includes('user_phone_key')) {
+                            setError('Phone number is taken')
+                        }
+                        console.log(error.response);
+                    }
+                });
 
-            //             });
-            //     });
         } else {
-            console.log('Passwords dont match!');
+            setError('Passwords dont match');
         }
-
+        return true;
     };
-
-
-
 
     const accountType = (
         <div className={styles.userType}>
@@ -123,29 +137,41 @@ export default function CreateAccount(props) {
 
     return (
         <>
-            <Topbar />
             <div className={styles.createAccount}>
                 <div className={cx(styles.logo, styles.font)}>
                     Account Creation
                 </div>
-                <form onSubmit={onSubmit}>
-                    <div className={styles.textFields}>
-                        <input type="text" required name='fName' placeholder="First name" onChange={handleInputs} />
-                        <input type="text" required name='lName' placeholder="Last name" onChange={handleInputs} />
-                        <input type="text" required name='sAdrs' placeholder="Address" onChange={handleInputs} />
-                        <input type="text" required name='city' placeholder="City" onChange={handleInputs} />
-                        <input type="text" required name='postcode' placeholder="Postcode" onChange={handleInputs} />
-                        <input type="text" required name='pNumb' placeholder="Phone number" onChange={handleInputs} />
-                        <input type="text" required name='eAdrs' placeholder="Email address" onChange={handleInputs} />
-                        <input type="text" required name='user' placeholder="Username" onChange={handleInputs} />
-                        <input type="text" required name='password' placeholder="Password" onChange={handleInputs} />
-                        <input type="text" required name='repeatPassword' placeholder="Repeat password" onChange={handleInputs} />
+                {accountCreated &&
+                    <div className={styles.created}>
+                        <p> Account was succesfully created</p>
+                        <Link to="/" className={styles.link}>
+                            Mainpage
+                        </Link>
                     </div>
+                }
+                {showInputs &&
+                    <form onSubmit={onSubmit}>
+                        <div className={styles.textFields}>
+                            <input type="text" required name='fName' placeholder="First name" onChange={handleInputs} />
+                            <input type="text" required name='lName' placeholder="Last name" onChange={handleInputs} />
+                            <input type="text" required pattern='[A-ö0-9\\s-]+' name='sAdrs' placeholder="Address" onChange={handleInputs} />
+                            <input type="text" required name='city' placeholder="City" onChange={handleInputs} />
+                            <input type="text" required maxLength={5} minLength={5} name='postcode' placeholder="Postcode" onChange={handleInputs} />
+                            <input type="text" required maxLength={15} name='pNumb' placeholder="Phone number" onChange={handleInputs} />
+                            <input type="text" required name='eAdrs' placeholder="Email address" onChange={handleInputs} />
+                            <input type="text" required name='user' placeholder="Username" onChange={handleInputs} />
+                            <input type="password" required name='password' placeholder="Password" onChange={handleInputs} />
+                            <input type="password" required name='repeatPassword' placeholder="Repeat password" onChange={handleInputs} />
+                        </div>
 
-                    {accountType}
+                        {accountType}
 
-                    <button className={cx(styles.button, styles.font)} type='submit'> Create Account </button>
-                </form>
+                        <button className={cx(styles.button, styles.font)} type='submit'> Create Account </button>
+                    </form>
+                }
+                <div className={styles.errors}>
+                    {error}
+                </div>
             </div>
             <Footer />
         </>
