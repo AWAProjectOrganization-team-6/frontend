@@ -69,7 +69,7 @@ export default function RestaurantView() {
 
     return (
         <>
-            <Topbar/>
+            {/* <Topbar/> */}
             <div className = { styles.content }>
                 <div>{restaurantInfo}</div>
                 <div>{restaurantMenu}</div>
