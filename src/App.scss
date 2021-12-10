@@ -15,7 +15,7 @@ body {
         line-height: 1.5;
     }
 
-    transition: background-color 0.2s ease-in;
+    transition: background-color 0.2s ease-out;
     &:hover {
         background-color: #505050;
         cursor: pointer;
@@ -23,7 +23,7 @@ body {
 }
 
 .font {
-    font-family: 'Courgette', cursive;
+    font-family: 'Courgette';
     font-style: normal;
     font-weight: normal;
     user-select: none;

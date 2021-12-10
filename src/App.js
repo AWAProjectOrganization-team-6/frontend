@@ -5,8 +5,8 @@ import { APIAddress } from './config.json';
 import axios from 'axios';
 import Topbar from './components/Topbar';
 import CreateAccount from './views/CreateAccount';
-import Footer from './components/Footer';
 import Redirect from './components/Redirect';
+import MainPage from './views/MainPage';
 
 class InitialState {
     constructor() {
@@ -20,6 +20,33 @@ class InitialState {
             phone: '',
             email: '',
         };
+        this.orderRestaurantId = 2;
+        this.shoppingCart = [
+            {
+                id: 1,
+                name: 'Pizza',
+                count: 3,
+                price: 7.5,
+            },
+            {
+                id: 3,
+                name: 'Kokis',
+                count: 6,
+                price: 2.0,
+            },
+            {
+                id: 2,
+                name: 'Salatti',
+                count: 1,
+                price: 4.5,
+            },
+            {
+                id: 7,
+                name: 'Jaffa',
+                count: 1,
+                price: 2.0,
+            },
+        ];
     }
 }
 
@@ -120,17 +147,9 @@ class App extends Component {
         return (
             <BrowserRouter>
                 <Redirect onChange={this.state.user} replace={true} />
-                <Topbar onLogin={this.onLogin} onLogout={this.onLogout} user={this.state.user} />
+                <Topbar onLogin={this.onLogin} onLogout={this.onLogout} user={this.state.user} cart={this.state.shoppingCart} />
                 <Routes>
-                    <Route
-                        path="/"
-                        element={
-                            <div>
-                                MAIN PAGE
-                                <Footer styles={{ position: 'fixed', bottom: 0 }} />
-                            </div>
-                        }
-                    />
+                    <Route path="/" element={<MainPage user={this.state.user} token={this.state.loginToken} />} />
                     <Route path="/create/account" element={<CreateAccount />} />
                     <Route path="/create/restaurant" element={<div> RESTAURANT CREATION </div>} />
                     <Route path="/account" element={<div> ACCOUNT INFO </div>} />

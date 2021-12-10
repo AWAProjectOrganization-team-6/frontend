@@ -3,6 +3,15 @@ import PropTypes from 'prop-types';
 import styles from '../styles/PopUpMenu.module.scss';
 import cx from 'classnames';
 
+const SplitText = (props) => {
+    return (
+        <>
+            <br />
+            {props.text}
+        </>
+    );
+};
+
 export default class MenuItem extends Component {
     render() {
         /** @type {string} */
@@ -13,13 +22,7 @@ export default class MenuItem extends Component {
             result = (
                 <>
                     {text.split('\\n').map((text, index) => {
-                        if (index != 0)
-                            return (
-                                <>
-                                    <br />
-                                    {text}
-                                </>
-                            );
+                        if (index != 0) return <SplitText key={index} text={text} />;
                         return text;
                     })}
                 </>
