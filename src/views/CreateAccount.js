@@ -156,8 +156,7 @@ export default function CreateAccount() {
                     {accountType}
 
                     <button className={cx(styles.button, styles.font)} type="submit">
-                        {' '}
-                        Create Account{' '}
+                        Create Account
                     </button>
                 </form>
             )}
