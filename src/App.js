@@ -20,6 +20,33 @@ class InitialState {
             phone: '',
             email: '',
         };
+        this.orderRestaurantId = 2;
+        this.shoppingCart = [
+            {
+                id: 1,
+                name: 'Pizza',
+                count: 3,
+                price: 7.5,
+            },
+            {
+                id: 3,
+                name: 'Kokis',
+                count: 6,
+                price: 2.0,
+            },
+            {
+                id: 2,
+                name: 'Salatti',
+                count: 1,
+                price: 4.5,
+            },
+            {
+                id: 7,
+                name: 'Jaffa',
+                count: 1,
+                price: 2.0,
+            },
+        ];
     }
 }
 
@@ -120,7 +147,7 @@ class App extends Component {
         return (
             <BrowserRouter>
                 <Redirect onChange={this.state.user} replace={true} />
-                <Topbar onLogin={this.onLogin} onLogout={this.onLogout} user={this.state.user} />
+                <Topbar onLogin={this.onLogin} onLogout={this.onLogout} user={this.state.user} cart={this.state.shoppingCart} />
                 <Routes>
                     <Route path="/" element={<MainPage user={this.state.user} token={this.state.loginToken} />} />
                     <Route path="/create/account" element={<CreateAccount />} />
