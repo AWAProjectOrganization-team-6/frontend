@@ -1,6 +1,19 @@
 @use './Topbar.module';
 @use './colors' as colors;
 
+.menuIcon {
+    width: 34px;
+    height: -webkit-fill-available;
+    height: -moz-available;
+    color: white;
+
+    transition: color 0.2s;
+    &:hover {
+        color: #505050;
+        cursor: pointer;
+    }
+}
+
 .menu {
     position: absolute;
     right: 0px;
@@ -16,7 +29,7 @@
 
     color: white;
     transform: translate(0%, 0%);
-    background-color: rgba(#650037, 0.7);
+    background: rgba(42, 0, 52, 0.8);
     backdrop-filter: blur(8px);
     //transform-origin: 100% 0%;
     transform: scale(1, 0);
@@ -32,46 +45,48 @@
     }
 
     .menuSettings {
+        margin-top: 20px;
         display: flex;
         flex-direction: column;
         justify-content: flex-end;
-    }
 
-    input.menuItem {
-        border: none;
-        border-radius: 30px;
-
-        background-color: colors.$default-input;
-
-        padding: 5px inherit;
-        margin-bottom: 10px;
-        font-size: 1.4rem;
-        text-align: center;
-        @extend .font;
-
-        &::placeholder {
-            color: black;
-        }
-
-        &::-moz-placeholder {
-            opacity: 1;
+        .button {
+            margin-top: 10px;
+            text-decoration: none;
         }
     }
 
     .menuItem {
-        user-select: none;
         opacity: 0;
         transition: opacity 0.2s ease-in;
 
-        &.button {
-            background-color: lightgreen;
+        &.itemGrid {
+            display: grid;
+            grid-template-columns: repeat(3, auto);
+            column-gap: 40px;
+            justify-items: start;
 
-            font-size: 1.4rem;
+            .header {
+                text-decoration: underline;
+            }
+        }
+
+        &.itemsLeft {
+            margin: 10px 0px;
+            font-size: 1.2rem;
+            @extend .font;
+        }
+
+        &.button {
+            color: lightgreen;
+            background-color: transparent;
+
+            font-size: 2rem;
             @extend .font;
 
-            transition: background-color 0.1s, opacity 0.2s ease-in;
+            transition: color 0.1s, opacity 0.2s ease-in;
             &:hover {
-                background-color: colors.$button-hover;
+                color: colors.$button-hover;
             }
         }
     }
