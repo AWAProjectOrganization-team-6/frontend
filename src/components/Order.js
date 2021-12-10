@@ -1,21 +1,36 @@
 import react from "react";
 import styles from "../styles/Order.module.scss";
-import React, { useState} from 'react';
+import React, { useState, useEffect } from 'react';
 
 export default function Order(props) {
 
-    let kaka = 0;
     const [status, setStatus] = useState('');
     let [count, setCount] = useState(1);
+    let kaka = 0;
+    let [_timer, setTimer] = useState(false);
+    let [timeOfDelivery, setTimeOfDelivery] = useState(59);
+        
     
-    function changeStatus() {
+    useEffect(()=>{
+        if (_timer) {
+            let timer = setInterval(()=>{
+                setTimeOfDelivery(timeOfDelivery-1);
+            }, 1000);
+        
+            return () => {
+                clearInterval(timer);
+            };
+        } 
+    });
+
+    let changeStatus = () => {
         setCount(count + 1);
         if (count === 7) {
             count = 0;
         }
         // count++;
         // console.log(count);
-        
+
         switch(count) {
             case 1:
                 var recieved = 'Recieved';
@@ -48,34 +63,38 @@ export default function Order(props) {
                 setStatus(status6);
                 break;
         }
-    }
+    };
 
     var statusButton = (
         <></>
     );
     
-    if (props.user?.type === 'ADMIN' || kaka === 0)
+    if (kaka === 0)
         statusButton = (
             <div name='status' className={styles.orderStatus}>
                 <div>Status: {status} </div>
                 <button className={styles.statusButton} onClick={changeStatus}>Change status</button>
             </div>
         );
-
-    if (props.user?.type === 'USER')
+        
+    if (kaka === 1)
         statusButton = (
             <div name='status' className={styles.orderStatus}>
                 <div>Status: {status} </div>
             </div>
-        );    
+        );
 
     return(
-        <>
-            <div className={styles.orderStatusContent} >
-                <div>Order ID:</div>
-                {statusButton}
-                <div name='estTimeOfDelivery'>Estimated Time of Delivery: </div>
-            </div>
-        </>
-    ); 
+            <>
+                <div className={styles.orderStatusContent} >
+                    <div>Order ID:</div>
+                    {statusButton}
+                    <div name='estTimeOfDelivery'>Estimated Time of Delivery: 0:{timeOfDelivery}</div>
+                </div>
+                <div>
+                    <button id='btn' onClick={()=> setTimer(true)}>Start</button>
+                    <button onClick={()=> setTimer(false)}>Stop</button>
+                </div>
+            </>
+        ); 
 }
