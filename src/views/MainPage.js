@@ -4,7 +4,6 @@ import RestaurantList from '../components/RestaurantList';
 import { APIAddress } from '../config.json';
 import axios from 'axios';
 import { capitalize } from '../utility/string';
-import Footer from '../components/Footer';
 import UsercityList from '../components/UsercityList';
 
 const MainPageContent = (props) => {
@@ -105,13 +104,10 @@ class MainPage extends Component {
     render() {
         console.log(APIAddress);
         return (
-            <>
+            <div>
                 <SpecialOffers products={this.state.products} restaurants={this.state.restaurants} specialOffers={this.state.specialOffers} />
-
                 <MainPageContent cities={this.state.cities} userCity={this.state.userCity} token={this.props.token} />
-
-                <Footer />
-            </>
+            </div>
         );
     }
 }
