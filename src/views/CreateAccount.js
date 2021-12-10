@@ -1,13 +1,11 @@
 import styles from '../styles/CreateAccount.module.scss';
 import cx from 'classnames';
-import Footer from '../components/Footer';
 import React from 'react';
 import axios from 'axios';
 import { APIAddress } from '../config.json';
 import { Link } from 'react-router-dom';
 
-export default function CreateAccount(props) {
-
+export default function CreateAccount() {
     const [Password, setPassword] = React.useState();
 
     const [error, setError] = React.useState();
@@ -23,17 +21,16 @@ export default function CreateAccount(props) {
         phone: '',
         email: '',
         password: '',
-        type: ''
+        type: '',
     });
 
     const [address, setAddress] = React.useState({
         street_address: '',
         city: '',
-        postcode: ''
+        postcode: '',
     });
 
     const handleInputs = (event) => {
-
         const newAccount = account;
         const newAddress = address;
 
@@ -86,37 +83,35 @@ export default function CreateAccount(props) {
         setAccount(newAccount);
     };
 
-
     const onSubmit = (event) => {
         event.preventDefault();
         setError('');
         if (Password === account.password) {
-
             console.log(account);
             console.log(address);
-            axios.post(APIAddress + 'users', account)
-                .then((res) => {
+            axios.post(APIAddress + 'users', account).then(
+                (res) => {
                     const config = { headers: { Authorization: 'bearer ' + res.data.token } };
 
-                    axios.post(APIAddress + 'users/@me/address', address, config)
-                        .then((res) => {
-                            if (res.data) {
-                                setShowInputs(false);
-                                setAccountCreated(true);
-                            }
-                        });
-                }, (error) => {
+                    axios.post(APIAddress + 'users/@me/address', address, config).then((res) => {
+                        if (res.data) {
+                            setShowInputs(false);
+                            setAccountCreated(true);
+                        }
+                    });
+                },
+                (error) => {
                     if (error.response) {
                         if (error.response.data.includes('user_username_key')) {
-                            setError('Username is taken')
+                            setError('Username is taken');
                         }
                         if (error.response.data.includes('user_phone_key')) {
-                            setError('Phone number is taken')
+                            setError('Phone number is taken');
                         }
                         console.log(error.response);
                     }
-                });
-
+                }
+            );
         } else {
             setError('Passwords dont match');
         }
@@ -126,54 +121,47 @@ export default function CreateAccount(props) {
     const accountType = (
         <div className={styles.userType}>
             <label className={styles.font}> Manager </label>
-            <input type='radio' name='accountType' onChange={handleInputs} value='ADMIN'>
-            </input>
+            <input type="radio" name="accountType" onChange={handleInputs} value="ADMIN"></input>
             <label className={styles.font}> Customer </label>
-            <input type='radio' name='accountType' onChange={handleInputs} value='USER'>
-            </input>
+            <input type="radio" name="accountType" onChange={handleInputs} value="USER"></input>
         </div>
     );
 
-
     return (
-        <>
-            <div className={styles.createAccount}>
-                <div className={cx(styles.logo, styles.font)}>
-                    Account Creation
+        <div className={styles.createAccount}>
+            <div className={cx(styles.logo, styles.font)}>Account Creation</div>
+            {accountCreated && (
+                <div className={styles.created}>
+                    <p> Account was succesfully created</p>
+                    <Link to="/" className={styles.link}>
+                        Mainpage
+                    </Link>
                 </div>
-                {accountCreated &&
-                    <div className={styles.created}>
-                        <p> Account was succesfully created</p>
-                        <Link to="/" className={styles.link}>
-                            Mainpage
-                        </Link>
+            )}
+            {showInputs && (
+                <form onSubmit={onSubmit}>
+                    <div className={styles.textFields}>
+                        <input type="text" required name="fName" placeholder="First name" onChange={handleInputs} />
+                        <input type="text" required name="lName" placeholder="Last name" onChange={handleInputs} />
+                        <input type="text" required pattern="[A-ö0-9\\s-]+" name="sAdrs" placeholder="Address" onChange={handleInputs} />
+                        <input type="text" required name="city" placeholder="City" onChange={handleInputs} />
+                        <input type="text" required maxLength={5} minLength={5} name="postcode" placeholder="Postcode" onChange={handleInputs} />
+                        <input type="text" required maxLength={15} name="pNumb" placeholder="Phone number" onChange={handleInputs} />
+                        <input type="text" required name="eAdrs" placeholder="Email address" onChange={handleInputs} />
+                        <input type="text" required name="user" placeholder="Username" onChange={handleInputs} />
+                        <input type="password" required name="password" placeholder="Password" onChange={handleInputs} />
+                        <input type="password" required name="repeatPassword" placeholder="Repeat password" onChange={handleInputs} />
                     </div>
-                }
-                {showInputs &&
-                    <form onSubmit={onSubmit}>
-                        <div className={styles.textFields}>
-                            <input type="text" required name='fName' placeholder="First name" onChange={handleInputs} />
-                            <input type="text" required name='lName' placeholder="Last name" onChange={handleInputs} />
-                            <input type="text" required pattern='[A-ö0-9\\s-]+' name='sAdrs' placeholder="Address" onChange={handleInputs} />
-                            <input type="text" required name='city' placeholder="City" onChange={handleInputs} />
-                            <input type="text" required maxLength={5} minLength={5} name='postcode' placeholder="Postcode" onChange={handleInputs} />
-                            <input type="text" required maxLength={15} name='pNumb' placeholder="Phone number" onChange={handleInputs} />
-                            <input type="text" required name='eAdrs' placeholder="Email address" onChange={handleInputs} />
-                            <input type="text" required name='user' placeholder="Username" onChange={handleInputs} />
-                            <input type="password" required name='password' placeholder="Password" onChange={handleInputs} />
-                            <input type="password" required name='repeatPassword' placeholder="Repeat password" onChange={handleInputs} />
-                        </div>
 
-                        {accountType}
+                    {accountType}
 
-                        <button className={cx(styles.button, styles.font)} type='submit'> Create Account </button>
-                    </form>
-                }
-                <div className={styles.errors}>
-                    {error}
-                </div>
-            </div>
-            <Footer />
-        </>
+                    <button className={cx(styles.button, styles.font)} type="submit">
+                        {' '}
+                        Create Account{' '}
+                    </button>
+                </form>
+            )}
+            <div className={styles.errors}>{error}</div>
+        </div>
     );
 }
