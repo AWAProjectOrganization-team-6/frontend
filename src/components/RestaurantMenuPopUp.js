@@ -1,10 +1,10 @@
 import { Component } from 'react';
-import styles from '../styles/PopUpMenu.module.scss';
+import styles from '../styles/RestaurantMenuPopUp.module.scss';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
 import MenuProduct from './MenuProduct';
 
-export default class PopUpMenu extends Component {
+export default class RestaurantMenuPopUp extends Component {
     constructor(props) {
         super(props);
 
@@ -55,7 +55,7 @@ export default class PopUpMenu extends Component {
     }
 }
 
-PopUpMenu.propTypes = {
+RestaurantMenuPopUp.propTypes = {
     title: PropTypes.string.isRequired,
     children: PropTypes.node
 };

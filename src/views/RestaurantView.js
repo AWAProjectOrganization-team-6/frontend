@@ -1,8 +1,6 @@
 import styles from '../styles/RestaurantView.module.scss';
 import cx from 'classnames';
-import Topbar from '../components/Topbar';
-import Footer from '../components/Footer';
-import PopUpMenu from '../components/PopUpMenu';
+import RestaurantMenuPopUp from '../components/RestaurantMenuPopUp';
 
 export default function RestaurantView() {
 
@@ -43,22 +41,22 @@ export default function RestaurantView() {
                 <div className= {styles.categoryName}>Category Name</div>
                 <div className= {styles.categoryProducts}>
                     <div className= {styles.product}>
-                        <PopUpMenu index={1}/>
+                        <RestaurantMenuPopUp index={1}/>
                     </div>
                     <div className= {styles.product}>
-                        <PopUpMenu index={2}/>
+                        <RestaurantMenuPopUp index={2}/>
                     </div>
                     <div className= {styles.product}>
-                        <PopUpMenu index={3}/>
+                        <RestaurantMenuPopUp index={3}/>
                     </div>
                     <div className= {styles.product}>
-                        <PopUpMenu index={4}/>
+                        <RestaurantMenuPopUp index={4}/>
                     </div>
                     <div className= {styles.product}>
-                        <PopUpMenu index={5}/>
+                        <RestaurantMenuPopUp index={5}/>
                     </div>
                     <div className= {styles.product}>
-                        <PopUpMenu index={6}/>
+                        <RestaurantMenuPopUp index={6}/>
                     </div>
                 </div>      
             </div>
@@ -69,12 +67,10 @@ export default function RestaurantView() {
 
     return (
         <>
-            {/* <Topbar/> */}
             <div className = { styles.content }>
                 <div>{restaurantInfo}</div>
                 <div>{restaurantMenu}</div>
             </div>
-            <Footer/>
         </>
     );
 }

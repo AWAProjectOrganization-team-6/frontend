@@ -1,6 +1,6 @@
 import { Component } from 'react';
 import PropTypes from 'prop-types';
-import styles from '../styles/PopUpMenu.module.scss';
+import styles from '../styles/RestaurantMenuPopUp.module.scss';
 import cx from 'classnames';
 
 export default class MenuProduct extends Component {
