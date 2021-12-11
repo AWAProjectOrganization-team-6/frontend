@@ -1,9 +1,27 @@
 import styles from '../styles/RestaurantView.module.scss';
 import cx from 'classnames';
 import RestaurantMenuPopUp from '../components/RestaurantMenuPopUp';
+import {useParams} from 'react-router-dom';
+import { useEffect } from 'react';
+import axios from 'axios';
+import { APIAddress } from '../config.json';
 
 export default function RestaurantView(props) {
+    const {id} = useParams();
+    const restaurantId = id;
 
+
+    useEffect(async () => {
+        try {
+            const res = await axios.get(APIAddress + 'restaurant');
+            console.log(res);
+            // setRestaurant(res.data.find((val) => val.restaurant_id === restaurantId));
+        } catch (err) {
+            if (err) console.log(err);
+        }
+    }, [restaurantId]);
+
+    
     var restaurantPicture = (
         <div className = {styles.pictureStyle}>Picture</div>
     );

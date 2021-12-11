@@ -5,9 +5,9 @@ import { APIAddress } from './config.json';
 import axios from 'axios';
 import Topbar from './components/Topbar';
 import CreateAccount from './views/CreateAccount';
+import RestaurantView from './views/RestaurantView';
 import Redirect from './components/Redirect';
 import MainPage from './views/MainPage';
-import ShoppingCart from './views/ShoppingCart';
 import Footer from './components/Footer';
 
 class InitialState {
