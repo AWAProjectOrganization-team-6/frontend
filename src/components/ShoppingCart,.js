@@ -69,7 +69,7 @@ export default class ShoppingCart extends Component {
                     <ExtraItems className={cx(styles.menuItem, styles.itemsLeft)} cart={this.props.cart} />
                     <div className={styles.menuSettings}>
                         <div className={styles.menuItem}>{`Total price ${total}€`}</div>
-                        <Link to="/cart" className={cx(styles.menuItem, styles.button)}>
+                        <Link to="/cart" onClick={this.onClick} className={cx(styles.menuItem, styles.button)}>
                             Show more
                         </Link>
                     </div>
