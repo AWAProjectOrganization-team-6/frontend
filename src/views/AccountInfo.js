@@ -5,7 +5,6 @@ import { Component } from 'react';
 import Topbar from '../components/Topbar';
 import Footer from '../components/Footer';
 import DebitCard from '../components/DebitCard';
-import PayPal from '../components/PayPal';
 
 class AccountInfo extends Component {
     constructor(props) {
@@ -56,10 +55,7 @@ class AccountInfo extends Component {
             case 'paymentOption':
                 if (event.target.value === 'Debit card') {
                     accountData.paymentOption = 1;
-                } else if (event.target.value === 'PayPal') {
-                    accountData.paymentOption = 2;
-                }
-                
+                } 
                 console.log(event.target.value);
                 break;
         }
@@ -80,9 +76,6 @@ class AccountInfo extends Component {
         switch (this.state.accountData.paymentOption) {
             case 1:
                 paymentOptionField = (<DebitCard ref={this.paymentDetails} hideSaveInfo={true}/>);
-                break;
-            case 2:
-                paymentOptionField = (<PayPal ref={this.paymentDetails} hideSaveInfo={true}/>);
                 break;
             default:
                 break;
@@ -143,7 +136,6 @@ class AccountInfo extends Component {
                         >   
                             <option default hidden>Select payment option</option>
                             <option>Debit card</option>
-                            <option>PayPal</option>
                         </select>
                         <div>
                             {paymentOptionField}
