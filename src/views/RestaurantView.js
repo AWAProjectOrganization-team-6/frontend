@@ -2,7 +2,7 @@ import styles from '../styles/RestaurantView.module.scss';
 import cx from 'classnames';
 import RestaurantMenuPopUp from '../components/RestaurantMenuPopUp';
 
-export default function RestaurantView() {
+export default function RestaurantView(props) {
 
     var restaurantPicture = (
         <div className = {styles.pictureStyle}>Picture</div>

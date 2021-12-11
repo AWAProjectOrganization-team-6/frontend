@@ -156,9 +156,9 @@ class App extends Component {
                     <Route path="/create/restaurant" element={<div> RESTAURANT CREATION </div>} />
                     <Route path="/account" element={<div> ACCOUNT INFO </div>} />
                     <Route path="/status" element={<div> ORDER STATUS </div>} />
-                    <Route path="/cart" element={<ShoppingCart />} />
+                    <Route path="/cart" element={<div>Shopping Cart</div>} />
                     <Route path="/restaurants" element={<div> RESTAURANTS </div>} />
-                    <Route path="/restaurants/:id" element={<div> RESTAURANT 12 </div>} />
+                    <Route path="/restaurants/:id" element={<RestaurantView user={this.state.user} />} />
                 </Routes>
                 <Footer />
             </BrowserRouter>
