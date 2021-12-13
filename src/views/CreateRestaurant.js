@@ -295,7 +295,7 @@ class CreateRestaurant extends Component {
                             required
                             className={styles.input}
                             onChange={this.onChange}
-                            pattern="[A-ö0-9\\s-]+"
+                            pattern="[A-ö0-9\s-]+"
                             name="streetAddress"
                             type="text"
                             placeholder="StreetAddress"
