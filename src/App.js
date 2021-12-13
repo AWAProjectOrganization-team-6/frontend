@@ -12,6 +12,7 @@ import CreateRestaurant from './views/CreateRestaurant';
 import ManagerMainPage from './views/ManagerMainPage';
 import RedirectManager from './components/RedirectManager';
 import ShoppingCart from './views/ShoppingCart';
+import AccountInfo from './views/AccountInfo';
 
 class InitialState {
     constructor() {
@@ -163,7 +164,7 @@ class App extends Component {
                     <Route path="/" element={<MainPage user={this.state.user} token={this.state.loginToken} />} />
                     <Route path="/create/account" element={<CreateAccount />} />
                     <Route path="/create/restaurant" element={<CreateRestaurant token={this.state.loginToken} />} />
-                    <Route path="/account" element={<div> ACCOUNT INFO </div>} />
+                    <Route path="/account" element={<AccountInfo token={this.state.loginToken}/>} />
                     <Route path="/status" element={<div> ORDER STATUS </div>} />
                     <Route
                         path="/cart"
