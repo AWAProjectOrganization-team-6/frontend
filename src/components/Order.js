@@ -1,13 +1,10 @@
 import react from "react";
 import styles from "../styles/Order.module.scss";
 import React, { useState, useEffect } from "react";
-import axios from 'axios';
-import { APIAddress } from '../config.json';
-import {useParams} from 'react-router-dom';
 
 function Timer() {
   let [_timer, setTimer] = useState(true);
-  let [seconds, setSeconds] = useState(4);
+  let [seconds, setSeconds] = useState(59);
 
   useEffect(() => {
     if (_timer) {
