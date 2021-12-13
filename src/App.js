@@ -25,8 +25,8 @@ class InitialState {
             phone: '',
             email: '',
         };
-        this.orderRestaurantId = 2;
-        this.shoppingCart = [new Item(1, "Ruoka", 5.50, 4 ), new Item(2, "Ruoka2", 4.50, 2), new Item(3, "Ruoka3", 2.50, 4)];
+        this.orderRestaurantId = null;
+        this.shoppingCart = [];
     }
 }
 
