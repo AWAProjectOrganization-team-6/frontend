@@ -32,3 +32,17 @@
     background-color: red;
     border-radius: 20px;
 }
+
+.confirmButton {
+    width: auto;
+    font-size: 1rem;
+    background-color: #313131;
+    color: white;
+    border: none;
+    padding: 0.5rem;
+    border-radius: 20px;
+
+    &:hover {
+        background-color: #242424;
+    }
+}

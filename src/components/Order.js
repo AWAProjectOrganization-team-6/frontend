@@ -5,23 +5,29 @@ import axios from 'axios';
 import { APIAddress } from '../config.json';
 import {useParams} from 'react-router-dom';
 
-// function Timer() {
-//   let [_timer, setTimer] = useState(true);
-//   let [seconds, setSeconds] = useState(6);
-//   let [minutes, setMinutes] = useState(3);
+function Timer() {
+  let [_timer, setTimer] = useState(true);
+  let [seconds, setSeconds] = useState(4);
 
-//   useEffect(() => {
-//     if (_timer) {
-//       let secondsTimer = setInterval(() => {
-//         setSeconds(seconds - 1);
-//       }, 1000);
-//       return () => {
-//         clearInterval(secondsTimer);
-//       };
-//     }
-//   });
-//     return <span>{minutes}:{seconds}</span>;
-// }
+  useEffect(() => {
+    if (_timer) {
+      let secondsTimer
+      if (seconds > 0) {
+        secondsTimer = setInterval(() => {
+          setSeconds(seconds - 1);
+        }, 1000); 
+      }
+      return () => {
+        clearInterval(secondsTimer);
+      };
+    }
+  });
+    if (seconds > 0) {
+      return <span>0:{seconds}</span>;
+    } else if (seconds === 0) {
+      return <button className={styles.confirmButton}>Confirm</button>;
+    }
+}
 
 function Status(props) {
   const [status, setStatus] = useState("");
@@ -77,22 +83,7 @@ function Status(props) {
 }
 
 export default function Order(props) {
-
-  const {id} = useParams();
-  const userId = id;
-  const [user, setUser] = useState({});
-
-  useEffect(async () => {
-    try {
-        const res = await axios.get(APIAddress + 'users/@me');
-        // console.log('@me');
-        // let user = res.data.find((val) => val.user_id == userId) ?? {};
-        // setUser(user);
-    } catch (err) {
-        if (err) console.log(err);
-    }
-  }, [userId]);
-
+  
   var statusButton = null;
 
   if (props.user?.type === 'ADMIN')
@@ -115,7 +106,7 @@ export default function Order(props) {
         <div>Order ID:</div>
         {statusButton}
         <div name="estTimeOfDelivery">
-          {/* Estimated Time of Delivery: <Timer/> */}
+          Estimated Time of Delivery: <Timer/>
         </div>
       </div>
     </>

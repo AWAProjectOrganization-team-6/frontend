@@ -2,34 +2,15 @@ import styles from '../styles/OrderStatusHistoryView.module.scss';
 import cx from 'classnames';
 import Order from '../components/Order';
 import { Component } from 'react';
-
-var orderStatus = (
-    <div className={cx( styles.orderStatusContent, styles.fonts, styles.font)} >
-        <div className={styles.orderStatusTitle}>Order Status</div>
-        <Order/>
-        <div name='managerPhoneNumber'>Manager phone number: </div>
-    </div>
-);
-
-var picture = (
-    <div>
-        <img src=""/>
-    </div>
-);
-
-var historyView = (
-    <div className={cx(styles.historyViewContent, styles.fonts, styles.font)} >
-        <div>Order History</div>
-        <div name='orderHistory'></div>
-    </div>
-);
-
+import axios from 'axios';
+import { APIAddress } from '../config.json';
 
 class OrderStatusHistoryView extends Component {
     constructor(props) {
         super(props);
         this.state = {
             orderStatusHistoryView: {
+                orderId: '',
                 status: '',
                 estTimeOfDelivery: '',
                 managerPhoneNumber: '',
@@ -64,8 +45,41 @@ class OrderStatusHistoryView extends Component {
         // console.log(this.state);
     }
 
+    componentDidMount() {
+        axios.get(APIAddress + 'users/@me', {
+                    headers: { authorization: 'bearer ' + this.props.token },
+                }).then((res) => {
+                    // console.log(res);
+                    this.setState({
+                        managerPhoneNumber: res.data.phone,
+                        orderId: res.data.user_id
+                    })
+                });
+    }
+
 
     render() {
+        var orderStatus = (
+            <div className={cx( styles.orderStatusContent, styles.fonts, styles.font)} >
+                <div className={styles.orderStatusTitle}>Order Status</div>
+                <Order/>
+                <div name='managerPhoneNumber'>Manager phone number: {this.state.managerPhoneNumber}</div>
+            </div>
+        );
+        
+        var picture = (
+            <div>
+                <img src=""/>
+            </div>
+        );
+        
+        var historyView = (
+            <div className={cx(styles.historyViewContent, styles.fonts, styles.font)} >
+                <div>Order History</div>
+                <div name='orderHistory'></div>
+            </div>
+        );
+
         return (
             <>
                 <div className = { styles.mainDiv}>
