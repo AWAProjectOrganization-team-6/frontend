@@ -73,6 +73,7 @@ const ShoppingCart = (props) => {
 
     /** @type {EventListener} */
     const sendData = async (event) => {
+        console.log(fields);
         event.preventDefault();
         if (cart.length === 0) return false;
         if (selectedAddress === null) {
@@ -99,8 +100,13 @@ const ShoppingCart = (props) => {
 
         if (paymentMethod === 'PayPal') postOrder(conf);
         else if (paymentMethod === 'CARD') {
+            console.log(fields.save);
             if (fields.save.current) {
                 try {
+                    /** @type {string} */
+                    let expDate = fields.expirationDate.current.value;
+                    expDate = expDate.split('/')[0] + '-01-' + expDate.split('/')[1].padStart(4, '20');
+
                     const data = {
                         street_address: fields.address.current.value,
                         city: fields.city.current.value,
@@ -110,7 +116,7 @@ const ShoppingCart = (props) => {
                         type: 'CARD',
                         card_num: fields.cardNum.current.value,
                         cvv: fields.cvc.current.value,
-                        expiration_date: fields.expirationDate.current.value,
+                        expiration_date: expDate,
                     };
                     const res = await axios.post(APIAddress + 'users/@me/payment-info', data, conf);
                     console.log(res);
@@ -118,7 +124,7 @@ const ShoppingCart = (props) => {
                 } catch (err) {
                     console.error(err);
                 }
-            } else postOrder(conf);
+            } // else postOrder(conf);
         } else if (parseInt(paymentMethod) == paymentMethod) {
             if (selectedAddress === 'ADD') {
                 if (newAddressState.checked) {
@@ -292,7 +298,7 @@ const ShoppingCart = (props) => {
                         </div>
                         <button className={styles.button}>Confirm</button>
                         <div className={cx(styles.span2to4, styles.alignCenter)}>
-                            <CheckBox text="Save billing information" getValue={(val) => (fields.save = val)} />
+                            <CheckBox text="Save billing information" getValue={(val) => (fields.save.current = val)} />
                         </div>
                     </form>
                 ) : null}
