@@ -7,9 +7,11 @@ import Topbar from './components/Topbar';
 import CreateAccount from './views/CreateAccount';
 import Redirect from './components/Redirect';
 import MainPage from './views/MainPage';
-// import ShoppingCart from './views/ShoppingCart';
 import Footer from './components/Footer';
-import AccountInfo from './views/AccountInfo';
+import CreateRestaurant from './views/CreateRestaurant';
+import ManagerMainPage from './views/ManagerMainPage';
+import RedirectManager from './components/RedirectManager';
+import ShoppingCart from './views/ShoppingCart';
 
 class InitialState {
     constructor() {
@@ -23,33 +25,18 @@ class InitialState {
             phone: '',
             email: '',
         };
-        this.orderRestaurantId = 2;
-        this.shoppingCart = [
-            {
-                id: 1,
-                name: 'Pizza',
-                count: 3,
-                price: 7.5,
-            },
-            {
-                id: 3,
-                name: 'Kokis',
-                count: 6,
-                price: 2.0,
-            },
-            {
-                id: 2,
-                name: 'Salatti',
-                count: 1,
-                price: 4.5,
-            },
-            {
-                id: 7,
-                name: 'Jaffa',
-                count: 1,
-                price: 2.0,
-            },
-        ];
+        this.orderRestaurantId = null;
+        this.shoppingCart = [];
+    }
+}
+
+class Item {
+    constructor(id, name, price, count = 1) {
+        this.id = id;
+        this.name = name;
+        this.count = count;
+        this.price = price;
+        this.updateCount = (val) => (this.count = val);
     }
 }
 
@@ -63,6 +50,7 @@ class App extends Component {
 
         this.onLogin = this.onLogin.bind(this);
         this.onLogout = this.onLogout.bind(this);
+        this.addToCart = this.addToCart.bind(this);
     }
 
     /**
@@ -118,6 +106,25 @@ class App extends Component {
     }
 
     /**
+     * Adds new item to shopping cart or increases item count if already in cart.
+     * @param {number} id product_id of teh item
+     * @param {string} name titel/name of the item
+     * @param {number} price base price of the item
+     */
+    addToCart(orderRestaurantId, id, name, price) {
+        let cart = this.state.shoppingCart;
+
+        let itemInList = cart.findIndex((val) => val.id === id);
+        if (itemInList >= 0) {
+            cart[itemInList].count++;
+        } else {
+            cart.push(new Item(id, name, price));
+        }
+
+        this.setState({ orderRestaurantId, ShoppingCart: cart });
+    }
+
+    /**
      * Get user info if user was logged in earlier.
      * @memberof App
      */
@@ -150,16 +157,34 @@ class App extends Component {
         return (
             <BrowserRouter>
                 <Redirect onChange={this.state.user} replace={true} />
+                <RedirectManager onChange={this.state.user} replace={true} />
                 <Topbar onLogin={this.onLogin} onLogout={this.onLogout} user={this.state.user} cart={this.state.shoppingCart} />
                 <Routes>
                     <Route path="/" element={<MainPage user={this.state.user} token={this.state.loginToken} />} />
                     <Route path="/create/account" element={<CreateAccount />} />
-                    <Route path="/create/restaurant" element={<div> RESTAURANT CREATION </div>} />
-                    <Route path="/account" element={<AccountInfo token={this.state.loginToken}/>} />
+                    <Route path="/create/restaurant" element={<CreateRestaurant token={this.state.loginToken} />} />
+                    <Route path="/account" element={<div> ACCOUNT INFO </div>} />
                     <Route path="/status" element={<div> ORDER STATUS </div>} />
-                    <Route path="/cart" element={<div>Shopping Cart</div>} />
-                    <Route path="/restaurants" element={<div> RESTAURANTS </div>} />
+                    <Route
+                        path="/cart"
+                        element={
+                            <ShoppingCart
+                                cart={this.state.shoppingCart}
+                                user={this.state.user}
+                                restaurantId={this.state.orderRestaurantId}
+                                token={this.state.loginToken}
+                                clearCart={() => this.setState({ shoppingCart: [], orderRestaurantId: null })}
+                                removeItem={(id) => {
+                                    let shoppingCart = this.state.shoppingCart;
+                                    let index = shoppingCart.findIndex((val) => val.id === id);
+                                    if (index >= 0) shoppingCart.splice(index, 1);
+                                    this.setState({ shoppingCart });
+                                }}
+                            />
+                        }
+                    />
                     <Route path="/restaurants/:id" element={<div> RESTAURANT 12 </div>} />
+                    <Route path="/managerpage" element={<ManagerMainPage user={this.state.user} token={this.state.loginToken} />} />
                 </Routes>
                 <Footer />
             </BrowserRouter>
