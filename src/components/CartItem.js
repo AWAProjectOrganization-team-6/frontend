@@ -28,7 +28,7 @@ const CartItem = (props) => {
         <>
             <div>{item.name}</div>
             {count}
-            <div>{item.count * item.price}€</div>
+            <div>{Math.round(item.count * item.price * 100) / 100}€</div>
         </>
     );
 };

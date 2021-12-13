@@ -50,6 +50,7 @@ class App extends Component {
 
         this.onLogin = this.onLogin.bind(this);
         this.onLogout = this.onLogout.bind(this);
+        this.addToCart = this.addToCart.bind(this);
     }
 
     /**
@@ -114,7 +115,7 @@ class App extends Component {
         let cart = this.state.shoppingCart;
 
         let itemInList = cart.findIndex((val) => val.id === id);
-        if (itemInList) {
+        if (itemInList >= 0) {
             cart[itemInList].count++;
         } else {
             cart.push(new Item(id, name, price));
