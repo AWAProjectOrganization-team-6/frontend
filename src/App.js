@@ -11,6 +11,7 @@ import Footer from './components/Footer';
 import CreateRestaurant from './views/CreateRestaurant';
 import ManagerMainPage from './views/ManagerMainPage';
 import RedirectManager from './components/RedirectManager';
+import ShoppingCart from './views/ShoppingCart';
 
 class InitialState {
     constructor() {
