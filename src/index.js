@@ -3,11 +3,10 @@ import ReactDOM from 'react-dom';
 import './index.scss';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import OrderStatusHistoryView from './views/OrderStatusHistoryView';
 
 ReactDOM.render(
     <React.StrictMode>
-        <OrderStatusHistoryView />
+        <App />
     </React.StrictMode>,
     document.getElementById('root')
 );
