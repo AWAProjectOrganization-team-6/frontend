@@ -9,7 +9,6 @@ import { APIAddress } from '../config.json';
 import { Link } from 'react-router-dom';
 
 class CreateRestaurant extends Component {
-
     categoryIndex = 0;
     foodIndex = 0;
     operatingHourIndex = 0;
@@ -22,18 +21,11 @@ class CreateRestaurant extends Component {
                 address: {},
                 type: '',
                 priceLevel: 0,
-                picture: {
+                picture: {},
 
-                },
+                operatingHours: [],
 
-                operatingHours: [
-
-
-                ],
-
-                categories: [
-
-                ]
+                categories: [],
             },
 
             categoryName: '',
@@ -41,7 +33,7 @@ class CreateRestaurant extends Component {
             days: ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'],
             error: '',
             showInputs: true,
-            restaurantCreated: false
+            restaurantCreated: false,
         };
 
         this.addCategory = this.addCategory.bind(this);
@@ -137,7 +129,6 @@ class CreateRestaurant extends Component {
             }
         }
 
-
         this.setState({ restaurantData });
     }
 
@@ -148,17 +139,17 @@ class CreateRestaurant extends Component {
         this.setState({ restaurantData });
     }
 
-
     addCategory() {
         let restaurantData = { ...this.state.restaurantData };
         restaurantData.categories.push({ id: ++this.categoryIndex, name: this.state.categoryName, foods: [] });
         this.setState({ restaurantData });
-
     }
 
     addFoodToCategory(category, foodName, price, desc, picFile, pic) {
         let restaurantData = { ...this.state.restaurantData };
-        restaurantData.categories.find((value) => value.id === category.id).foods.push({ name: foodName, price, id: ++this.foodIndex, description: desc, pictureFile: picFile, picture: pic });
+        restaurantData.categories
+            .find((value) => value.id === category.id)
+            .foods.push({ name: foodName, price, id: ++this.foodIndex, description: desc, pictureFile: picFile, picture: pic });
         this.setState({ restaurantData });
     }
 
@@ -196,20 +187,24 @@ class CreateRestaurant extends Component {
         delete restaurantData.picture;
         console.log(restaurantData);
 
-        productImageFiles = _state.restaurantData.categories.map((category) => category.foods.map((food) => {
-            return food.pictureFile;
-        }));
+        productImageFiles = _state.restaurantData.categories.map((category) =>
+            category.foods.map((food) => {
+                return food.pictureFile;
+            })
+        );
 
         productImageFiles = productImageFiles.flat();
         console.log(productImageFiles);
 
-        products = _state.restaurantData.categories.map((category) => category.foods.map((food) => {
-            let item = food;
-            delete item.id;
-            item.type = category.name;
-            delete item.pictureFile;
-            return item;
-        }));
+        products = _state.restaurantData.categories.map((category) =>
+            category.foods.map((food) => {
+                let item = food;
+                delete item.id;
+                item.type = category.name;
+                delete item.pictureFile;
+                return item;
+            })
+        );
 
         products = products.flat();
 
@@ -220,25 +215,34 @@ class CreateRestaurant extends Component {
             let result = _state.shortDays.slice(startIndex, endIndex + 1);
             let temp = { opening_time: '', closing_time: '', kitchen_closing_time: '', days: '' };
             temp.kitchen_closing_time = _state.restaurantData.operatingHours[index].kitchen_closing_time;
-            temp.opening_time = _state.restaurantData.operatingHours[index].fromHour.getHours().toString().padStart(2, '0') + ':' + _state.restaurantData.operatingHours[index].fromHour.getMinutes().toString().padStart(2, '0') + ' ' + '+2';
-            temp.closing_time = _state.restaurantData.operatingHours[index].toHour.getHours().toString().padStart(2, '0') + ':' + _state.restaurantData.operatingHours[index].toHour.getMinutes().toString().padStart(2, '0') + ' ' + '+2';
+            temp.opening_time =
+                _state.restaurantData.operatingHours[index].fromHour.getHours().toString().padStart(2, '0') +
+                ':' +
+                _state.restaurantData.operatingHours[index].fromHour.getMinutes().toString().padStart(2, '0') +
+                ' ' +
+                '+2';
+            temp.closing_time =
+                _state.restaurantData.operatingHours[index].toHour.getHours().toString().padStart(2, '0') +
+                ':' +
+                _state.restaurantData.operatingHours[index].toHour.getMinutes().toString().padStart(2, '0') +
+                ' ' +
+                '+2';
             temp.days = result.join(', ');
             operatingHours.push(temp);
         }
 
-        let authorization = { 'Authorization': 'bearer ' + this.props.token };
+        let authorization = { Authorization: 'bearer ' + this.props.token };
         console.log(this.props.token);
         console.log(restaurantData);
-        axios.post(APIAddress + 'restaurant', restaurantData, { headers: authorization })
-            .then((res) => {
-
+        axios.post(APIAddress + 'restaurant', restaurantData, { headers: authorization }).then(
+            (res) => {
                 let picture = new FormData();
                 picture.append('restaurant', res.data.restaurant_id);
                 picture.append('image', _state.restaurantData.pictureFile);
 
-                operatingHours.forEach(val => val.restaurant_id = res.data.restaurant_id);
+                operatingHours.forEach((val) => (val.restaurant_id = res.data.restaurant_id));
 
-                products.forEach(val => val.restaurant_id = res.data.restaurant_id);
+                products.forEach((val) => (val.restaurant_id = res.data.restaurant_id));
 
                 let productImages = new FormData();
                 productImages.append('restaurant', res.data.restaurant_id);
@@ -246,74 +250,100 @@ class CreateRestaurant extends Component {
                     productImages.append('productImages', productImageFiles[i]);
                 }
 
-                axios.post(APIAddress + 'restaurant/operating-hours', operatingHours, { headers: authorization })
-                    .then((res) => {
-                        axios.post(APIAddress + 'products', products, { headers: authorization })
-                        .then((res) => {
-                            axios.post(APIAddress + 'products/upload', productImages, { headers: { 'content-type': 'multipart/form-data', ...authorization } })
-                            .then((res) => {
-                                axios.post(APIAddress + 'restaurant/upload', picture, { headers: { 'content-type': 'multipart/form-data', ...authorization } })
-                                .then((res) => {
-                                    if (res.data) {
-                                        this.setState({ showInputs: false});
-                                        this.setState({ restaurantCreated: true});
-                                    }
-                                });
+                axios.post(APIAddress + 'restaurant/operating-hours', operatingHours, { headers: authorization }).then(() => {
+                    axios.post(APIAddress + 'products', products, { headers: authorization }).then(() => {
+                        axios
+                            .post(APIAddress + 'products/upload', productImages, { headers: { 'content-type': 'multipart/form-data', ...authorization } })
+                            .then(() => {
+                                axios
+                                    .post(APIAddress + 'restaurant/upload', picture, { headers: { 'content-type': 'multipart/form-data', ...authorization } })
+                                    .then((res) => {
+                                        if (res.data) {
+                                            this.setState({ showInputs: false });
+                                            this.setState({ restaurantCreated: true });
+                                        }
+                                    });
                             });
-                        });
                     });
-
-            },
-                (error) => {
-                    if (error.response) {
-                        this.setError(error.response.data);
-                    }
-
                 });
-
-
+            },
+            (error) => {
+                if (error.response) {
+                    this.setError(error.response.data);
+                }
+            }
+        );
     }
 
     render() {
         return (
             <div className={styles.contentArea}>
                 {this.state.restaurantCreated && (
-                    <div className={styles.created}> 
+                    <div className={styles.created}>
                         <p>Restaurant was succesfully created</p>
-                        <Link to='/' className={styles.link}>
+                        <Link to="/" className={styles.link}>
                             Mainpage
                         </Link>
                     </div>
                 )}
                 {this.state.showInputs && (
                     <form className={styles.inputFields} onSubmit={this.submit}>
-                        <div className={cx(styles.logo, styles.font)}>
-                            Restaurant Creation
-                        </div>
+                        <div className={cx(styles.logo, styles.font)}>Restaurant Creation</div>
                         <FileUploader selected={this.onChange} style={styles.fileInput} />
-                        <input required className={styles.input} onChange={this.onChange} name='name' type='text' placeholder='Name' />
-                        <input required className={styles.input} onChange={this.onChange} pattern="[A-ö0-9\\s-]+" name='streetAddress' type='text' placeholder='StreetAddress' />
-                        <input required className={styles.input} onChange={this.onChange} name='city' type='text' placeholder='City' />
-                        <input required className={styles.input} onChange={this.onChange} maxLength={5} minLength={5} name='postcode' type='text' placeholder='Postcode' />
+                        <input required className={styles.input} onChange={this.onChange} name="name" type="text" placeholder="Name" />
+                        <input
+                            required
+                            className={styles.input}
+                            onChange={this.onChange}
+                            pattern="[A-ö0-9\\s-]+"
+                            name="streetAddress"
+                            type="text"
+                            placeholder="StreetAddress"
+                        />
+                        <input required className={styles.input} onChange={this.onChange} name="city" type="text" placeholder="City" />
+                        <input
+                            required
+                            className={styles.input}
+                            onChange={this.onChange}
+                            maxLength={5}
+                            minLength={5}
+                            name="postcode"
+                            type="text"
+                            placeholder="Postcode"
+                        />
                         <div className={styles.operatingHours}>
-                            <div className={styles.text}>
-                                Operating Hours
-                            </div>
-                            {this.state.restaurantData.operatingHours.map((operatingHour) => <OperatingHours key={operatingHour.id} operatingHour={operatingHour} delete={this.deleteOperatingHour} days={this.state.days} set={this.setOperatingHours} />)}
-                            <button onClick={this.addOperatingHour} className={styles.button}> + Add operatingHour</button>
+                            <div className={styles.text}>Operating Hours</div>
+                            {this.state.restaurantData.operatingHours.map((operatingHour) => (
+                                <OperatingHours
+                                    key={operatingHour.id}
+                                    operatingHour={operatingHour}
+                                    delete={this.deleteOperatingHour}
+                                    days={this.state.days}
+                                    set={this.setOperatingHours}
+                                />
+                            ))}
+                            <button onClick={this.addOperatingHour} className={styles.button}>
+                                + Add operatingHour
+                            </button>
                         </div>
                         <div className={styles.setupMenu}>
-                            <div className={styles.text}>
-                                Setup Menu
-                            </div>
-                            {this.state.restaurantData.categories.map((category) => <Category key={category.id} category={category} addFood={this.addFoodToCategory} deleteCategory={this.deleteCategory} deleteFood={this.deleteFoodFromCategory} />)}
-                            <input className={styles.input} name='addCategory' onChange={this.onChange} placeholder={'Category name'} />
+                            <div className={styles.text}>Setup Menu</div>
+                            {this.state.restaurantData.categories.map((category) => (
+                                <Category
+                                    key={category.id}
+                                    category={category}
+                                    addFood={this.addFoodToCategory}
+                                    deleteCategory={this.deleteCategory}
+                                    deleteFood={this.deleteFoodFromCategory}
+                                />
+                            ))}
+                            <input className={styles.input} name="addCategory" onChange={this.onChange} placeholder={'Category name'} />
                             <button className={styles.button} onClick={this.addCategory}>
                                 + Add Category
                             </button>
                         </div>
-                        <select required className={styles.select} name='pricelevel' onChange={this.onChange} defaultValue='default'>
-                            <option value='default' disabled hidden>
+                        <select required className={styles.select} name="pricelevel" onChange={this.onChange} defaultValue="default">
+                            <option value="default" disabled hidden>
                                 Select pricelevel
                             </option>
                             <option value={1}>€</option>
@@ -321,17 +351,17 @@ class CreateRestaurant extends Component {
                             <option value={3}>€€€</option>
                             <option value={4}>€€€€</option>
                         </select>
-                        <select required className={styles.select} name='type' onChange={this.onChange} defaultValue='default'>
-                            <option value='default' disabled hidden>
+                        <select required className={styles.select} name="type" onChange={this.onChange} defaultValue="default">
+                            <option value="default" disabled hidden>
                                 Select restaurant type
                             </option>
-                            <option value='Buffet'>Buffet</option>
-                            <option value='Fast Food'>Fast Food</option>
-                            <option value='Fast Casual'>Fast Casual</option>
-                            <option value='Casual dining'>Casual dining</option>
-                            <option value='Fine dining'>Fine dining</option>
+                            <option value="Buffet">Buffet</option>
+                            <option value="Fast Food">Fast Food</option>
+                            <option value="Fast Casual">Fast Casual</option>
+                            <option value="Casual dining">Casual dining</option>
+                            <option value="Fine dining">Fine dining</option>
                         </select>
-                        <button className={cx(styles.create, styles.font)} type='submit'>
+                        <button className={cx(styles.create, styles.font)} type="submit">
                             Create
                         </button>
                         <div className={styles.errors}>{this.state.error}</div>
