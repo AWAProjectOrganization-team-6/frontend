@@ -31,6 +31,15 @@
         text-decoration: underline;
     }
 
+    .error {
+        color: red;
+        font-size: 1.5rem;
+        width: 250px;
+
+        @extend .menuItem;
+        
+    }
+
     .menuSettings {
         display: flex;
         flex-direction: column;

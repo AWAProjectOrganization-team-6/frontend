@@ -46,6 +46,8 @@ export default class Login extends Component {
         event.preventDefault();
         event.stopPropagation();
 
+        if (this.state.err) this.setErrorMessage(null);
+
         /** @type {import('axios').AxiosRequestConfig} */
         const conf = {
             auth: {
@@ -57,12 +59,19 @@ export default class Login extends Component {
         const request = axios.post(APIAddress + 'login', null, conf);
 
         if (typeof this.props.onLogin === 'function') this.props.onLogin(request);
-        else request.catch((err) => console.log(err.toJSON()));
-
-        this.onClick();
+        request.catch((err) => {
+            if (err.response) {
+                if (err.response.data === 'Username or password incorrect') this.setErrorMessage(err.response.data);
+            } else console.error(err);
+        });
+        request.then(() => this.onClick());
 
         return true;
     }
+
+    setErrorMessage = (msg) => {
+        this.setState({ err: msg });
+    };
 
     componentWillUnmount() {
         document.removeEventListener('click', this.closePopUpListenner);
@@ -76,6 +85,8 @@ export default class Login extends Component {
                 </button>
                 <form onSubmit={this.onLogin} className={cx(styles.menu, styles.font, this.state.shown ? styles.on : undefined)} data-login>
                     <div className={cx(styles.title, styles.menuItem)}>Login</div>
+
+                    {this.state.err ? <div className={styles.error}>{this.state.err}</div> : null}
 
                     <input ref={this.state.username} placeholder="Username" className={styles.menuItem}></input>
                     <input ref={this.state.password} type="password" placeholder="Password" className={styles.menuItem}></input>
