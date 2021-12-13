@@ -101,6 +101,10 @@ const ShoppingCart = (props) => {
         else if (paymentMethod === 'CARD') {
             if (fields.save.current) {
                 try {
+                    /** @type {string} */
+                    let expDate = fields.expirationDate.current.value;
+                    expDate = expDate.split('/')[0] + '-01-' + expDate.split('/')[1].padStart(4, '20');
+
                     const data = {
                         street_address: fields.address.current.value,
                         city: fields.city.current.value,
@@ -110,7 +114,7 @@ const ShoppingCart = (props) => {
                         type: 'CARD',
                         card_num: fields.cardNum.current.value,
                         cvv: fields.cvc.current.value,
-                        expiration_date: fields.expirationDate.current.value,
+                        expiration_date: expDate,
                     };
                     const res = await axios.post(APIAddress + 'users/@me/payment-info', data, conf);
                     console.log(res);
@@ -292,7 +296,7 @@ const ShoppingCart = (props) => {
                         </div>
                         <button className={styles.button}>Confirm</button>
                         <div className={cx(styles.span2to4, styles.alignCenter)}>
-                            <CheckBox text="Save billing information" getValue={(val) => (fields.save = val)} />
+                            <CheckBox text="Save billing information" getValue={(val) => (fields.save.current = val)} />
                         </div>
                     </form>
                 ) : null}
