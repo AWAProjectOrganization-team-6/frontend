@@ -51,7 +51,7 @@ export default class ShoppingCart extends Component {
                 </>
             );
         };
-        
+
         let total = 0;
         for (const item of this.props.cart) {
             total += item.count * item.price;

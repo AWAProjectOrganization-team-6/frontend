@@ -1,4 +1,4 @@
-import styles from '../styles/CreateRestaurant.module.scss';
+import styles from '../styles/CreateRestaurantView.module.scss';
 import cx from 'classnames';
 import { Component } from 'react';
 import OperatingHours from '../components/OperatingHours';

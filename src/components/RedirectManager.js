@@ -1,9 +1,8 @@
-import { useEffect, useRef } from 'react';
+import { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 const RedirectManager = (props) => {
-    let firstRender = useRef(true);
     let nav = useNavigate();
     let route = useLocation();
 
@@ -11,10 +10,11 @@ const RedirectManager = (props) => {
     let { from, to, onChange, replace } = props;
 
     useEffect(() => {
-        if (onChange.type !== 'ADMIN') return;
-        if (firstRender.current) {
-            firstRender.current = false;
-            return;
+        if (onChange.type !== 'ADMIN') {
+            if (to === route.pathname) {
+                nav(from[0], { replace });
+                return;
+            } else return;
         }
         if (from.includes(route.pathname)) {
             console.log(route);
