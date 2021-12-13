@@ -1,4 +1,4 @@
-import styles from '../styles/CreateRestaurant.module.scss';
+import styles from '../styles/CreateRestaurantView.module.scss';
 import cx from 'classnames';
 import { Component } from 'react';
 import OperatingHours from '../components/OperatingHours';
@@ -295,7 +295,7 @@ class CreateRestaurant extends Component {
                             required
                             className={styles.input}
                             onChange={this.onChange}
-                            pattern="[A-ö0-9\\s-]+"
+                            pattern="[A-ö0-9\s-]+"
                             name="streetAddress"
                             type="text"
                             placeholder="StreetAddress"

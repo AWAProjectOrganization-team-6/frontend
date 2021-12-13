@@ -5,7 +5,7 @@ import PopUpMenu from './PopUpMenu';
 import MenuItem from './MenuItem';
 import { Link } from 'react-router-dom';
 import Login from './Login';
-import ShoppingCart from './ShoppingCart,';
+import ShoppingCart from './ShoppingCart';
 
 export default function Topbar(props) {
     var buttons = (
