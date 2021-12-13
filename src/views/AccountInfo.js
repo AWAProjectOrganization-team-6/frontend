@@ -3,6 +3,10 @@ import styles from '../styles/AccountInfo.module.scss';
 import cx from 'classnames';
 import { Component } from 'react';
 import DebitCard from '../components/DebitCard';
+import { APIAddress } from '../config.json';
+import axios from 'axios';
+import { Link } from 'react-router-dom';
+
 
 class AccountInfo extends Component {
     constructor(props) {
@@ -29,7 +33,11 @@ class AccountInfo extends Component {
         // this.paymentDetails.current.state;
     }
 
-    
+    componentDidMount() {
+        axios.get(APIAddress + 'account').then((res) => {
+            console.log(res);
+        });
+    }
 
     onChange(event) {
         let accountData = { ...this.state.accountData };
@@ -119,7 +127,7 @@ class AccountInfo extends Component {
                             />
                         </div>
                         <div className = { styles.buttons }>
-                            <button className = { styles.cancelButton }>Cancel</button>
+                            <Link to="/" className = { styles.cancelButton }>Cancel</Link>
                             <button className = { styles.confirmButton } onClick={this.handleConfirm}>Confirm</button>
                         </div>
                     </div>
