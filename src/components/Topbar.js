@@ -41,7 +41,9 @@ export default function Topbar(props) {
             <div className={styles.buttons}>
                 <ShoppingCart cart={props.cart}></ShoppingCart>
                 <PopUpMenu title={`${props.user.first_name} ${props.user.last_name}`} onLogout={props.onLogout}>
-                    <MenuItem text="Order status/\nhistory"></MenuItem>
+                    <Link to="/status" style={{textDecoration: 'none', color: 'white'}}>
+                        <MenuItem text="Order status/\nhistory"></MenuItem>
+                    </Link>
                 </PopUpMenu>
             </div>
         );

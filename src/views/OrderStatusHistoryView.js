@@ -1,7 +1,5 @@
 import styles from '../styles/OrderStatusHistoryView.module.scss';
 import cx from 'classnames';
-// import Topbar from '../components/Topbar';
-import Footer from '../components/Footer';
 import Order from '../components/Order';
 import { Component } from 'react';
 
@@ -70,13 +68,11 @@ class OrderStatusHistoryView extends Component {
     render() {
         return (
             <>
-                {/* <Topbar/> */}
                 <div className = { styles.mainDiv}>
                     <div className = { styles.orderStatusStyle }> {orderStatus} </div>
                     <div className = { styles.pictureStyle}> {picture} </div>
                     <div className = { styles.historyViewStyle}> {historyView} </div>
                 </div>
-                <Footer/>
             </>
         );
     }
