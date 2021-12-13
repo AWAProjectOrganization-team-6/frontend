@@ -73,7 +73,6 @@ const ShoppingCart = (props) => {
 
     /** @type {EventListener} */
     const sendData = async (event) => {
-        console.log(fields);
         event.preventDefault();
         if (cart.length === 0) return false;
         if (selectedAddress === null) {
@@ -100,7 +99,6 @@ const ShoppingCart = (props) => {
 
         if (paymentMethod === 'PayPal') postOrder(conf);
         else if (paymentMethod === 'CARD') {
-            console.log(fields.save);
             if (fields.save.current) {
                 try {
                     /** @type {string} */
@@ -124,7 +122,7 @@ const ShoppingCart = (props) => {
                 } catch (err) {
                     console.error(err);
                 }
-            } // else postOrder(conf);
+            } else postOrder(conf);
         } else if (parseInt(paymentMethod) == paymentMethod) {
             if (selectedAddress === 'ADD') {
                 if (newAddressState.checked) {
