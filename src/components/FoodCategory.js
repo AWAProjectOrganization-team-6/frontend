@@ -38,12 +38,12 @@ export default function Category(props) {
                 <div className={styles.food}>
                     <div className={styles.row1}>
                         <input className={styles.input} onChange={setFoodName} placeholder={'Food name'}></input>
-                        <input className={styles.input} type="number" min="0" onChange={setPrice} placeholder={'Food Price'}></input>
+                        <input className={styles.input} type="number" min="0" step='0.01' onChange={setPrice} placeholder={'Food Price'}></input>
                     </div>
                     <div className={styles.row2}>
                         <input className={styles.input} placeholder={'Description'} onChange={setDesc}></input>
                         <FileUploader selected={setPic} style={styles.fileInput} />
-                        <button className={styles.button} onClick={() => props.addFood(props.category, name, price, desc, picFile, pic)}>
+                        <button type='button' className={styles.button} onClick={() => props.addFood(props.category, name, price, desc, picFile, pic)}>
                             + Add
                         </button>
                     </div>

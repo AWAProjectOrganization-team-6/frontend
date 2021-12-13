@@ -232,47 +232,52 @@ class CreateRestaurant extends Component {
         }
 
         let authorization = { Authorization: 'bearer ' + this.props.token };
+
         console.log(this.props.token);
         console.log(restaurantData);
-        axios.post(APIAddress + 'restaurant', restaurantData, { headers: authorization }).then(
-            (res) => {
-                let picture = new FormData();
-                picture.append('restaurant', res.data.restaurant_id);
-                picture.append('image', _state.restaurantData.pictureFile);
 
-                operatingHours.forEach((val) => (val.restaurant_id = res.data.restaurant_id));
+        Promise.all([
+            axios.post(APIAddress + 'restaurant', restaurantData, { headers: authorization }).then(
+                (res) => {
+                    let picture = new FormData();
+                    picture.append('restaurant', res.data.restaurant_id);
+                    picture.append('image', _state.restaurantData.pictureFile);
 
-                products.forEach((val) => (val.restaurant_id = res.data.restaurant_id));
+                    operatingHours.forEach((val) => (val.restaurant_id = res.data.restaurant_id));
 
-                let productImages = new FormData();
-                productImages.append('restaurant', res.data.restaurant_id);
-                for (let i = 0; i < productImageFiles.length; i++) {
-                    productImages.append('productImages', productImageFiles[i]);
-                }
+                    products.forEach((val) => (val.restaurant_id = res.data.restaurant_id));
 
-                axios.post(APIAddress + 'restaurant/operating-hours', operatingHours, { headers: authorization }).then(() => {
-                    axios.post(APIAddress + 'products', products, { headers: authorization }).then(() => {
+                    let productImages = new FormData();
+                    productImages.append('restaurant', res.data.restaurant_id);
+                    for (let i = 0; i < productImageFiles.length; i++) {
+                        productImages.append('productImages', productImageFiles[i]);
+                    }
+
+                    axios.post(APIAddress + 'restaurant/operating-hours', operatingHours, { headers: authorization }).then(() => {
+                    }),
+
                         axios
                             .post(APIAddress + 'products/upload', productImages, { headers: { 'content-type': 'multipart/form-data', ...authorization } })
                             .then(() => {
-                                axios
-                                    .post(APIAddress + 'restaurant/upload', picture, { headers: { 'content-type': 'multipart/form-data', ...authorization } })
-                                    .then((res) => {
-                                        if (res.data) {
-                                            this.setState({ showInputs: false });
-                                            this.setState({ restaurantCreated: true });
-                                        }
-                                    });
-                            });
-                    });
-                });
-            },
-            (error) => {
-                if (error.response) {
-                    this.setError(error.response.data);
-                }
-            }
-        );
+                            }),
+
+                        axios
+                            .post(APIAddress + 'restaurant/upload', picture, { headers: { 'content-type': 'multipart/form-data', ...authorization } })
+                            .then((res) => {
+                            }),
+
+                        axios.post(APIAddress + 'products', products, { headers: authorization }).then(() => {
+                        });
+                },
+            ),
+        ])
+        .then(() => {
+            this.setState({ showInputs: false});
+            this.setState({ restaurantCreated: true});
+        })
+        .catch(error => {
+            this.setState({ error: error.data});
+        })
     }
 
     render() {
@@ -322,7 +327,7 @@ class CreateRestaurant extends Component {
                                     set={this.setOperatingHours}
                                 />
                             ))}
-                            <button onClick={this.addOperatingHour} className={styles.button}>
+                            <button type='button' onClick={this.addOperatingHour} className={styles.button}>
                                 + Add operatingHour
                             </button>
                         </div>
@@ -338,7 +343,7 @@ class CreateRestaurant extends Component {
                                 />
                             ))}
                             <input className={styles.input} name="addCategory" onChange={this.onChange} placeholder={'Category name'} />
-                            <button className={styles.button} onClick={this.addCategory}>
+                            <button type='button' className={styles.button} onClick={this.addCategory}>
                                 + Add Category
                             </button>
                         </div>
