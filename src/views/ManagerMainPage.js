@@ -25,6 +25,17 @@ class ManagerMainPage extends Component {
         }
     }
 
+    componentDidMount() {
+        axios.get(APIAddress + 'restaurant').then((res) => {
+            let managerRestaurants = res.data.filter((val) => val.user_id === this.props.user.user_id);
+            console.log(this.props.user);
+            this.setState({
+                managerRestaurants,
+                restaurants: res.data,
+            });
+        });
+    }
+
     render() {
         return (
             <div>

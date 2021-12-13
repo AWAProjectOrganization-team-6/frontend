@@ -9,6 +9,7 @@ import Redirect from './components/Redirect';
 import MainPage from './views/MainPage';
 import Footer from './components/Footer';
 import ManagerMainPage from './views/ManagerMainPage';
+import RedirectManager from './components/RedirectManager';
 
 class InitialState {
     constructor() {
@@ -149,6 +150,7 @@ class App extends Component {
         return (
             <BrowserRouter>
                 <Redirect onChange={this.state.user} replace={true} />
+                <RedirectManager onChange={this.state.user} replace={true} />
                 <Topbar onLogin={this.onLogin} onLogout={this.onLogout} user={this.state.user} cart={this.state.shoppingCart} />
                 <Routes>
                     <Route path="/" element={<MainPage user={this.state.user} token={this.state.loginToken} />} />
