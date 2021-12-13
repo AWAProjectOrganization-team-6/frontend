@@ -1,9 +1,10 @@
 import styles from '../styles/RestaurantItem.module.scss';
 import { CloudinaryContext, Image } from 'cloudinary-react';
+import { Link } from 'react-router-dom';
 
 export default function RestaurantItem(props) {
     return (
-        <div className={styles.restaurantitem}>
+        <Link to={'/restaurants/' + props.restaurant.restaurant_id} className={styles.restaurantitem}>
             <CloudinaryContext cloudName="ramppasamppa">
                 <div>
                     <Image publicId={props.restaurant.picture} />
@@ -17,6 +18,6 @@ export default function RestaurantItem(props) {
                     <span>{props.restaurant.star_rating}</span> <span>{props.restaurant.price_level}</span>
                 </div>
             </div>
-        </div>
+        </Link>
     );
 }

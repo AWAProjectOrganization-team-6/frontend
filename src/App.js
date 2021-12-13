@@ -7,8 +7,10 @@ import Topbar from './components/Topbar';
 import CreateAccount from './views/CreateAccount';
 import Redirect from './components/Redirect';
 import MainPage from './views/MainPage';
-import ShoppingCart from './views/ShoppingCart';
 import Footer from './components/Footer';
+import CreateRestaurant from './views/CreateRestaurant';
+import ManagerMainPage from './views/ManagerMainPage';
+import RedirectManager from './components/RedirectManager';
 
 class InitialState {
     constructor() {
@@ -153,11 +155,12 @@ class App extends Component {
         return (
             <BrowserRouter>
                 <Redirect onChange={this.state.user} replace={true} />
+                <RedirectManager onChange={this.state.user} replace={true} />
                 <Topbar onLogin={this.onLogin} onLogout={this.onLogout} user={this.state.user} cart={this.state.shoppingCart} />
                 <Routes>
                     <Route path="/" element={<MainPage user={this.state.user} token={this.state.loginToken} />} />
                     <Route path="/create/account" element={<CreateAccount />} />
-                    <Route path="/create/restaurant" element={<div> RESTAURANT CREATION </div>} />
+                    <Route path="/create/restaurant" element={<CreateRestaurant token={this.state.loginToken} />} />
                     <Route path="/account" element={<div> ACCOUNT INFO </div>} />
                     <Route path="/status" element={<div> ORDER STATUS </div>} />
                     <Route
@@ -179,6 +182,7 @@ class App extends Component {
                         }
                     />
                     <Route path="/restaurants/:id" element={<div> RESTAURANT 12 </div>} />
+                    <Route path="/managerpage" element={<ManagerMainPage user={this.state.user} token={this.state.loginToken} />} />
                 </Routes>
                 <Footer />
             </BrowserRouter>
