@@ -2,8 +2,6 @@ import react from 'react';
 import styles from '../styles/AccountInfo.module.scss';
 import cx from 'classnames';
 import { Component } from 'react';
-import Topbar from '../components/Topbar';
-import Footer from '../components/Footer';
 import DebitCard from '../components/DebitCard';
 
 class AccountInfo extends Component {
@@ -69,9 +67,7 @@ class AccountInfo extends Component {
     }
 
     render() {
-        let paymentOptionField = (
-            <></>
-        );
+        let paymentOptionField = null;
 
         switch (this.state.accountData.paymentOption) {
             case 1:
@@ -83,7 +79,6 @@ class AccountInfo extends Component {
 
         return (
             <>
-                <Topbar/>
                 <div className = {cx(styles.infoField, styles.font)}>
                     <div>
                         <div className = { styles.title }>Account Information</div>
@@ -142,7 +137,6 @@ class AccountInfo extends Component {
                         </div>
                     </div>  
                 </div>
-                <Footer/>
             </>
         );
     }
