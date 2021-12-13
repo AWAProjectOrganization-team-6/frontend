@@ -6,7 +6,12 @@ import DebitCard from '../components/DebitCard';
 import { APIAddress } from '../config.json';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
+import {useParams} from 'react-router-dom';
+import { useState } from 'react';
 
+// const {id} = useParams();
+// const userId = id;
+// const [user, setUser] = useState({});
 
 class AccountInfo extends Component {
     constructor(props) {
@@ -32,11 +37,20 @@ class AccountInfo extends Component {
         // Access child state 
         // this.paymentDetails.current.state;
     }
-
+    
     componentDidMount() {
-        axios.get(APIAddress + 'account').then((res) => {
-            console.log(res);
-        });
+        axios.get(APIAddress + 'users/@me', {
+                    headers: { authorization: 'bearer ' + this.props.token },
+                }).then((res) => {
+                    console.log(res);
+                    this.setState({
+                        firstName: res.data.first_name,
+                        lastName: res.data.last_name,
+                        // address: res.data.address,
+                        phoneNumber: res.data.phone,
+                        email: res.data.email
+                    })
+                });
     }
 
     onChange(event) {
@@ -71,7 +85,7 @@ class AccountInfo extends Component {
     }
 
     handleConfirm() {
-        console.log(this.paymentDetails.current.state);
+        // console.log(this.paymentDetails.current.state);
     }
 
     render() {
@@ -97,6 +111,7 @@ class AccountInfo extends Component {
                                 placeholder='First name' 
                                 type='text' 
                                 onChange={this.onChange}
+                                defaultValue={this.state.firstName}
                             />
                             <input 
                                 className = { styles.inputs } 
@@ -104,6 +119,7 @@ class AccountInfo extends Component {
                                 placeholder='Last name' 
                                 type='text' 
                                 onChange={this.onChange}
+                                defaultValue={this.state.lastName}
                             />
                             <input 
                                 className = { styles.inputs } 
@@ -111,19 +127,23 @@ class AccountInfo extends Component {
                                 placeholder='Address' 
                                 type='text' 
                                 onChange={this.onChange}
+                                // defaultValue={this.state.address}
                             />
                             <input 
                                 className = { styles.inputs } 
                                 name='phoneNumber' 
                                 placeholder='Phone number' 
                                 type='text' 
-                                onChange={this.onChange}/>
+                                onChange={this.onChange}
+                                defaultValue={this.state.phoneNumber}
+                            />
                             <input 
                                 className = { styles.inputs } 
                                 name='email' 
                                 placeholder='Email' 
                                 type='email' 
                                 onChange={this.onChange}
+                                defaultValue={this.state.email}
                             />
                         </div>
                         <div className = { styles.buttons }>
