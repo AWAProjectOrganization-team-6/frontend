@@ -5,6 +5,8 @@
     flex-direction: row;
     align-items: center;
 
+    width: fit-content;
+     
     @extend .font;
 
     .checkMark {
