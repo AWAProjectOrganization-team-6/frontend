@@ -28,20 +28,7 @@ export default class RestaurantMenuPopUp extends Component {
             this.setState({ shown: !this.state.shown });
         }
     }
-
-    addToCart(id, name, price) {
-        let cart = this.state.shoppingCart;
-
-        let itemInList = cart.findIndex((val) => val.id = id);
-        if (itemInList) {
-            cart[itemInList].count++;
-        } else {
-            cart.push({ id, name, price, count: 1 });
-        }
-
-        this.setState({ ShoppingCart: cart });
-    }
-
+    
     menu = {[`data-menu${this.props.index}`] : true}
     render() {
         return (
