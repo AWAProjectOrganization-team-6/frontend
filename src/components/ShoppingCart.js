@@ -9,6 +9,7 @@ import { Link } from 'react-router-dom';
 const ExtraItems = (props) => {
     let len = props.cart.length;
     if (len > 3) return <div className={props.className}>{`And ${len - 3} more ${len - 3 === 1 ? 'item' : 'items'} in cart`}</div>;
+    return null;
 };
 
 export default class ShoppingCart extends Component {
@@ -50,6 +51,7 @@ export default class ShoppingCart extends Component {
                 </>
             );
         };
+        
         let total = 0;
         for (const item of this.props.cart) {
             total += item.count * item.price;
@@ -69,7 +71,7 @@ export default class ShoppingCart extends Component {
                     <ExtraItems className={cx(styles.menuItem, styles.itemsLeft)} cart={this.props.cart} />
                     <div className={styles.menuSettings}>
                         <div className={styles.menuItem}>{`Total price ${total}€`}</div>
-                        <Link to="/cart" className={cx(styles.menuItem, styles.button)}>
+                        <Link to="/cart" onClick={this.onClick} className={cx(styles.menuItem, styles.button)}>
                             Show more
                         </Link>
                     </div>
