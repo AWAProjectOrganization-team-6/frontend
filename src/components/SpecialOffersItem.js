@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 
 export default function SpecialOffersItem(props) {
     return (
-        <Link to="/" className={styles.specialoffersitem}>
+        <Link to={'/restaurants/' + props.restaurant.restaurant_id} className={styles.specialoffersitem}>
             <CloudinaryContext cloudName="ramppasamppa">
                 <div>
                     <Image publicId={props.product.picture} />
