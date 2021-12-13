@@ -8,6 +8,7 @@ import CreateAccount from './views/CreateAccount';
 import Redirect from './components/Redirect';
 import MainPage from './views/MainPage';
 import Footer from './components/Footer';
+import CreateRestaurant from './views/CreateRestaurant';
 import ManagerMainPage from './views/ManagerMainPage';
 import RedirectManager from './components/RedirectManager';
 
@@ -155,7 +156,7 @@ class App extends Component {
                 <Routes>
                     <Route path="/" element={<MainPage user={this.state.user} token={this.state.loginToken} />} />
                     <Route path="/create/account" element={<CreateAccount />} />
-                    <Route path="/create/restaurant" element={<div> RESTAURANT CREATION </div>} />
+                    <Route path="/create/restaurant" element={<CreateRestaurant token={this.state.loginToken} />} />
                     <Route path="/account" element={<div> ACCOUNT INFO </div>} />
                     <Route path="/status" element={<div> ORDER STATUS </div>} />
                     <Route path="/cart" element={<div> CART </div>} />
