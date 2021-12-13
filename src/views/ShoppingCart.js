@@ -54,7 +54,8 @@ const ShoppingCart = (props) => {
             }
             _total += val.price * val.count;
         });
-        setTotal(_total);
+        _total = Math.round(_total * 100);
+        setTotal(_total / 100);
     }, [cart]);
 
     const updateTotal = () => {
@@ -66,7 +67,8 @@ const ShoppingCart = (props) => {
             }
             _total += val.price * val.count;
         });
-        setTotal(_total);
+        _total = Math.round(_total * 100);
+        setTotal(_total / 100);
     };
 
     /** @type {EventListener} */
