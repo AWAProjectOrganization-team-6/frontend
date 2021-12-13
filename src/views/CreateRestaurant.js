@@ -6,6 +6,7 @@ import Category from '../components/FoodCategory';
 import axios from 'axios';
 import FileUploader from '../components/FileUploader';
 import { APIAddress } from '../config.json';
+import { Link } from 'react-router-dom';
 
 class CreateRestaurant extends Component {
 
@@ -38,6 +39,9 @@ class CreateRestaurant extends Component {
             categoryName: '',
             shortDays: ['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun'],
             days: ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'],
+            error: '',
+            showInputs: true,
+            restaurantCreated: false
         };
 
         this.addCategory = this.addCategory.bind(this);
@@ -49,6 +53,7 @@ class CreateRestaurant extends Component {
         this.deleteOperatingHour = this.deleteOperatingHour.bind(this);
         this.setOperatingHours = this.setOperatingHours.bind(this);
         this.submit = this.submit.bind(this);
+        this.setError = this.setOperatingHours.bind(this);
     }
 
     onChange(event) {
@@ -171,6 +176,10 @@ class CreateRestaurant extends Component {
         this.setState({ restaurantData });
     }
 
+    setError(errorMessage) {
+        this.setState({ error: errorMessage });
+    }
+
     submit(e) {
         e.preventDefault();
         let _state = { ...this.state };
@@ -217,10 +226,9 @@ class CreateRestaurant extends Component {
             operatingHours.push(temp);
         }
 
-        let authorization = { 'Authorization': 'bearer ' + 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIsImlhdCI6MTYzODg3NDIxNCwiZXhwIjoxNjM4ODc0ODE0fQ.--47nP_FJC8P_429Rl31vmJzz2BXceiys_sx6jJ1Ffw' };
-
+        let authorization = { 'Authorization': 'bearer ' + this.props.token };
+        console.log(this.props.token);
         console.log(restaurantData);
-
         axios.post(APIAddress + 'restaurant', restaurantData, { headers: authorization })
             .then((res) => {
 
@@ -240,42 +248,53 @@ class CreateRestaurant extends Component {
 
                 axios.post(APIAddress + 'restaurant/operating-hours', operatingHours, { headers: authorization })
                     .then((res) => {
-
+                        axios.post(APIAddress + 'products', products, { headers: authorization })
+                        .then((res) => {
+                            axios.post(APIAddress + 'products/upload', productImages, { headers: { 'content-type': 'multipart/form-data', ...authorization } })
+                            .then((res) => {
+                                axios.post(APIAddress + 'restaurant/upload', picture, { headers: { 'content-type': 'multipart/form-data', ...authorization } })
+                                .then((res) => {
+                                    if (res.data) {
+                                        this.setState({ showInputs: false});
+                                        this.setState({ restaurantCreated: true});
+                                    }
+                                });
+                            });
+                        });
                     });
 
-                axios.post(APIAddress + 'products', products, { headers: authorization })
-                    .then((res) => {
+            },
+                (error) => {
+                    if (error.response) {
+                        this.setError(error.response.data);
+                    }
 
-                    });
-
-                axios.post(APIAddress + 'products/upload', productImages, { headers: { 'content-type': 'multipart/form-data', ...authorization } })
-                    .then((res) => {
-
-                    });
-
-                axios.post(APIAddress + 'restaurant/upload', picture, { headers: { 'content-type': 'multipart/form-data', ...authorization } })
-                    .then((res) => {
-
-                    });
-            });
+                });
 
 
     }
 
     render() {
         return (
-            <>
-                <div className={styles.contentArea}>
-                    <div className={styles.inputFields}>
+            <div className={styles.contentArea}>
+                {this.state.restaurantCreated && (
+                    <div className={styles.created}> 
+                        <p>Restaurant was succesfully created</p>
+                        <Link to='/' className={styles.link}>
+                            Mainpage
+                        </Link>
+                    </div>
+                )}
+                {this.state.showInputs && (
+                    <form className={styles.inputFields} onSubmit={this.submit}>
                         <div className={cx(styles.logo, styles.font)}>
-                            Account Creation
+                            Restaurant Creation
                         </div>
                         <FileUploader selected={this.onChange} style={styles.fileInput} />
-
-                        <input className={styles.input} onChange={this.onChange} name='name' type='text' placeholder='Name' />
-                        <input className={styles.input} onChange={this.onChange} name='streetAddress' type='text' placeholder='StreetAddress' />
-                        <input className={styles.input} onChange={this.onChange} name='city' type='text' placeholder='City' />
-                        <input className={styles.input} onChange={this.onChange} name='postcode' type='number' placeholder='Postcode' />
+                        <input required className={styles.input} onChange={this.onChange} name='name' type='text' placeholder='Name' />
+                        <input required className={styles.input} onChange={this.onChange} pattern="[A-ö0-9\\s-]+" name='streetAddress' type='text' placeholder='StreetAddress' />
+                        <input required className={styles.input} onChange={this.onChange} name='city' type='text' placeholder='City' />
+                        <input required className={styles.input} onChange={this.onChange} maxLength={5} minLength={5} name='postcode' type='text' placeholder='Postcode' />
                         <div className={styles.operatingHours}>
                             <div className={styles.text}>
                                 Operating Hours
@@ -293,7 +312,7 @@ class CreateRestaurant extends Component {
                                 + Add Category
                             </button>
                         </div>
-                        <select className={styles.select} name='pricelevel' onChange={this.onChange} defaultValue='default'>
+                        <select required className={styles.select} name='pricelevel' onChange={this.onChange} defaultValue='default'>
                             <option value='default' disabled hidden>
                                 Select pricelevel
                             </option>
@@ -302,7 +321,7 @@ class CreateRestaurant extends Component {
                             <option value={3}>€€€</option>
                             <option value={4}>€€€€</option>
                         </select>
-                        <select className={styles.select} name='type' onChange={this.onChange} defaultValue='default'>
+                        <select required className={styles.select} name='type' onChange={this.onChange} defaultValue='default'>
                             <option value='default' disabled hidden>
                                 Select restaurant type
                             </option>
@@ -312,14 +331,14 @@ class CreateRestaurant extends Component {
                             <option value='Casual dining'>Casual dining</option>
                             <option value='Fine dining'>Fine dining</option>
                         </select>
-                        <button onClick={this.submit} className={cx(styles.create, styles.font)}>
+                        <button className={cx(styles.create, styles.font)} type='submit'>
                             Create
                         </button>
-
-                    </div>
-                    <img src={this.state.restaurantData.picture} className={styles.image} />
-                </div>
-            </>
+                        <div className={styles.errors}>{this.state.error}</div>
+                    </form>
+                )}
+                <img src={this.state.restaurantData.picture} className={styles.image} />
+            </div>
         );
     }
 }

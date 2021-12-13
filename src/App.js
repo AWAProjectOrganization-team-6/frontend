@@ -7,8 +7,8 @@ import Topbar from './components/Topbar';
 import CreateAccount from './views/CreateAccount';
 import Redirect from './components/Redirect';
 import MainPage from './views/MainPage';
-import ShoppingCart from './views/ShoppingCart';
 import Footer from './components/Footer';
+import CreateRestaurant from './views/CreateRestaurant';
 
 class InitialState {
     constructor() {
@@ -153,10 +153,10 @@ class App extends Component {
                 <Routes>
                     <Route path="/" element={<MainPage user={this.state.user} token={this.state.loginToken} />} />
                     <Route path="/create/account" element={<CreateAccount />} />
-                    <Route path="/create/restaurant" element={<div> RESTAURANT CREATION </div>} />
+                    <Route path="/create/restaurant" element={<CreateRestaurant token={this.state.loginToken}/>} />
                     <Route path="/account" element={<div> ACCOUNT INFO </div>} />
                     <Route path="/status" element={<div> ORDER STATUS </div>} />
-                    <Route path="/cart" element={<ShoppingCart />} />
+                    <Route path="/cart" element={<div> Shopping cart </div>} />
                     <Route path="/restaurants" element={<div> RESTAURANTS </div>} />
                     <Route path="/restaurants/:id" element={<div> RESTAURANT 12 </div>} />
                 </Routes>
