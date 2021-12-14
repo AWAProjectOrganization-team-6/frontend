@@ -12,6 +12,7 @@ import CreateRestaurant from './views/CreateRestaurant';
 import ManagerMainPage from './views/ManagerMainPage';
 import RedirectManager from './components/RedirectManager';
 import ShoppingCart from './views/ShoppingCart';
+import Search from './views/Search';
 
 class InitialState {
     constructor() {
@@ -185,6 +186,7 @@ class App extends Component {
                     />
                     <Route path="/restaurants/:id" element={<div> RESTAURANT 12 </div>} />
                     <Route path="/managerpage" element={<ManagerMainPage user={this.state.user} token={this.state.loginToken} />} />
+                    <Route path="/search" element={<Search />} />
                 </Routes>
                 <Footer />
             </BrowserRouter>
