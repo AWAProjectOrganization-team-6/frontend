@@ -184,7 +184,7 @@ class App extends Component {
                             />
                         }
                     />
-                    <Route path="/restaurants/:id" element={<RestaurantView />} />
+                    <Route path="/restaurants/:id" element={<RestaurantView addToCart={this.addToCart}/>} />
                     <Route path="/managerpage" element={<ManagerMainPage user={this.state.user} token={this.state.loginToken} />} />
                 </Routes>
                 <Footer />

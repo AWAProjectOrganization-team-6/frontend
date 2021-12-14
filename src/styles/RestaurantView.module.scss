@@ -151,14 +151,16 @@
             }
 
             .categoryProducts {
-                width: 500px;
-                display: flex;
-                justify-content: space-between;
-                flex-wrap: wrap;
+                margin-top: 3rem;
+                width: 100%;
                 // background-color: brown;
 
                 .product {
-                    padding: 0px 100px 0px 0px;
+                    width: 100%;
+                    display: grid;
+                    justify-items: center;
+                    grid-template-columns: repeat(3, 1fr);
+                    row-gap: 30px;
                     cursor: pointer;
                 }
             }

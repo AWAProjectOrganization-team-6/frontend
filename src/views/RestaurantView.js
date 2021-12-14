@@ -12,12 +12,25 @@ export default function RestaurantView(props) {
     const restaurantId = id;
     const [restaurant, setRestaurant] = useState({});
 
+    const [product, setProduct] = useState({});
+
     useEffect(async () => {
         try {
             const res = await axios.get(APIAddress + 'restaurant');
-            console.log(res);
             let restaurant = res.data.find((val) => val.restaurant_id == restaurantId) ?? {};
             setRestaurant(restaurant);
+
+            const res1 = await axios.get(APIAddress + 'restaurant/' + restaurantId + '/menu');
+            const _product = {};
+
+            for (const item of res1.data) {
+                if(!_product[item.type]) {
+                  _product[item.type] = [];
+                }
+                _product[item.type].push(item);
+            }
+            setProduct(_product);
+
         } catch (err) {
             if (err) console.log(err);
         }
@@ -37,13 +50,13 @@ export default function RestaurantView(props) {
             <div className = {styles.restInfoBottom}>
                 <div className = {styles.operatingHours}>
                     <div>Operating Hours</div>
-                    <div>Mon-Thu:</div>
-                    <div>Fri-Sat:</div>
+                    <div>1</div>
+                    <div>2</div>
                 </div>
                 <div className = {styles.typePriceRating}>
                     <div className = {styles.type}>Type: {restaurant.type}</div>
                     <div className = {styles.priceLevel}>Price Level: {restaurant.price_level}</div>
-                    <div className = {styles.rating}>Rating: {restaurant.star_rating}</div>
+                    <div className = {styles.rating}>Rating: {restaurant.star_rating/2}★</div>
                 </div>
             </div>
         </div>
@@ -59,29 +72,22 @@ export default function RestaurantView(props) {
     var restaurantMenu = (
         <div className={cx(styles.restaurantMenuStyle, styles.font)}>
             <div className= {styles.menuTitle}>Menu</div>
-            <div className= {styles.categoryData}>
-                <div className= {styles.categoryName}>Category Name</div>
-                <div className= {styles.categoryProducts}>
-                    <div className= {styles.product}>
-                        <RestaurantMenuPopUp index={1}/>
-                    </div>
-                    <div className= {styles.product}>
-                        <RestaurantMenuPopUp index={2}/>
-                    </div>
-                    <div className= {styles.product}>
-                        <RestaurantMenuPopUp index={3}/>
-                    </div>
-                    <div className= {styles.product}>
-                        <RestaurantMenuPopUp index={4}/>
-                    </div>
-                    <div className= {styles.product}>
-                        <RestaurantMenuPopUp index={5}/>
-                    </div>
-                    <div className= {styles.product}>
-                        <RestaurantMenuPopUp index={6}/>
-                    </div>
-                </div>      
-            </div>
+            {Object.entries(product).map(
+                ([categoryName, products], index) => {
+                    return (
+                        <div className= {styles.categoryData} key={index}>
+                            <div className= {styles.categoryName}>{categoryName}</div>
+                            <div className= {styles.categoryProducts}>
+                                <div className= {styles.product}>
+                                    {products.map(elem => {
+                                       return <RestaurantMenuPopUp index={elem.product_id} product={elem} key={elem.product_id} addToCart={props.addToCart}/>
+                                    })}
+                                </div>
+                            </div>      
+                        </div>
+                    );
+                }
+            )}
         </div>
     );
 
