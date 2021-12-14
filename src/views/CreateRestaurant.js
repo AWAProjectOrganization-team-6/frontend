@@ -1,6 +1,6 @@
 import styles from '../styles/CreateRestaurantView.module.scss';
 import cx from 'classnames';
-import { Component } from 'react';
+import { Component, createRef } from 'react';
 import OperatingHours from '../components/OperatingHours';
 import Category from '../components/FoodCategory';
 import axios from 'axios';
@@ -34,6 +34,7 @@ class CreateRestaurant extends Component {
             error: '',
             showInputs: true,
             restaurantCreated: false,
+            categoryNameInput: createRef(),
         };
 
         this.addCategory = this.addCategory.bind(this);
@@ -140,9 +141,10 @@ class CreateRestaurant extends Component {
     }
 
     addCategory() {
-        let restaurantData = { ...this.state.restaurantData };
-        restaurantData.categories.push({ id: ++this.categoryIndex, name: this.state.categoryName, foods: [] });
-        this.setState({ restaurantData });
+        let _state = {...this.state};
+        _state.categoryNameInput.current.value = '';
+        _state.restaurantData.categories.push({ id: ++this.categoryIndex, name: this.state.categoryName, foods: []});
+        this.setState({_state });
     }
 
     addFoodToCategory(category, foodName, price, desc, picFile, pic) {
@@ -342,7 +344,7 @@ class CreateRestaurant extends Component {
                                     deleteFood={this.deleteFoodFromCategory}
                                 />
                             ))}
-                            <input className={styles.input} name="addCategory" onChange={this.onChange} placeholder={'Category name'} />
+                            <input ref={this.state.categoryNameInput} className={styles.input} name="addCategory" onChange={this.onChange} placeholder={'Category name'} />
                             <button type='button' className={styles.button} onClick={this.addCategory}>
                                 + Add Category
                             </button>
