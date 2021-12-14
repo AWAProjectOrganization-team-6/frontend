@@ -5,6 +5,7 @@ import { APIAddress } from './config.json';
 import axios from 'axios';
 import Topbar from './components/Topbar';
 import CreateAccount from './views/CreateAccount';
+import RestaurantView from './views/RestaurantView';
 import Redirect from './components/Redirect';
 import MainPage from './views/MainPage';
 import Footer from './components/Footer';
@@ -14,6 +15,7 @@ import RedirectManager from './components/RedirectManager';
 import ShoppingCart from './views/ShoppingCart';
 import OrderStatusHistoryView from './views/OrderStatusHistoryView';
 import Search from './views/Search';
+import AccountInfo from './views/AccountInfo';
 
 class InitialState {
     constructor() {
@@ -114,6 +116,7 @@ class App extends Component {
      * @param {number} price base price of the item
      */
     addToCart(orderRestaurantId, id, name, price) {
+        if (this.state.orderRestaurantId !== orderRestaurantId && this.state.orderRestaurantId !== null) return;
         let cart = this.state.shoppingCart;
 
         let itemInList = cart.findIndex((val) => val.id === id);
@@ -165,8 +168,8 @@ class App extends Component {
                     <Route path="/" element={<MainPage user={this.state.user} token={this.state.loginToken} />} />
                     <Route path="/create/account" element={<CreateAccount />} />
                     <Route path="/create/restaurant" element={<CreateRestaurant token={this.state.loginToken} />} />
-                    <Route path="/account" element={<div> ACCOUNT INFO </div>} />
                     <Route path="/status" element={<OrderStatusHistoryView token={this.state.loginToken} user={this.state.user} />} />
+                    <Route path="/account" element={<AccountInfo token={this.state.loginToken}/>} />
                     <Route
                         path="/cart"
                         element={
@@ -185,7 +188,7 @@ class App extends Component {
                             />
                         }
                     />
-                    <Route path="/restaurants/:id" element={<div> RESTAURANT 12 </div>} />
+                    <Route path="/restaurants/:id" element={<RestaurantView addToCart={this.addToCart}/>} />
                     <Route path="/managerpage" element={<ManagerMainPage user={this.state.user} token={this.state.loginToken} />} />
                     <Route path="/search" element={<Search />} />
                 </Routes>

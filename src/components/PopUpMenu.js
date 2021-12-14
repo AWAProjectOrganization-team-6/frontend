@@ -4,6 +4,7 @@ import { HiOutlineMenu } from 'react-icons/hi';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
 import MenuItem from './MenuItem';
+import { Link } from 'react-router-dom';
 
 export default class PopUpMenu extends Component {
     constructor(props) {
@@ -42,7 +43,9 @@ export default class PopUpMenu extends Component {
                     <div className={cx(styles.title, styles.menuItem)}>{this.props.title}</div>
                     {this.props.children}
                     <div className={styles.menuSettings}>
-                        <MenuItem text="Account info"></MenuItem>
+                        <Link to="/account" style={{textDecoration: 'none', color: 'white'}}>
+                            <MenuItem text="Account info"></MenuItem>
+                        </Link>
                         <MenuItem text="Logout" onClick={this.props.onLogout}></MenuItem>
                     </div>
                 </div>

@@ -56,6 +56,7 @@ export default class ShoppingCart extends Component {
         for (const item of this.props.cart) {
             total += item.count * item.price;
         }
+        total = Math.round(total * 100) / 100;
 
         return (
             <>
