@@ -5,6 +5,7 @@ import { APIAddress } from './config.json';
 import axios from 'axios';
 import Topbar from './components/Topbar';
 import CreateAccount from './views/CreateAccount';
+import RestaurantView from './views/RestaurantView';
 import Redirect from './components/Redirect';
 import MainPage from './views/MainPage';
 import Footer from './components/Footer';
@@ -184,7 +185,7 @@ class App extends Component {
                             />
                         }
                     />
-                    <Route path="/restaurants/:id" element={<div> RESTAURANT 12 </div>} />
+                    <Route path="/restaurants/:id" element={<RestaurantView addToCart={this.addToCart}/>} />
                     <Route path="/managerpage" element={<ManagerMainPage user={this.state.user} token={this.state.loginToken} />} />
                     <Route path="/search" element={<Search />} />
                 </Routes>
