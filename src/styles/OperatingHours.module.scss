@@ -53,6 +53,7 @@
         .lastRow {
             display: flex;
             width: -webkit-fill-available;
+            width: -moz-available;
             justify-content: space-between;
             align-items: flex-start;
 
