@@ -2,16 +2,9 @@ import react from 'react';
 import styles from '../styles/AccountInfo.module.scss';
 import cx from 'classnames';
 import { Component } from 'react';
-import DebitCard from '../components/DebitCard';
 import { APIAddress } from '../config.json';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
-import {useParams} from 'react-router-dom';
-import { useState } from 'react';
-
-// const {id} = useParams();
-// const userId = id;
-// const [user, setUser] = useState({});
 
 class AccountInfo extends Component {
     constructor(props) {
@@ -26,27 +19,17 @@ class AccountInfo extends Component {
                 },
                 phoneNumber: '',
                 email: '',
-                password: '',
-                paymentOption: '',
-                paymentDetails: {
-                    
-                }
+                password: ''
             }
         };
 
         this.onChange = this.onChange.bind(this);
-        this.paymentDetails = react.createRef();
-        this.handleConfirm = this.handleConfirm.bind(this);
-
-        // Access child state 
-        // this.paymentDetails.current.state;
     }
     
     componentDidMount() {
         axios.get(APIAddress + 'users/@me', {
                     headers: { authorization: 'bearer ' + this.props.token },
                 }).then((res) => {
-                    // console.log(res);
                     this.setState({
                         userName: res.data.username,
                         firstName: res.data.first_name,
@@ -85,45 +68,12 @@ class AccountInfo extends Component {
             case 'email':
                 accountData.email = event.target.value;
                 break;
-            case 'paymentOption':
-                if (event.target.value === 'Debit card') {
-                    accountData.paymentOption = 1;
-                } 
-                console.log(event.target.value);
-                break;
         }
 
         this.setState({ accountData });
-        // console.log(this.state);
-    }
-
-    handleConfirm() {
-        console.log(this.props.token);
-        axios.put(APIAddress + 'users/@me', {
-            headers: { authorization: 'bearer ' + this.props.token },
-        }).then((res) => {
-            // console.log(res);
-            this.setState({
-                firstName: res.data.first_name,
-                lastName: res.data.last_name,
-                phoneNumber: res.data.phone,
-                email: res.data.email,
-                password: res.data.password
-            })
-        });
     }
 
     render() {
-        let paymentOptionField = null;
-
-        switch (this.state.accountData.paymentOption) {
-            case 1:
-                paymentOptionField = (<DebitCard ref={this.paymentDetails} hideSaveInfo={true}/>);
-                break;
-            default:
-                break;
-            }
-
         return (
             <>
                 <div className = {cx(styles.infoField, styles.font)}>
@@ -146,6 +96,7 @@ class AccountInfo extends Component {
                                 type='text' 
                                 onChange={this.onChange}
                                 defaultValue={this.state.firstName}
+                                readOnly
                             />
                             <input 
                                 className = { styles.inputs } 
@@ -154,6 +105,7 @@ class AccountInfo extends Component {
                                 type='text' 
                                 onChange={this.onChange}
                                 defaultValue={this.state.lastName}
+                                readOnly
                             />
                             <input 
                                 className = { styles.inputs } 
@@ -189,6 +141,7 @@ class AccountInfo extends Component {
                                 type='text' 
                                 onChange={this.onChange}
                                 defaultValue={this.state.phoneNumber}
+                                readOnly
                             />
                             <input 
                                 className = { styles.inputs } 
@@ -197,34 +150,13 @@ class AccountInfo extends Component {
                                 type='email' 
                                 onChange={this.onChange}
                                 defaultValue={this.state.email}
-                            />
-                            <input 
-                                className = { styles.inputs } 
-                                name='password' 
-                                placeholder='New password' 
-                                type='text' 
-                                onChange={this.onChange}
-                                defaultValue={this.state.password}
+                                readOnly
                             />
                         </div>
                         <div className = { styles.buttons }>
-                            <Link to="/" className = { styles.cancelButton }>Cancel</Link>
-                            <button className = { styles.confirmButton } onClick={this.handleConfirm}>Confirm</button>
+                            <Link to="/" className = { styles.cancelButton }>Go back to main page</Link>
                         </div>
                     </div>
-                    <div className = { styles.paymentSystem}>
-                        <select 
-                            className = { styles.paymentSelector } 
-                            onChange={this.onChange}
-                            name= 'paymentOption'
-                        >   
-                            <option default hidden>Select payment option</option>
-                            <option>Debit card</option>
-                        </select>
-                        <div>
-                            {paymentOptionField}
-                        </div>
-                    </div>  
                 </div>
             </>
         );
