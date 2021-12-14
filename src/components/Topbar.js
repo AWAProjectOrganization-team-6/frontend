@@ -52,7 +52,9 @@ export default function Topbar(props) {
             <Link to="/" className={cx(styles.logo, styles.logoFont)}>
                 DR D. E. Livery
             </Link>
-            <input className={styles.searchbar} placeholder="Search" />
+            <form action="search">
+                <input name="search" className={styles.searchbar} placeholder="Search" />
+            </form>
             {buttons}
         </div>
     );
