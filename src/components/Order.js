@@ -1,111 +1,162 @@
-import react from "react";
-import styles from "../styles/Order.module.scss";
-import React, { useState, useEffect } from "react";
+import styles from '../styles/Order.module.scss';
+import { useState, useEffect } from 'react';
+import axios from 'axios';
+import { APIAddress } from '../config.json';
+import { capitalize } from '../utility/string';
 
-function Timer() {
-  let [_timer, setTimer] = useState(true);
-  let [seconds, setSeconds] = useState(59);
+function Timer({ at, status, confirm, user, setTime }) {
+    let [seconds, setSeconds] = useState(Math.round((at - Date.now()) / 1000) % 60);
+    let [minutes, setMinutes] = useState(Math.round((at - Date.now()) / 1000 / 60) % 60);
 
-  useEffect(() => {
-    if (_timer) {
-      let secondsTimer
-      if (seconds > 0) {
-        secondsTimer = setInterval(() => {
-          setSeconds(seconds - 1);
-        }, 1000); 
-      }
-      return () => {
-        clearInterval(secondsTimer);
-      };
-    }
-  });
-    if (seconds > 0) {
-      return <span>0:{seconds}</span>;
-    } else if (seconds === 0) {
-      return <button className={styles.confirmButton}>Confirm</button>;
-    }
+    useEffect(() => {
+        console.log('Seconds: ', Math.round((at - Date.now() / 1000)) % 60);
+        console.log('Minutes: ', Math.round((at - Date.now() / 1000 / 60)) % 60);
+        setSeconds(Math.round((at - Date.now()) / 1000) % 60);
+        setMinutes(Math.round((at - Date.now()) / 1000 / 60) % 60);
+    }, [at]);
+
+    useEffect(() => {
+        let secondsTimer;
+        if (seconds > 0) {
+            secondsTimer = setInterval(() => {
+                setSeconds(seconds - 1);
+            }, 1000);
+        } else if (minutes > 0) {
+            secondsTimer = setInterval(() => {
+                setMinutes(minutes - 1);
+                setSeconds(59);
+            }, 1000);
+        }
+        return () => {
+            clearInterval(secondsTimer);
+        };
+    });
+
+    if (seconds > 0 || minutes > 0) {
+        return (
+            <span>
+                {minutes}:{seconds}
+            </span>
+        );
+    } else if (seconds <= 0 && minutes <= 0 && status !== 'RECEIVED' && user.type === 'USER') {
+        return (
+            <button className={styles.confirmButton} onClick={confirm}>
+                Confirm
+            </button>
+        );
+    } else if (seconds <= 0 && minutes <= 0 && status !== 'RECEIVED' && user.type === 'ADMIN') {
+        return (
+            <button className={styles.confirmButton} onClick={setTime}>
+                Set time
+            </button>
+        );
+    } else return null;
 }
 
-function Status(props) {
-  const [status, setStatus] = useState("");
-  let [count, setCount] = useState(1);
+function Status({ order, user, token }) {
+    const statusMap = {
+        'Order recieved': 1,
+        Preparing: 2,
+        'Ready for delivery': 3,
+        Delivering: 4,
+        Delivered: 5,
+        Received: 6,
+    };
 
-  let changeStatus = () => {
-    setCount(count + 1);
-    if (count === 7) {
-      count = 0;
-    }
-    // count++;
-    // console.log(count);
+    const initialStatus = order.status ? capitalize(order.status.toLowerCase()) : null;
 
-    switch (count) {
-      case 1:
-        // status = 'Recieved';
-        console.log(count);
-        setStatus("Recieved");
-        break;
-      case 2:
-        // status = 'Preparing';
-        console.log(count);
-        setStatus("Preparing");
-        break;
-      case 3:
-        // status = 'Ready for delivery';
-        console.log(count);
-        setStatus("Ready for delivery");
-        break;
-      case 4:
-        // status = 'Delivering';
-        console.log(count);
-        setStatus("Delivering");
-        break;
-      case 5:
-        // status = 'Delivered';
-        console.log(count);
-        setStatus("Delivered");
-        break;
-      case 6:
-        console.log(count);
-        setStatus("");
-        break;
-    }
-  };
+    const [status, setStatus] = useState(initialStatus);
+    let [count, setCount] = useState(statusMap[initialStatus] ?? 0);
 
-  return (
-    <>
-      <div>Status: {status}</div>
-      {props.user??<button className={styles.statusButton} onClick={changeStatus}>Change status</button>}
-    </>
-  );
+    let changeStatus = () => {
+        let _status = '';
+        switch (count) {
+            case 0:
+                _status = 'Order recieved';
+                setStatus(_status);
+                break;
+            case 1:
+                _status = 'Preparing';
+                setStatus(_status);
+                break;
+            case 2:
+                _status = 'Ready for delivery';
+                setStatus(_status);
+                break;
+            case 3:
+                _status = 'Delivering';
+                setStatus(_status);
+                break;
+            case 4:
+                _status = 'Delivered';
+                setStatus(_status);
+                break;
+            case 5:
+                _status = '';
+                setStatus('');
+                break;
+        }
+
+        if (count === 5) {
+            setCount(0);
+        } else setCount(count + 1);
+
+        /** @type {import('axios').AxiosRequestConfig} */
+        let conf = { headers: { authorization: `bearer ${token}` } };
+        let data = {
+            orderId: order.order_id,
+            status: _status,
+        };
+        axios.patch(APIAddress + 'orders/update', data, conf);
+    };
+
+    return (
+        <>
+            <div>Status: {status}</div>
+            {user.type === 'ADMIN' && count !== 6 ? (
+                <button className={styles.statusButton} onClick={changeStatus}>
+                    Change status
+                </button>
+            ) : null}
+        </>
+    );
 }
 
 export default function Order(props) {
-  
-  var statusButton = null;
+    const setReceived = async () => {
+        /** @type {import('axios').AxiosRequestConfig} */
+        let conf = { headers: { authorization: `bearer ${props.token}` } };
+        await axios.post(APIAddress + `orders/received/${props.order.order_id}`, {}, conf);
+        props.update();
+    };
 
-  if (props.user?.type === 'ADMIN')
-    statusButton = (
-      <div name="status" className={styles.orderStatus}>
-        <Status user={props.user}/>
-      </div>
-    );
+    const setTime = () => {
+        /** @type {import('axios').AxiosRequestConfig} */
+        let conf = { headers: { authorization: `bearer ${props.token}` } };
+        let data = {
+            orderId: props.order.order_id,
+            ready_time: Date.now() + 10 * 60 * 1000 + 2000,
+        };
 
-  if (props.user?.type === 'USER')
-    statusButton = (
-      <div name="status" className={styles.orderStatus}>
-        <Status/>
-      </div>
-    );
+        axios.patch(APIAddress + 'orders/update', data, conf).then(() => {
+            props.update();
+        });
+    };
 
-  return (
-    <>
-      <div className={styles.orderStatusContent}>
-        <div>Order ID:</div>
-        {statusButton}
-        <div name="estTimeOfDelivery">
-          Estimated Time of Delivery: <Timer/>
+    var statusButton = (
+        <div name="status" className={styles.orderStatus}>
+            <Status user={props.user} order={props.order} token={props.token} />
         </div>
-      </div>
-    </>
-  );
+    );
+
+    return (
+        <div className={styles.orderStatusContent}>
+            <div>Order ID: {props.order.order_id}</div>
+            {statusButton}
+            <div name="estTimeOfDelivery">
+                Estimated Time of Delivery:{' '}
+                <Timer at={props.order.ready_time} status={props.order.status} user={props.user} setTime={setTime} confirm={setReceived} />
+            </div>
+        </div>
+    );
 }

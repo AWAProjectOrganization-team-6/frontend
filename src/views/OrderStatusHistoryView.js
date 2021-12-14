@@ -4,6 +4,7 @@ import Order from '../components/Order';
 import { Component } from 'react';
 import axios from 'axios';
 import { APIAddress } from '../config.json';
+import { HiOutlineArrowRight } from 'react-icons/hi';
 
 class OrderStatusHistoryView extends Component {
     constructor(props) {
@@ -14,10 +15,9 @@ class OrderStatusHistoryView extends Component {
                 status: '',
                 estTimeOfDelivery: '',
                 managerPhoneNumber: '',
-                orderHistory: {
-
-                }
-            }
+                orderHistory: {},
+            },
+            orders: [],
         };
 
         this.onChange = this.onChange.bind(this);
@@ -46,48 +46,76 @@ class OrderStatusHistoryView extends Component {
     }
 
     componentDidMount() {
-        axios.get(APIAddress + 'users/@me', {
-                    headers: { authorization: 'bearer ' + this.props.token },
-                }).then((res) => {
-                    // console.log(res);
-                    this.setState({
-                        managerPhoneNumber: res.data.phone,
-                        orderId: res.data.user_id
-                    })
-                });
+        this.updateOrder();
     }
 
+    updateOrder = () => {
+        const conf = { headers: { authorization: 'bearer ' + this.props.token } };
+
+        if (this.props.user.type === 'USER') {
+            axios.get(APIAddress + 'orders/@me', conf).then((res) => {
+                console.log(res.data);
+                this.setState({
+                    orders: res.data,
+                });
+            });
+        } else {
+            axios.get(APIAddress + 'restaurant').then((res) => {
+                const orderLists = [];
+                for (const item of res.data) {
+                    if (item.user_id === this.props.user.user_id) {
+                        orderLists.push(axios.get(APIAddress + `orders/restaurants/${item.restaurant_id}`, conf));
+                    }
+                }
+                axios.all(orderLists).then((responses) => {
+                    let orders = [];
+                    for (const res of responses) {
+                        orders = orders.concat(res.data);
+                    }
+                    console.log(orders);
+                    this.setState({
+                        orders,
+                    });
+                });
+            });
+        }
+    };
 
     render() {
         var orderStatus = (
-            <div className={cx( styles.orderStatusContent, styles.fonts, styles.font)} >
+            <div className={cx(styles.orderStatusContent, styles.fonts, styles.font)}>
                 <div className={styles.orderStatusTitle}>Order Status</div>
-                <Order/>
-                <div name='managerPhoneNumber'>Manager phone number: {this.state.managerPhoneNumber}</div>
+                {this.state.orders.map((val) => {
+                    if (val.status?.toLowerCase() !== 'received') {
+                        return <Order key={val.order_id} user={this.props.user} order={val} token={this.props.token} update={this.updateOrder} />;
+                    }
+                })}
             </div>
         );
-        
+
         var picture = (
             <div>
-                <img src=""/>
+                <HiOutlineArrowRight size={150} />
             </div>
         );
-        
+
         var historyView = (
-            <div className={cx(styles.historyViewContent, styles.fonts, styles.font)} >
+            <div className={cx(styles.historyViewContent, styles.fonts, styles.font)}>
                 <div>Order History</div>
-                <div name='orderHistory'></div>
+                {this.state.orders.map((val) => {
+                    if (val.status?.toLowerCase() === 'received') {
+                        return <Order key={val.order_id} user={this.props.user} order={val} token={this.props.token} update={this.updateOrder} />;
+                    }
+                })}
             </div>
         );
 
         return (
-            <>
-                <div className = { styles.mainDiv}>
-                    <div className = { styles.orderStatusStyle }> {orderStatus} </div>
-                    <div className = { styles.pictureStyle}> {picture} </div>
-                    <div className = { styles.historyViewStyle}> {historyView} </div>
-                </div>
-            </>
+            <div className={styles.mainDiv}>
+                <div className={styles.orderStatusStyle}> {orderStatus} </div>
+                <div className={styles.pictureStyle}> {picture} </div>
+                <div className={styles.historyViewStyle}> {historyView} </div>
+            </div>
         );
     }
 }

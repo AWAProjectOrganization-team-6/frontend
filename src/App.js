@@ -166,7 +166,7 @@ class App extends Component {
                     <Route path="/create/account" element={<CreateAccount />} />
                     <Route path="/create/restaurant" element={<CreateRestaurant token={this.state.loginToken} />} />
                     <Route path="/account" element={<div> ACCOUNT INFO </div>} />
-                    <Route path="/status" element={<OrderStatusHistoryView token={this.state.loginToken}/>} />
+                    <Route path="/status" element={<OrderStatusHistoryView token={this.state.loginToken} user={this.state.user} />} />
                     <Route
                         path="/cart"
                         element={
