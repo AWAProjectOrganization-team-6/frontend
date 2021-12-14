@@ -114,6 +114,7 @@ class App extends Component {
      * @param {number} price base price of the item
      */
     addToCart(orderRestaurantId, id, name, price) {
+        if (this.state.orderRestaurantId !== orderRestaurantId && this.state.orderRestaurantId !== null) return;
         let cart = this.state.shoppingCart;
 
         let itemInList = cart.findIndex((val) => val.id === id);
