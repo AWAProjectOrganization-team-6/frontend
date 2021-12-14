@@ -18,11 +18,15 @@ class AccountInfo extends Component {
         super(props);
         this.state = {
             accountData: {
+                userName: '',
                 firstName: '',
                 lastName: '',
-                address: '',
+                address: {
+                    
+                },
                 phoneNumber: '',
                 email: '',
+                password: '',
                 paymentOption: '',
                 paymentDetails: {
                     
@@ -42,15 +46,27 @@ class AccountInfo extends Component {
         axios.get(APIAddress + 'users/@me', {
                     headers: { authorization: 'bearer ' + this.props.token },
                 }).then((res) => {
-                    console.log(res);
+                    // console.log(res);
                     this.setState({
+                        userName: res.data.username,
                         firstName: res.data.first_name,
                         lastName: res.data.last_name,
-                        // address: res.data.address,
                         phoneNumber: res.data.phone,
                         email: res.data.email
                     })
                 });
+
+        axios.get(APIAddress + 'users/@me/address', {
+            headers: { authorization: 'bearer ' + this.props.token },
+        }).then((res) => {
+            console.log(res);
+            this.setState({
+                ...this.state.address,
+                street_address: res.data[0].street_address,
+                city: res.data[0].city,
+                postcode: res.data[0].postcode
+            })
+        });
     }
 
     onChange(event) {
@@ -62,9 +78,6 @@ class AccountInfo extends Component {
                 break;
             case 'lastName':
                 accountData.lastName = event.target.value;
-                break;
-            case 'address':
-                accountData.address = event.target.value;
                 break;
             case 'phoneNumber':
                 accountData.phoneNumber = event.target.value;
@@ -85,7 +98,19 @@ class AccountInfo extends Component {
     }
 
     handleConfirm() {
-        // console.log(this.paymentDetails.current.state);
+        console.log(this.props.token);
+        axios.put(APIAddress + 'users/@me', {
+            headers: { authorization: 'bearer ' + this.props.token },
+        }).then((res) => {
+            // console.log(res);
+            this.setState({
+                firstName: res.data.first_name,
+                lastName: res.data.last_name,
+                phoneNumber: res.data.phone,
+                email: res.data.email,
+                password: res.data.password
+            })
+        });
     }
 
     render() {
@@ -107,6 +132,15 @@ class AccountInfo extends Component {
                         <div className = { styles.infoBoxes }>
                             <input 
                                 className = { styles.inputs } 
+                                name='userName' 
+                                placeholder='Username' 
+                                type='text' 
+                                onChange={this.onChange}
+                                defaultValue={this.state.userName}
+                                readOnly
+                            />
+                            <input 
+                                className = { styles.inputs } 
                                 name='firstName' 
                                 placeholder='First name' 
                                 type='text' 
@@ -123,11 +157,30 @@ class AccountInfo extends Component {
                             />
                             <input 
                                 className = { styles.inputs } 
-                                name='address' 
-                                placeholder='Address' 
+                                name='street' 
+                                placeholder='Street' 
                                 type='text' 
                                 onChange={this.onChange}
-                                // defaultValue={this.state.address}
+                                defaultValue={this.state.street_address}
+                                readOnly
+                            />
+                            <input 
+                                className = { styles.inputs } 
+                                name='city' 
+                                placeholder='City' 
+                                type='text' 
+                                onChange={this.onChange}
+                                defaultValue={this.state.city}
+                                readOnly
+                            />
+                            <input 
+                                className = { styles.inputs } 
+                                name='postcode' 
+                                placeholder='Postcode' 
+                                type='text' 
+                                onChange={this.onChange}
+                                defaultValue={this.state.postcode}
+                                readOnly
                             />
                             <input 
                                 className = { styles.inputs } 
@@ -144,6 +197,14 @@ class AccountInfo extends Component {
                                 type='email' 
                                 onChange={this.onChange}
                                 defaultValue={this.state.email}
+                            />
+                            <input 
+                                className = { styles.inputs } 
+                                name='password' 
+                                placeholder='New password' 
+                                type='text' 
+                                onChange={this.onChange}
+                                defaultValue={this.state.password}
                             />
                         </div>
                         <div className = { styles.buttons }>
