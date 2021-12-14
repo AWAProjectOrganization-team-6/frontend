@@ -1,6 +1,7 @@
 import styles from '../styles/FoodCategory.module.scss';
 import Food from './FoodItem';
 import FileUploader from './FileUploader';
+import { useRef } from 'react';
 
 export default function Category(props) {
     var name = '';
@@ -8,6 +9,10 @@ export default function Category(props) {
     var desc = '';
     var picFile = '';
     var pic = '';
+
+    const nameInput = useRef();
+    const priceInput = useRef();
+    const descInput = useRef();
 
     const setFoodName = (event) => {
         name = event.target.value;
@@ -37,13 +42,18 @@ export default function Category(props) {
                 </div>
                 <div className={styles.food}>
                     <div className={styles.row1}>
-                        <input className={styles.input} onChange={setFoodName} placeholder={'Food name'}></input>
-                        <input className={styles.input} type="number" min="0" onChange={setPrice} placeholder={'Food Price'}></input>
+                        <input ref={nameInput} className={styles.input} onChange={setFoodName} placeholder={'Food name'}></input>
+                        <input ref={priceInput} className={styles.input} type="number" min="0" step='0.01' onChange={setPrice} placeholder={'Food Price'}></input>
                     </div>
                     <div className={styles.row2}>
-                        <input className={styles.input} placeholder={'Description'} onChange={setDesc}></input>
+                        <input ref={descInput} className={styles.input} placeholder={'Description'} onChange={setDesc}></input>
                         <FileUploader selected={setPic} style={styles.fileInput} />
-                        <button className={styles.button} onClick={() => props.addFood(props.category, name, price, desc, picFile, pic)}>
+                        <button type='button' className={styles.button} onClick={() => {
+                            nameInput.current.value = ('');
+                            priceInput.current.value = ('');
+                            descInput.current.value = ('');
+                            props.addFood(props.category, name, price, desc, picFile, pic)
+                            }}>
                             + Add
                         </button>
                     </div>

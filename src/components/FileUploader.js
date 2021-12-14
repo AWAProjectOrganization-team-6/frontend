@@ -13,7 +13,7 @@ const FileUploader = (props) => {
 
     return (
         <>
-            <button onClick={handleClick} className={props.style}>
+            <button type='button' onClick={handleClick} className={props.style}>
                 + Add picture
             </button>
             <input name="picture" type="file" ref={hiddenFileInput} onChange={handleChange} style={{ display: 'none' }} className={props.style} />
